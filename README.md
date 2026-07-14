@@ -78,3 +78,4 @@ src/
   context/              # Language & subscription providers
   lib/                  # i18n (10 languages), plans, analysis engine, types
 ```
+update
