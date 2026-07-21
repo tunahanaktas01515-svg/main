@@ -59,6 +59,17 @@
   color: #fff;
 }
 
+.nav__app-link {
+  border: 1px solid rgba(126, 200, 255, 0.4) !important;
+  border-radius: 999px;
+  padding: 0.4rem 0.85rem !important;
+  color: #cbe6ff !important;
+}
+
+.nav__app-link:hover {
+  background: rgba(126, 200, 255, 0.12);
+}
+
 .nav__right {
   display: flex;
   align-items: center;

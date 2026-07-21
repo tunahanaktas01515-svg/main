@@ -39,6 +39,9 @@ export default function Navbar() {
             </NavLink>
             <NavLink to="/abonelikler">{t('nav.plans')}</NavLink>
             <NavLink to="/cenan-ai">{t('nav.ai')}</NavLink>
+            <NavLink to="/uygulama" className="nav__login-link nav__app-link">
+              {t('nav.openApp')}
+            </NavLink>
             {isAuthenticated ? (
               <button
                 type="button"
