@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import AuthModal from './AuthModal'
 import SettingsModal from './SettingsModal'
+import BlackHoleIcon from './BlackHoleIcon'
 import './Navbar.css'
 
 type ModalMode = null | 'login' | 'register' | 'settings'
@@ -42,25 +43,13 @@ export default function Navbar() {
           <div className="nav__actions" ref={menuRef}>
             <button
               type="button"
-              className="nav__gear"
-              aria-label="Hesap menüsü"
+              className="nav__profile"
+              aria-label="Profil ve ayarlar"
               aria-expanded={menuOpen}
               onMouseEnter={() => setMenuOpen(true)}
               onClick={() => setMenuOpen((v) => !v)}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path
-                  d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                />
-                <path
-                  d="M19.4 13a7.7 7.7 0 0 0 .05-2l1.9-1.5-1.8-3.1-2.3.7a7.6 7.6 0 0 0-1.7-1L15.2 3h-3.4l-.35 2.1a7.6 7.6 0 0 0-1.7 1l-2.3-.7-1.8 3.1L7.55 11a7.7 7.7 0 0 0 0 2l-1.9 1.5 1.8 3.1 2.3-.7a7.6 7.6 0 0 0 1.7 1l.35 2.1h3.4l.35-2.1a7.6 7.6 0 0 0 1.7-1l2.3.7 1.8-3.1L19.4 13Z"
-                  stroke="currentColor"
-                  strokeWidth="1.4"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <BlackHoleIcon size={42} />
             </button>
 
             {menuOpen && (

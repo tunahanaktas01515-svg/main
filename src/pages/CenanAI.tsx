@@ -10,16 +10,22 @@ interface Message {
 
 function replyFor(query: string): string {
   const q = query.toLowerCase()
-  if (q.includes('güç') || q.includes('analiz')) {
+  if (q.includes('güç') || q.includes('analiz') || q.includes('e-fatura')) {
     return 'Cenan AI güç ve analiz yeteneğiyle e-faturaları, ödemeleri ve vergi hesaplarını hızla işler. Raporlarınızı özetler, anomalileri işaretler ve karar desteği sunar.'
   }
   if (q.includes('rapor')) {
     return 'Cenan AI analiz raporları; dönemsel özetler, KDV görünümü ve ödeme onay geçmişini tek ekranda birleştirir. Daha derin raporlar için Pro veya Business paketini seçebilirsiniz.'
   }
+  if (q.includes('ödeme') || q.includes('otonom')) {
+    return 'Otonom Onaylı Ödeme ile Cenan AI, uygun faturaları kurallarınıza göre onaylar ve ödeme akışını hızlandırır.'
+  }
+  if (q.includes('kdv') || q.includes('vergi')) {
+    return 'KDV ve vergi hesaplamada Cenan AI dönemsel oranları, istisnaları ve rapor özetlerini birlikte sunar.'
+  }
   if (q.includes('hakkında') || q.includes('nedir') || q.includes('bilgi')) {
     return 'Cenan AI, hem web hem uygulamada çalışan yapay zeka asistanımızdır. E-fatura analizi, otonom onaylı ödeme, KDV/vergi hesaplama ve 10’dan fazla özellikle yanınızda.'
   }
-  return `“${query}” hakkında Cenan AI bilgileri tarandı. Cenan AI güç ve analiz yeteneği, raporlar ve ürün özellikleri üzerinden size yardımcı olabilirim. Daha spesifik bir başlık seçin veya sorunuzu netleştirin.`
+  return `“${query}” hakkında Cenan AI bilgileri tarandı. Güç ve analiz yeteneği, raporlar ve ürün özellikleri üzerinden size yardımcı olabilirim.`
 }
 
 export default function CenanAI() {
@@ -48,36 +54,42 @@ export default function CenanAI() {
 
   return (
     <div className="cenan-ai">
-      <div className="cenan-ai__shell">
+      <section className={`cenan-stage ${started ? 'cenan-stage--chat' : ''}`}>
+        <div className="cenan-stage__glow" aria-hidden="true" />
+        <div className="cenan-stage__disk" aria-hidden="true" />
+        <div className="cenan-stage__haze" aria-hidden="true" />
+
         {!started ? (
-          <div className="cenan-ai__intro">
-            <div className="cenan-ai__brand">
-              <span className="cenan-ai__name">Cenan AI</span>
-              <span className="cenan-ai__mark" aria-hidden="true">
-                <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+          <>
+            <h1 className="cenan-stage__title" aria-label="CENAN">
+              <span>C</span>
+              <span>E</span>
+              <span>N</span>
+              <span>A</span>
+              <span>N</span>
+            </h1>
+
+            <form className="cenan-ask" onSubmit={onSubmit}>
+              <input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Ask Cenan anything..."
+                aria-label="Cenan AI mesaj"
+              />
+              <button type="submit" className="cenan-ask__send" disabled={!input.trim() || busy} aria-label="Gönder">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                   <path
-                    d="M8 24 L16 6 L24 24"
-                    stroke="url(#cenanGrad)"
-                    strokeWidth="2.4"
+                    d="M5 12h12M13 6l6 6-6 6"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
-                  <circle cx="16" cy="20" r="3.2" fill="url(#cenanGrad)" />
-                  <defs>
-                    <linearGradient id="cenanGrad" x1="8" y1="6" x2="24" y2="24">
-                      <stop stopColor="#f2f2f2" />
-                      <stop offset="0.5" stopColor="#7ec8ff" />
-                      <stop offset="1" stopColor="#ff7eb6" />
-                    </linearGradient>
-                  </defs>
                 </svg>
-              </span>
-            </div>
-            <p className="cenan-ai__hint">
-              Yüklenen bilgiler üzerinden araştırın — güç, analiz, raporlar ve Cenan AI hakkında.
-            </p>
+              </button>
+            </form>
 
-            <div className="cenan-ai__topics">
+            <div className="cenan-stage__topics">
               {SEARCH_TOPICS.map((topic) => (
                 <button key={topic} type="button" onClick={() => send(topic)}>
                   {topic}
@@ -85,50 +97,58 @@ export default function CenanAI() {
               ))}
             </div>
 
-            <div className="cenan-ai__features">
+            <div className="cenan-stage__features">
               {AI_FEATURES.map((f) => (
                 <button
                   key={f.title}
                   type="button"
-                  className={`feature-chip feature-chip--${f.tone}`}
+                  className={`cenan-chip cenan-chip--${f.tone}`}
                   onClick={() => send(f.title)}
                 >
                   {f.title}
                 </button>
               ))}
             </div>
-          </div>
+
+            <p className="cenan-stage__blurb">
+              Cenan AI — güç ve analiz yeteneğiyle e-fatura, vergi ve onaylı ödeme süreçlerini bir araya getiren
+              yapay zeka.
+            </p>
+          </>
         ) : (
-          <div className="cenan-ai__thread">
-            {messages.map((m, i) => (
-              <div key={i} className={`bubble bubble--${m.role}`}>
-                {m.role === 'assistant' && (
-                  <div className="bubble__label">
-                    Cenan AI
-                    <span className="cenan-ai__mark cenan-ai__mark--sm" aria-hidden="true">
-                      ✦
-                    </span>
-                  </div>
-                )}
-                <p>{m.text}</p>
-              </div>
-            ))}
-            {busy && <p className="cenan-ai__typing">Cenan AI düşünüyor…</p>}
+          <div className="cenan-chat">
+            <div className="cenan-chat__thread">
+              {messages.map((m, i) => (
+                <div key={i} className={`bubble bubble--${m.role}`}>
+                  {m.role === 'assistant' && <div className="bubble__label">Cenan AI</div>}
+                  <p>{m.text}</p>
+                </div>
+              ))}
+              {busy && <p className="cenan-chat__typing">Cenan AI düşünüyor…</p>}
+            </div>
+
+            <form className="cenan-ask cenan-ask--dock" onSubmit={onSubmit}>
+              <input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Ask Cenan anything..."
+                aria-label="Cenan AI mesaj"
+              />
+              <button type="submit" className="cenan-ask__send" disabled={!input.trim() || busy} aria-label="Gönder">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M5 12h12M13 6l6 6-6 6"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </form>
           </div>
         )}
-
-        <form className="cenan-ai__composer" onSubmit={onSubmit}>
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Cenan AI’ya sorun…"
-            aria-label="Mesaj"
-          />
-          <button type="submit" className="cenan-ai__send" disabled={!input.trim() || busy}>
-            Gönder
-          </button>
-        </form>
-      </div>
+      </section>
 
       <ContactSection />
     </div>
