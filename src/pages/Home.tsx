@@ -2,30 +2,8 @@ import { Link } from 'react-router-dom'
 import LiquidBackground from '../components/LiquidBackground'
 import VideoClips from '../components/VideoClips'
 import ContactSection from '../components/ContactSection'
+import OsDownload from '../components/OsDownload'
 import './Home.css'
-
-function downloadApp() {
-  const content = [
-    'Cenan AI Installer Placeholder',
-    '==============================',
-    '',
-    'Bu dosya Cenan AI masaüstü uygulamasının indirme yer tutucusudur.',
-    'Gerçek kurulum paketini public/downloads/ altına ekleyebilirsiniz.',
-    '',
-    'Web: Cenan AI sohbet motoru',
-    'App: Aynı zeka, mobil ve masaüstü',
-  ].join('\n')
-
-  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = 'CenanAI-Setup.txt'
-  document.body.appendChild(a)
-  a.click()
-  a.remove()
-  URL.revokeObjectURL(url)
-}
 
 export default function Home() {
   return (
@@ -50,9 +28,7 @@ export default function Home() {
           </p>
 
           <div className="hero__cta">
-            <button type="button" className="btn btn--white" onClick={downloadApp}>
-              Programı İndir
-            </button>
+            <OsDownload compact />
             <Link to="/cenan-ai" className="btn btn--ghost btn--icon" aria-label="Cenan AI’ya git">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path
@@ -75,15 +51,14 @@ export default function Home() {
 
       <VideoClips />
 
-      <section className="home-download">
+      <section className="home-download" id="indir">
         <div className="home-download__inner">
           <h2>Cenan’ı indir</h2>
           <p>
-            Aynı yapay zeka hem web sitesinde hem uygulamada. Kurulumu başlatın ve analize geçin.
+            Sisteminiz otomatik algılanır. Mac, Windows veya Linux için hafif ikonlarla tek tıkta
+            indirin.
           </p>
-          <button type="button" className="btn btn--white" onClick={downloadApp}>
-            Cenan AI İndir
-          </button>
+          <OsDownload />
         </div>
       </section>
 
