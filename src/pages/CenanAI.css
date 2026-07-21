@@ -1,0 +1,238 @@
+.cenan-ai {
+  min-height: calc(100vh - 74px);
+  display: flex;
+  flex-direction: column;
+}
+
+.cenan-ai__shell {
+  flex: 1;
+  max-width: 780px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.cenan-ai__intro {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 1.25rem;
+  padding: 2rem 0 1rem;
+}
+
+.cenan-ai__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.cenan-ai__name {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.cenan-ai__mark {
+  display: inline-grid;
+  place-items: center;
+  animation: markPulse 3s ease-in-out infinite;
+}
+
+.cenan-ai__mark--sm {
+  font-size: 0.85rem;
+  margin-left: 0.25rem;
+  background: linear-gradient(135deg, #fff, #7ec8ff, #ff7eb6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.cenan-ai__hint {
+  max-width: 420px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.cenan-ai__topics {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.55rem;
+  max-width: 640px;
+}
+
+.cenan-ai__topics button {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.78);
+  border-radius: 999px;
+  padding: 0.55rem 0.95rem;
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.cenan-ai__topics button:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.cenan-ai__features {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  width: min(520px, 100%);
+  margin-top: 0.5rem;
+}
+
+.feature-chip {
+  border: none;
+  border-radius: 16px;
+  padding: 1rem 0.9rem;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 560;
+  color: #0a0a0a;
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.feature-chip:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.06);
+}
+
+.feature-chip--mint {
+  background: linear-gradient(145deg, #9ff0d0, #5fd4a8);
+}
+.feature-chip--blue {
+  background: linear-gradient(145deg, #9ec8ff, #5a9dff);
+}
+.feature-chip--violet {
+  background: linear-gradient(145deg, #d2b4ff, #9b7dff);
+}
+.feature-chip--amber {
+  background: linear-gradient(145deg, #ffe29a, #ffc14d);
+}
+
+.cenan-ai__thread {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0.5rem 0 1rem;
+  overflow-y: auto;
+}
+
+.bubble {
+  max-width: 92%;
+  padding: 0.9rem 1rem;
+  border-radius: 16px;
+  line-height: 1.55;
+  font-size: 0.95rem;
+}
+
+.bubble p {
+  margin: 0;
+}
+
+.bubble--user {
+  align-self: flex-end;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.bubble--assistant {
+  align-self: flex-start;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.bubble__label {
+  display: flex;
+  align-items: center;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 0.35rem;
+}
+
+.cenan-ai__typing {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.cenan-ai__composer {
+  display: flex;
+  gap: 0.65rem;
+  align-items: center;
+  padding: 0.55rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cenan-ai__composer input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-size: 0.95rem;
+  padding: 0.65rem 0.9rem;
+  outline: none;
+}
+
+.cenan-ai__composer input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.cenan-ai__send {
+  border: none;
+  background: #fff;
+  color: #0a0a0a;
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.88rem;
+  padding: 0.7rem 1.15rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+.cenan-ai__send:hover:not(:disabled) {
+  transform: scale(1.02);
+}
+
+.cenan-ai__send:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+@keyframes markPulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(126, 200, 255, 0.55));
+  }
+}
+
+@media (max-width: 560px) {
+  .cenan-ai__features {
+    grid-template-columns: 1fr;
+  }
+}

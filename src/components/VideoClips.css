@@ -1,0 +1,142 @@
+.clips {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 1rem;
+}
+
+.clips__head {
+  margin-bottom: 1.75rem;
+}
+
+.clips__head h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin: 0 0 0.35rem;
+}
+
+.clips__head p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.clips__rail {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.clip {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.clip__stage {
+  position: relative;
+  aspect-ratio: 9 / 14;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #0a0a0c;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.clip__orb {
+  position: absolute;
+  width: 70%;
+  height: 55%;
+  top: 20%;
+  left: 15%;
+  border-radius: 45% 55% 50% 50%;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.45), transparent 50%),
+    linear-gradient(160deg, rgba(80, 120, 200, 0.35), rgba(20, 20, 25, 0.9));
+  filter: blur(1px);
+  animation: clipOrb 8s ease-in-out infinite;
+}
+
+.clip__orb--2 {
+  width: 45%;
+  height: 35%;
+  top: 48%;
+  left: 40%;
+  opacity: 0.7;
+  animation-delay: -3s;
+  background:
+    radial-gradient(circle at 40% 20%, rgba(255, 180, 220, 0.35), transparent 55%),
+    linear-gradient(140deg, rgba(40, 40, 50, 0.8), rgba(0, 0, 0, 0.9));
+}
+
+.clip--2 .clip__orb {
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), transparent 50%),
+    linear-gradient(160deg, rgba(200, 90, 140, 0.35), rgba(20, 20, 25, 0.9));
+}
+
+.clip--3 .clip__orb {
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), transparent 50%),
+    linear-gradient(160deg, rgba(90, 200, 180, 0.3), rgba(20, 20, 25, 0.9));
+}
+
+.clip--4 .clip__orb {
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), transparent 50%),
+    linear-gradient(160deg, rgba(180, 160, 90, 0.3), rgba(20, 20, 25, 0.9));
+}
+
+.clip__play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.4rem;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.clip__dur {
+  position: absolute;
+  right: 0.65rem;
+  bottom: 0.65rem;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(0, 0, 0, 0.55);
+  padding: 0.2rem 0.45rem;
+  border-radius: 6px;
+}
+
+.clip__meta h3 {
+  margin: 0.2rem 0 0;
+  font-size: 0.95rem;
+  font-weight: 560;
+}
+
+.clip__tag {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+@keyframes clipOrb {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(4%, -6%) scale(1.06);
+  }
+}
+
+@media (max-width: 900px) {
+  .clips__rail {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .clips__rail {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+}

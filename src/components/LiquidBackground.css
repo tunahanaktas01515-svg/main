@@ -1,0 +1,182 @@
+.liquid-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  background: #000;
+}
+
+.liquid-bg__glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+  animation: glowDrift 14s ease-in-out infinite;
+}
+
+.liquid-bg__glow--a {
+  width: 42vw;
+  height: 42vw;
+  top: 10%;
+  left: 20%;
+  background: radial-gradient(circle, rgba(90, 140, 255, 0.35), transparent 70%);
+}
+
+.liquid-bg__glow--b {
+  width: 36vw;
+  height: 36vw;
+  bottom: 5%;
+  right: 15%;
+  background: radial-gradient(circle, rgba(255, 80, 160, 0.28), transparent 70%);
+  animation-delay: -6s;
+}
+
+.liquid-blob {
+  position: absolute;
+  border-radius: 42% 58% 55% 45% / 48% 42% 58% 52%;
+  background:
+    radial-gradient(ellipse at 30% 25%, rgba(255, 255, 255, 0.55), transparent 45%),
+    radial-gradient(ellipse at 70% 70%, rgba(120, 180, 255, 0.25), transparent 50%),
+    linear-gradient(145deg, rgba(40, 40, 45, 0.9), rgba(8, 8, 10, 0.95));
+  box-shadow:
+    inset 0 0 40px rgba(255, 255, 255, 0.12),
+    inset -20px -30px 60px rgba(0, 0, 0, 0.7),
+    0 0 40px rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  filter: blur(0.3px);
+  animation: blobFloat 18s ease-in-out infinite;
+}
+
+.liquid-blob::before {
+  content: '';
+  position: absolute;
+  inset: 12%;
+  border-radius: inherit;
+  background: repeating-linear-gradient(
+    115deg,
+    transparent 0 8px,
+    rgba(255, 255, 255, 0.04) 8px 9px
+  );
+  opacity: 0.7;
+  mix-blend-mode: screen;
+}
+
+.liquid-blob--1 {
+  width: min(42vw, 520px);
+  height: min(38vw, 460px);
+  top: 18%;
+  left: 28%;
+  animation-duration: 20s;
+}
+
+.liquid-blob--2 {
+  width: min(28vw, 340px);
+  height: min(24vw, 300px);
+  top: 8%;
+  right: 12%;
+  animation-duration: 16s;
+  animation-delay: -4s;
+  opacity: 0.85;
+}
+
+.liquid-blob--3 {
+  width: min(22vw, 260px);
+  height: min(26vw, 300px);
+  bottom: 12%;
+  left: 10%;
+  animation-duration: 22s;
+  animation-delay: -8s;
+  opacity: 0.75;
+}
+
+.liquid-blob--4 {
+  width: min(18vw, 220px);
+  height: min(16vw, 190px);
+  bottom: 22%;
+  right: 22%;
+  animation-duration: 14s;
+  animation-delay: -2s;
+  opacity: 0.7;
+}
+
+.liquid-blob--5 {
+  width: min(14vw, 160px);
+  height: min(14vw, 160px);
+  top: 42%;
+  left: 8%;
+  animation-duration: 19s;
+  animation-delay: -11s;
+  opacity: 0.55;
+}
+
+.liquid-bg__lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.55;
+}
+
+.liquid-path {
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  animation: drawPath 12s ease-in-out infinite;
+}
+
+.liquid-path--b {
+  animation-delay: -5s;
+  opacity: 0.7;
+}
+
+@keyframes blobFloat {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    border-radius: 42% 58% 55% 45% / 48% 42% 58% 52%;
+  }
+  33% {
+    transform: translate(3%, -4%) rotate(8deg) scale(1.04);
+    border-radius: 55% 45% 42% 58% / 52% 55% 45% 48%;
+  }
+  66% {
+    transform: translate(-4%, 3%) rotate(-6deg) scale(0.96);
+    border-radius: 48% 52% 60% 40% / 40% 58% 42% 60%;
+  }
+}
+
+@keyframes glowDrift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(4%, -6%) scale(1.12);
+  }
+}
+
+@keyframes drawPath {
+  0% {
+    stroke-dashoffset: 1400;
+    opacity: 0.2;
+  }
+  40% {
+    opacity: 0.7;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0.15;
+  }
+}
+
+@media (max-width: 768px) {
+  .liquid-blob--1 {
+    width: 70vw;
+    height: 55vw;
+    left: 15%;
+  }
+  .liquid-blob--2,
+  .liquid-blob--5 {
+    opacity: 0.45;
+  }
+}
