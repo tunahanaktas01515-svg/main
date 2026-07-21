@@ -1,7 +1,80 @@
 .plans {
+  position: relative;
   padding-bottom: 1rem;
   background: #000;
   min-height: calc(100vh - 74px);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.plans__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: #000;
+}
+
+.plans__glow {
+  position: absolute;
+  filter: blur(40px);
+  opacity: 0.95;
+}
+
+.plans__glow--left {
+  left: -18%;
+  top: 8%;
+  width: 52vw;
+  height: 85vh;
+  max-width: 720px;
+  background:
+    radial-gradient(ellipse at 70% 40%, rgba(255, 120, 40, 0.75), transparent 62%),
+    radial-gradient(ellipse at 40% 70%, rgba(180, 60, 20, 0.45), transparent 70%);
+  border-radius: 55% 45% 60% 40%;
+  animation: glowDriftA 16s ease-in-out infinite;
+}
+
+.plans__glow--right {
+  right: -12%;
+  top: -8%;
+  width: 48vw;
+  height: 55vh;
+  max-width: 640px;
+  background:
+    radial-gradient(circle at 35% 55%, rgba(255, 150, 70, 0.7), transparent 58%),
+    radial-gradient(circle at 70% 30%, rgba(255, 200, 140, 0.25), transparent 65%);
+  border-radius: 50%;
+  animation: glowDriftB 18s ease-in-out infinite;
+}
+
+.plans__glow--bottom {
+  left: 50%;
+  bottom: -18%;
+  transform: translateX(-50%);
+  width: min(70vw, 780px);
+  height: 42vh;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255, 140, 50, 0.85), transparent 58%),
+    radial-gradient(ellipse at 50% 30%, rgba(255, 90, 20, 0.4), transparent 70%);
+  border-radius: 50% 50% 40% 40%;
+  filter: blur(28px);
+  animation: glowDriftC 14s ease-in-out infinite;
+}
+
+.plans__noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.22;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+.plans__hero,
+.plans__grid,
+.plans .contact {
+  position: relative;
+  z-index: 1;
 }
 
 .plans__hero {
@@ -15,12 +88,14 @@
   margin: 0 0 0.65rem;
   font-weight: 700;
   letter-spacing: -0.02em;
+  color: #fff;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
 }
 
 .plans__hero > p {
   margin: 0 auto 1.75rem;
   max-width: 480px;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.62);
   font-size: 1rem;
 }
 
@@ -28,15 +103,17 @@
   display: inline-flex;
   padding: 0.28rem;
   border-radius: 999px;
-  background: #161616;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   gap: 0.15rem;
 }
 
 .plans__toggle button {
   border: none;
   background: transparent;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.55);
   font: inherit;
   font-size: 0.9rem;
   padding: 0.55rem 1.1rem;
@@ -49,14 +126,14 @@
 }
 
 .plans__toggle button.is-active {
-  background: #252525;
+  background: rgba(255, 255, 255, 0.12);
   color: #fff;
 }
 
 .plans__save {
   font-size: 0.68rem;
-  background: #2dd4bf;
-  color: #041512;
+  background: rgba(255, 140, 50, 0.9);
+  color: #1a0a00;
   padding: 0.14rem 0.4rem;
   border-radius: 999px;
   font-weight: 700;
@@ -78,27 +155,52 @@
   gap: 0.85rem;
   padding: 1.55rem 1.25rem 1.3rem;
   border-radius: 22px;
-  background: #141414;
-  border: 1px solid rgba(255, 255, 255, 0.06);
   position: relative;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
-  transition: transform 0.25s ease, border-color 0.25s ease;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -1px 0 rgba(255, 140, 50, 0.06);
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.plan-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 35%,
+    transparent 65%,
+    rgba(255, 140, 50, 0.08) 100%
+  );
 }
 
 .plan-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 200, 150, 0.35);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.35),
+    0 0 28px rgba(255, 120, 40, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .plan-card--popular {
-  background:
-    linear-gradient(165deg, rgba(45, 212, 191, 0.12) 0%, rgba(20, 20, 20, 0.98) 42%),
-    #141414;
-  border-color: rgba(45, 212, 191, 0.45);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 180, 100, 0.45);
   box-shadow:
-    0 0 0 1px rgba(45, 212, 191, 0.25),
-    0 0 48px rgba(45, 212, 191, 0.28),
-    0 18px 50px rgba(0, 0, 0, 0.55);
+    0 0 0 1px rgba(255, 160, 70, 0.2),
+    0 0 42px rgba(255, 120, 40, 0.22),
+    0 18px 50px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
   transform: scale(1.02);
   z-index: 1;
 }
@@ -111,23 +213,27 @@
   position: absolute;
   top: 1rem;
   right: 1rem;
+  z-index: 2;
   font-size: 0.62rem;
   letter-spacing: 0.04em;
   font-weight: 700;
   padding: 0.28rem 0.55rem;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  color: rgba(255, 255, 255, 0.75);
-  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(8px);
 }
 
 .plan-card__badge--hot {
-  border-color: #2dd4bf;
-  color: #2dd4bf;
-  background: rgba(45, 212, 191, 0.08);
+  border-color: rgba(255, 170, 80, 0.7);
+  color: #ffd7a8;
+  background: rgba(255, 120, 40, 0.15);
 }
 
 .plan-card__header {
+  position: relative;
+  z-index: 1;
   padding-right: 4.5rem;
 }
 
@@ -139,16 +245,19 @@
   letter-spacing: -0.02em;
   color: #ffffff;
   line-height: 1.15;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
 }
 
 .plan-card__billed {
   margin: 0.35rem 0 0;
   font-size: 0.86rem;
   font-weight: 400;
-  color: #8a8a8a;
+  color: rgba(255, 255, 255, 0.58);
 }
 
 .plan-card__price-row {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: baseline;
   gap: 0.15rem;
@@ -164,6 +273,7 @@
   line-height: 1;
   align-self: flex-start;
   margin-top: 0.28em;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.35);
 }
 
 .plan-card__amount {
@@ -173,32 +283,39 @@
   letter-spacing: -0.04em;
   line-height: 0.95;
   color: #ffffff;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.4);
 }
 
 .plan-card__period {
   margin-left: 0.35rem;
   font-size: 0.92rem;
   font-weight: 400;
-  color: #8a8a8a;
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .plan-card__audience {
+  position: relative;
+  z-index: 1;
   margin: 0;
   font-size: 0.84rem;
-  color: rgba(255, 255, 255, 0.48);
+  color: rgba(255, 255, 255, 0.62);
   line-height: 1.45;
   min-height: 2.5em;
 }
 
 .plan-card__credits,
 .plan-card__note {
+  position: relative;
+  z-index: 1;
   margin: 0;
   font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.38);
+  color: rgba(255, 220, 180, 0.7);
   line-height: 1.4;
 }
 
 .plan-card ul {
+  position: relative;
+  z-index: 1;
   list-style: none;
   margin: 0.35rem 0 0;
   padding: 0;
@@ -213,8 +330,9 @@
   align-items: flex-start;
   gap: 0.65rem;
   font-size: 0.88rem;
-  color: rgba(255, 255, 255, 0.82);
+  color: rgba(255, 255, 255, 0.9);
   line-height: 1.35;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
 }
 
 .plan-card__check {
@@ -226,36 +344,74 @@
   display: inline-grid;
   place-items: center;
   margin-top: 0.05rem;
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.35);
 }
 
 .plan-card__cta {
+  position: relative;
+  z-index: 1;
   margin-top: auto;
   width: 100%;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 999px;
   padding: 0.85rem 1rem;
   font: inherit;
   font-size: 0.92rem;
   font-weight: 600;
   cursor: pointer;
-  background: #2a2a2a;
+  background: rgba(0, 0, 0, 0.35);
   color: #fff;
-  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  backdrop-filter: blur(8px);
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .plan-card__cta:hover {
-  background: #353535;
+  background: rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 200, 150, 0.35);
   transform: translateY(-1px);
 }
 
 .plan-card__cta--hot {
-  background: #2dd4bf;
-  color: #04201c;
-  box-shadow: 0 8px 24px rgba(45, 212, 191, 0.28);
+  background: rgba(255, 140, 50, 0.92);
+  border-color: rgba(255, 190, 120, 0.55);
+  color: #1a0a00;
+  box-shadow: 0 8px 24px rgba(255, 120, 40, 0.28);
 }
 
 .plan-card__cta--hot:hover {
-  background: #5eead4;
+  background: rgba(255, 170, 90, 0.98);
+}
+
+@keyframes glowDriftA {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(3%, 2%) scale(1.04);
+  }
+}
+
+@keyframes glowDriftB {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-3%, 4%) scale(1.06);
+  }
+}
+
+@keyframes glowDriftC {
+  0%,
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 0.95;
+  }
+  50% {
+    transform: translateX(-50%) scale(1.05);
+    opacity: 1;
+  }
 }
 
 @media (max-width: 1100px) {
@@ -276,5 +432,10 @@
   .plans__grid {
     grid-template-columns: 1fr;
     max-width: 400px;
+  }
+
+  .plans__glow--left,
+  .plans__glow--right {
+    opacity: 0.85;
   }
 }

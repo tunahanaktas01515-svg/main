@@ -42,6 +42,13 @@ export default function Subscriptions() {
 
   return (
     <div className="plans">
+      <div className="plans__bg" aria-hidden="true">
+        <div className="plans__glow plans__glow--left" />
+        <div className="plans__glow plans__glow--right" />
+        <div className="plans__glow plans__glow--bottom" />
+        <div className="plans__noise" />
+      </div>
+
       <div className="plans__hero">
         <h1>Choose your Plan</h1>
         <p>Discover the perfect plan tailored just for you.</p>
