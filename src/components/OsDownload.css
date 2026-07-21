@@ -8,12 +8,13 @@
 .os-download__primary {
   display: inline-flex;
   align-items: center;
-  gap: 0.9rem;
+  gap: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.14);
   background: rgba(255, 255, 255, 0.06);
   color: #fff;
   border-radius: 999px;
-  padding: 0.55rem 1.15rem 0.55rem 0.55rem;
+  padding: 0.55rem 0.55rem 0.55rem 1.35rem;
+  min-width: 280px;
   cursor: pointer;
   font: inherit;
   backdrop-filter: blur(10px);
@@ -65,12 +66,12 @@
 .os-download__alt {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.5rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(0, 0, 0, 0.35);
   color: rgba(255, 255, 255, 0.78);
   border-radius: 999px;
-  padding: 0.4rem 0.75rem 0.4rem 0.4rem;
+  padding: 0.4rem 0.4rem 0.4rem 0.85rem;
   cursor: pointer;
   font: inherit;
   font-size: 0.78rem;
@@ -102,12 +103,14 @@
 .os-download--compact {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.7rem;
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: #fff;
   color: #0a0a0a;
   border-radius: 999px;
-  padding: 0.55rem 1.05rem 0.55rem 0.7rem;
+  padding: 0.6rem 0.75rem 0.6rem 1.25rem;
+  min-width: 200px;
+  justify-content: space-between;
   cursor: pointer;
   font: inherit;
   font-weight: 650;

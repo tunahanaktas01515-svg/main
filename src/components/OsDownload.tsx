@@ -148,10 +148,10 @@ export default function OsDownload({ compact = false }: { compact?: boolean }) {
         onClick={() => downloadFor(os)}
         aria-label={title}
       >
-        <PrimaryIcon />
         <span>
           {t('download.compact')} · {META[os].label}
         </span>
+        <PrimaryIcon />
       </button>
     )
   }
@@ -159,14 +159,14 @@ export default function OsDownload({ compact = false }: { compact?: boolean }) {
   return (
     <div className="os-download">
       <button type="button" className="os-download__primary" onClick={() => downloadFor(os)}>
-        <span className="os-download__badge">
-          <PrimaryIcon />
-        </span>
         <span className="os-download__copy">
           <strong>{title}</strong>
           <small>
             {t('download.detected')}: {META[os].label}
           </small>
+        </span>
+        <span className="os-download__badge">
+          <PrimaryIcon />
         </span>
       </button>
 
@@ -183,8 +183,8 @@ export default function OsDownload({ compact = false }: { compact?: boolean }) {
               title={itemTitle}
               aria-label={itemTitle}
             >
-              <Icon />
               <span>{META[item].label}</span>
+              <Icon />
             </button>
           )
         })}
