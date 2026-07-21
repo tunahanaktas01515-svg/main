@@ -33,11 +33,13 @@ export const PLANS: Plan[] = [
     audience: 'Bireysel kullanıcılar için ideal',
     features: [
       '1.500 kredi / dönem',
+      '1 kredi = 0.01 euro',
       'Cenan AI sohbet erişimi',
       'Temel e-fatura analizi',
       'KDV hesaplama',
       'Web + uygulama erişimi',
     ],
+    note: '1 kredi = 0.01 euro',
   },
   {
     id: 'pro',
@@ -50,11 +52,13 @@ export const PLANS: Plan[] = [
     audience: 'Küçük ekipler için ideal',
     features: [
       '4.500 kredi / dönem',
+      '1 kredi = 0.01 euro',
       'Gelişmiş analiz raporları',
       'Otonom onaylı ödeme',
       'Öncelikli destek',
       'Web + uygulama erişimi',
     ],
+    note: '1 kredi = 0.01 euro',
   },
   {
     id: 'business',
@@ -65,12 +69,12 @@ export const PLANS: Plan[] = [
     audience: 'Şirketler ve ajanslar için en iyi seçim',
     features: [
       '9.000 kredi / dönem',
+      '1 kredi = 0.01 euro',
       'Takım yönetimi',
       'Gelişmiş vergi & KDV',
       'Özel raporlar',
-      '1 kredi = 0.018 euro',
     ],
-    note: '1 kredi = 0.018 euro',
+    note: '1 kredi = 0.01 euro',
   },
   {
     id: 'unlimited',
@@ -83,11 +87,11 @@ export const PLANS: Plan[] = [
     features: [
       'Başlangıç 20 euro',
       'Kredi başına ücretlendirme',
-      '1 kredi = 0.01 euro',
+      '1 kredi = 0.02 euro',
       'Sınırsız kullanım esnekliği',
       'Web + uygulama erişimi',
     ],
-    note: '1 kredi = 0.01 euro',
+    note: '1 kredi = 0.02 euro',
   },
   {
     id: 'havuz',

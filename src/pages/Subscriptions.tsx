@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { PLANS } from '../config'
+import { PLANS, type Plan } from '../config'
 import ContactSection from '../components/ContactSection'
 import './Subscriptions.css'
 
@@ -19,6 +19,22 @@ function CheckIcon() {
       </svg>
     </span>
   )
+}
+
+function formatPriceParts(plan: Plan, billing: Billing) {
+  if (plan.id === 'unlimited') {
+    return { currency: '€', value: '20', suffix: 'başlangıç' }
+  }
+  if (plan.id === 'havuz') {
+    return { currency: '', value: '%20', suffix: 'daha uygun' }
+  }
+  const amount = billing === 'monthly' ? plan.monthly : plan.yearly
+  const [whole, fraction] = (amount ?? 0).toFixed(2).split('.')
+  return {
+    currency: '€',
+    value: fraction === '00' ? whole : `${whole}.${fraction}`,
+    suffix: billing === 'monthly' ? '/ month' : '/ year',
+  }
 }
 
 export default function Subscriptions() {
@@ -52,19 +68,7 @@ export default function Subscriptions() {
       <div className="plans__grid">
         {PLANS.map((plan) => {
           const billedLabel = billing === 'monthly' ? 'Billed monthly' : 'Billed yearly'
-          let priceMain = ''
-          let priceSuffix = billing === 'monthly' ? '/ month' : '/ year'
-
-          if (plan.id === 'unlimited') {
-            priceMain = '€20'
-            priceSuffix = 'başlangıç'
-          } else if (plan.id === 'havuz') {
-            priceMain = '%20'
-            priceSuffix = 'daha uygun'
-          } else {
-            const value = billing === 'monthly' ? plan.monthly : plan.yearly
-            priceMain = `€${value?.toFixed(2)}`
-          }
+          const price = formatPriceParts(plan, billing)
 
           return (
             <article
@@ -78,15 +82,18 @@ export default function Subscriptions() {
               )}
 
               <div className="plan-card__header">
-                <h2>{plan.name}</h2>
+                <h2 className="plan-card__name">{plan.name}</h2>
                 <p className="plan-card__billed">
-                  {plan.id === 'unlimited' || plan.id === 'havuz' ? 'Özel fiyatlandırma' : billedLabel}
+                  {plan.id === 'unlimited' || plan.id === 'havuz'
+                    ? 'Özel fiyatlandırma'
+                    : billedLabel}
                 </p>
               </div>
 
-              <div className="plan-card__price-row">
-                <span className="plan-card__amount">{priceMain}</span>
-                <span className="plan-card__period">{priceSuffix}</span>
+              <div className="plan-card__price-row" aria-label={`${price.currency}${price.value} ${price.suffix}`}>
+                {price.currency && <span className="plan-card__currency">{price.currency}</span>}
+                <span className="plan-card__amount">{price.value}</span>
+                <span className="plan-card__period">{price.suffix}</span>
               </div>
 
               <p className="plan-card__audience">{plan.audience}</p>
