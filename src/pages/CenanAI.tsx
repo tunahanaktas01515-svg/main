@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { AI_FEATURES, SEARCH_TOPICS } from '../config'
 import ContactSection from '../components/ContactSection'
+import { AskBar } from '../components/AttachMenu'
 import './CenanAI.css'
 
 interface Message {
@@ -32,15 +33,29 @@ export default function CenanAI() {
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState<Message[]>([])
   const [busy, setBusy] = useState(false)
+  const [attachedName, setAttachedName] = useState<string | null>(null)
 
   const send = (text: string) => {
     const trimmed = text.trim()
-    if (!trimmed || busy) return
-    setMessages((m) => [...m, { role: 'user', text: trimmed }])
+    const fileName = attachedName
+    if ((!trimmed && !fileName) || busy) return
+    const payload = fileName
+      ? `${trimmed || 'Dosyayı incele'} [Dosya: ${fileName}]`
+      : trimmed
+    setMessages((m) => [...m, { role: 'user', text: payload }])
     setInput('')
+    setAttachedName(null)
     setBusy(true)
     window.setTimeout(() => {
-      setMessages((m) => [...m, { role: 'assistant', text: replyFor(trimmed) }])
+      setMessages((m) => [
+        ...m,
+        {
+          role: 'assistant',
+          text: fileName
+            ? `“${fileName}” dosyası alındı. Cenan AI belgeyi analiz için sıraya aldı. ${replyFor(trimmed || 'e-fatura analiz')}`
+            : replyFor(trimmed),
+        },
+      ])
       setBusy(false)
     }, 650)
   }
@@ -48,6 +63,18 @@ export default function CenanAI() {
   const onSubmit = (e: FormEvent) => {
     e.preventDefault()
     send(input)
+  }
+
+  const onAttachAction = (id: string) => {
+    const labels: Record<string, string> = {
+      recents: 'Son kullanılan belgeler açıldı.',
+      skills: 'Beceriler paneli açıldı: E-Fatura, KDV, Ödeme Onayı…',
+      connector: 'Bağlayıcı ekleme hazır. ERP / e-fatura entegrasyonu bağlanabilir.',
+    }
+    setMessages((m) => [
+      ...m,
+      { role: 'assistant', text: labels[id] || 'Eklenti seçildi.' },
+    ])
   }
 
   const started = messages.length > 0
@@ -69,25 +96,23 @@ export default function CenanAI() {
               <span>N</span>
             </h1>
 
-            <form className="cenan-ask" onSubmit={onSubmit}>
-              <input
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask Cenan anything..."
-                aria-label="Cenan AI mesaj"
-              />
-              <button type="submit" className="cenan-ask__send" disabled={!input.trim() || busy} aria-label="Gönder">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path
-                    d="M5 12h12M13 6l6 6-6 6"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-            </form>
+            <AskBar
+              value={input}
+              busy={busy}
+              onChange={setInput}
+              onSubmit={onSubmit}
+              onFileSelected={(file) => setAttachedName(file.name)}
+              onAttachAction={onAttachAction}
+            />
+
+            {attachedName && (
+              <p className="cenan-attach-chip">
+                Ekli dosya: <strong>{attachedName}</strong>
+                <button type="button" onClick={() => setAttachedName(null)} aria-label="Dosyayı kaldır">
+                  ×
+                </button>
+              </p>
+            )}
 
             <div className="cenan-stage__topics">
               {SEARCH_TOPICS.map((topic) => (
@@ -127,25 +152,24 @@ export default function CenanAI() {
               {busy && <p className="cenan-chat__typing">Cenan AI düşünüyor…</p>}
             </div>
 
-            <form className="cenan-ask cenan-ask--dock" onSubmit={onSubmit}>
-              <input
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask Cenan anything..."
-                aria-label="Cenan AI mesaj"
-              />
-              <button type="submit" className="cenan-ask__send" disabled={!input.trim() || busy} aria-label="Gönder">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path
-                    d="M5 12h12M13 6l6 6-6 6"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-            </form>
+            {attachedName && (
+              <p className="cenan-attach-chip cenan-attach-chip--dock">
+                Ekli dosya: <strong>{attachedName}</strong>
+                <button type="button" onClick={() => setAttachedName(null)} aria-label="Dosyayı kaldır">
+                  ×
+                </button>
+              </p>
+            )}
+
+            <AskBar
+              value={input}
+              busy={busy}
+              dock
+              onChange={setInput}
+              onSubmit={onSubmit}
+              onFileSelected={(file) => setAttachedName(file.name)}
+              onAttachAction={onAttachAction}
+            />
           </div>
         )}
       </section>
