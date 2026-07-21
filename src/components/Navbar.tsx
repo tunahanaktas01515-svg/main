@@ -1,22 +1,25 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { useI18n } from '../context/I18nContext'
 import SettingsModal from './SettingsModal'
 import BlackHoleIcon from './BlackHoleIcon'
 import './Navbar.css'
 
 export default function Navbar() {
   const { isAuthenticated, user, logout } = useAuth()
+  const { t, lang, setLang, langs } = useI18n()
   const [menuOpen, setMenuOpen] = useState(false)
+  const [langOpen, setLangOpen] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
+  const langRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
 
   useEffect(() => {
     const onDoc = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setMenuOpen(false)
-      }
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false)
+      if (langRef.current && !langRef.current.contains(e.target as Node)) setLangOpen(false)
     }
     document.addEventListener('mousedown', onDoc)
     return () => document.removeEventListener('mousedown', onDoc)
@@ -30,76 +33,111 @@ export default function Navbar() {
             CENAN
           </Link>
 
-          <nav className="nav__links" aria-label="Ana menü">
+          <nav className="nav__links" aria-label="Main">
             <NavLink to="/" end>
-              Ana Sayfa
+              {t('nav.home')}
             </NavLink>
-            <NavLink to="/abonelikler">Abonelikler</NavLink>
-            <NavLink to="/cenan-ai">Cenan AI</NavLink>
+            <NavLink to="/abonelikler">{t('nav.plans')}</NavLink>
+            <NavLink to="/cenan-ai">{t('nav.ai')}</NavLink>
           </nav>
 
-          <div className="nav__actions" ref={menuRef}>
-            <button
-              type="button"
-              className="nav__profile"
-              aria-label="Profil ve ayarlar"
-              aria-expanded={menuOpen}
-              onMouseEnter={() => setMenuOpen(true)}
-              onClick={() => setMenuOpen((v) => !v)}
-            >
-              <BlackHoleIcon size={42} />
-            </button>
+          <div className="nav__right">
+            <div className="nav__lang" ref={langRef}>
+              <button
+                type="button"
+                className="nav__lang-btn"
+                aria-label={t('nav.language')}
+                aria-expanded={langOpen}
+                onClick={() => setLangOpen((v) => !v)}
+              >
+                {langs.find((l) => l.id === lang)?.short || 'TR'}
+                <span aria-hidden="true">▾</span>
+              </button>
+              {langOpen && (
+                <div className="nav__lang-menu" role="listbox">
+                  {langs.map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      role="option"
+                      aria-selected={item.id === lang}
+                      className={item.id === lang ? 'is-active' : ''}
+                      onClick={() => {
+                        setLang(item.id)
+                        setLangOpen(false)
+                      }}
+                    >
+                      <span>{item.short}</span>
+                      <span>{item.label}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
 
-            {menuOpen && (
-              <div className="nav__dropdown" onMouseLeave={() => setMenuOpen(false)}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMenuOpen(false)
-                    if (isAuthenticated) setSettingsOpen(true)
-                    else navigate('/giris')
-                  }}
-                >
-                  Ayarlar
-                </button>
-                {!isAuthenticated ? (
-                  <>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setMenuOpen(false)
-                        navigate('/kayit')
-                      }}
-                    >
-                      Kayıt Olma
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setMenuOpen(false)
-                        navigate('/giris')
-                      }}
-                    >
-                      Giriş Yapma
-                    </button>
-                  </>
-                ) : (
+            <div className="nav__actions" ref={menuRef}>
+              <button
+                type="button"
+                className="nav__profile"
+                aria-label={t('nav.settings')}
+                aria-expanded={menuOpen}
+                onMouseEnter={() => setMenuOpen(true)}
+                onClick={() => setMenuOpen((v) => !v)}
+              >
+                <BlackHoleIcon size={42} />
+              </button>
+
+              {menuOpen && (
+                <div className="nav__dropdown" onMouseLeave={() => setMenuOpen(false)}>
                   <button
                     type="button"
                     onClick={() => {
                       setMenuOpen(false)
-                      logout()
-                      navigate('/giris')
+                      if (isAuthenticated) setSettingsOpen(true)
+                      else navigate('/giris')
                     }}
                   >
-                    Çıkış ({user?.nickname || user?.firstName})
+                    {t('nav.settings')}
                   </button>
-                )}
-                <Link to="/abonelikler" onClick={() => setMenuOpen(false)}>
-                  Abonelikler
-                </Link>
-              </div>
-            )}
+                  {!isAuthenticated ? (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setMenuOpen(false)
+                          navigate('/kayit')
+                        }}
+                      >
+                        {t('nav.register')}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setMenuOpen(false)
+                          navigate('/giris')
+                        }}
+                      >
+                        {t('nav.login')}
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMenuOpen(false)
+                        logout()
+                        navigate('/giris')
+                      }}
+                    >
+                      {t('nav.logout')} ({user?.nickname || user?.firstName})
+                    </button>
+                  )}
+                  <Link to="/abonelikler" onClick={() => setMenuOpen(false)}>
+                    {t('nav.plans')}
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </header>

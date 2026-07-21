@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react'
+import { useI18n } from '../context/I18nContext'
 import './AttachMenu.css'
 
 interface AttachMenuProps {
@@ -9,7 +10,7 @@ interface AttachMenuProps {
 const ITEMS = [
   {
     id: 'upload',
-    label: 'Bir dosya yükle',
+    labelKey: 'ai.attach.upload',
     hasChevron: false,
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -25,7 +26,7 @@ const ITEMS = [
   },
   {
     id: 'recents',
-    label: 'Son Kullanılanlar',
+    labelKey: 'ai.attach.recents',
     hasChevron: true,
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -41,7 +42,7 @@ const ITEMS = [
   },
   {
     id: 'skills',
-    label: 'Beceriler',
+    labelKey: 'ai.attach.skills',
     hasChevron: true,
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -54,7 +55,7 @@ const ITEMS = [
   },
   {
     id: 'connector',
-    label: 'Bağlayıcı ekle',
+    labelKey: 'ai.attach.connector',
     hasChevron: false,
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -68,6 +69,7 @@ const ITEMS = [
 ] as const
 
 export default function AttachMenu({ onAction, onFileSelected }: AttachMenuProps) {
+  const { t } = useI18n()
   const [open, setOpen] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
   const fileRef = useRef<HTMLInputElement>(null)
@@ -101,7 +103,7 @@ export default function AttachMenu({ onAction, onFileSelected }: AttachMenuProps
       <button
         type="button"
         className="attach__btn"
-        aria-label={open ? 'Menüyü kapat' : 'Eklentiler'}
+        aria-label={open ? '×' : '+'}
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
       >
@@ -120,7 +122,7 @@ export default function AttachMenu({ onAction, onFileSelected }: AttachMenuProps
                 onClick={() => handleItem(item.id)}
               >
                 <span className="attach__icon">{item.icon as ReactNode}</span>
-                <span className="attach__label">{item.label}</span>
+                <span className="attach__label">{t(item.labelKey)}</span>
                 {item.hasChevron && (
                   <span className="attach__chevron" aria-hidden="true">
                     ›
@@ -167,16 +169,17 @@ export function AskBar({
   onFileSelected?: (file: File) => void
   onAttachAction?: (id: string) => void
 }) {
+  const { t } = useI18n()
   return (
     <form className={`cenan-ask ${dock ? 'cenan-ask--dock' : ''}`} onSubmit={onSubmit}>
       <AttachMenu onFileSelected={onFileSelected} onAction={onAttachAction} />
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        placeholder="Bir soru sor"
-        aria-label="Cenan AI mesaj"
+        placeholder={t('ai.askPlaceholder')}
+        aria-label={t('ai.askPlaceholder')}
       />
-      <button type="submit" className="cenan-ask__send" disabled={!value.trim() || busy} aria-label="Gönder">
+      <button type="submit" className="cenan-ask__send" disabled={!value.trim() || busy} aria-label="→">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path
             d="M5 12h12M13 6l6 6-6 6"

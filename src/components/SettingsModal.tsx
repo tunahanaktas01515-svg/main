@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { useAuth } from '../context/AuthContext'
+import { useI18n } from '../context/I18nContext'
 import './Modal.css'
 
 interface Props {
@@ -8,6 +9,7 @@ interface Props {
 
 export default function SettingsModal({ onClose }: Props) {
   const { user, updateProfile, isAuthenticated } = useAuth()
+  const { t } = useI18n()
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [currentPassword, setCurrentPassword] = useState('')
@@ -26,8 +28,8 @@ export default function SettingsModal({ onClose }: Props) {
           <button type="button" className="modal__close" onClick={onClose} aria-label="Kapat">
             ×
           </button>
-          <h2>Ayarlar</h2>
-          <p className="modal__sub">Hesap ayarlarını düzenlemek için önce giriş yapın.</p>
+          <h2>{t('settings.title')}</h2>
+          <p className="modal__sub">{t('settings.needLogin')}</p>
         </div>
       </div>
     )
@@ -42,7 +44,7 @@ export default function SettingsModal({ onClose }: Props) {
       setError(res.error || 'Güncellenemedi')
       return
     }
-    setSuccess('Bilgileriniz güncellendi.')
+    setSuccess(t('settings.saved'))
     setCurrentPassword('')
   }
 
@@ -58,16 +60,13 @@ export default function SettingsModal({ onClose }: Props) {
         <button type="button" className="modal__close" onClick={onClose} aria-label="Kapat">
           ×
         </button>
-        <h2 id="settings-title">Ayarlar</h2>
-        <p className="modal__sub">
-          İsim, soyisim, takma isim, e-posta ve şifrenizi düzenleyin. Değişiklik için mevcut
-          şifrenizi girin.
-        </p>
+        <h2 id="settings-title">{t('settings.title')}</h2>
+        <p className="modal__sub">{t('settings.help')}</p>
 
         <form onSubmit={onSubmit} className="modal__form">
           <div className="modal__row">
             <label>
-              İsim
+              {t('settings.firstName')}
               <input
                 value={form.firstName}
                 onChange={(e) => setForm({ ...form, firstName: e.target.value })}
@@ -75,7 +74,7 @@ export default function SettingsModal({ onClose }: Props) {
               />
             </label>
             <label>
-              Soyisim
+              {t('settings.lastName')}
               <input
                 value={form.lastName}
                 onChange={(e) => setForm({ ...form, lastName: e.target.value })}
@@ -84,7 +83,7 @@ export default function SettingsModal({ onClose }: Props) {
             </label>
           </div>
           <label>
-            Takma isim
+            {t('settings.nickname')}
             <input
               value={form.nickname}
               onChange={(e) => setForm({ ...form, nickname: e.target.value })}
@@ -92,7 +91,7 @@ export default function SettingsModal({ onClose }: Props) {
             />
           </label>
           <label>
-            E-posta
+            {t('settings.email')}
             <input
               type="email"
               value={form.email}
@@ -101,7 +100,7 @@ export default function SettingsModal({ onClose }: Props) {
             />
           </label>
           <label>
-            Yeni şifre
+            {t('settings.newPassword')}
             <input
               type="password"
               value={form.password}
@@ -110,7 +109,7 @@ export default function SettingsModal({ onClose }: Props) {
             />
           </label>
           <label>
-            Mevcut şifre (onay)
+            {t('settings.currentPassword')}
             <input
               type="password"
               value={currentPassword}
@@ -124,7 +123,7 @@ export default function SettingsModal({ onClose }: Props) {
           {success && <p className="modal__success">{success}</p>}
 
           <button type="submit" className="btn btn--white">
-            Kaydet
+            {t('settings.save')}
           </button>
         </form>
       </div>

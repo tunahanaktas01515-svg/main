@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom'
+import { useI18n } from '../context/I18nContext'
 import './NotFound.css'
 
 export default function NotFound() {
+  const { t } = useI18n()
   return (
     <div className="nf">
       <div className="nf__art" aria-hidden="true">
@@ -15,24 +17,24 @@ export default function NotFound() {
 
       <header className="nf__top">
         <span className="nf__brand">CENAN</span>
-        <span className="nf__tag">AI · POWER · ANALYSIS</span>
+        <span className="nf__tag">{t('nf.tag')}</span>
       </header>
 
       <div className="nf__main">
         <Link to="/" className="nf__back-home">
-          BACK HOME
+          {t('nf.backHome')}
         </Link>
         <div className="nf__code-wrap">
           <h1 className="nf__code">404</h1>
-          <p className="nf__label">PAGE NOT FOUND</p>
+          <p className="nf__label">{t('nf.notFound')}</p>
         </div>
       </div>
 
       <nav className="nf__side nf__side--left">
-        <Link to="/">← BACK</Link>
+        <Link to="/">{t('nf.back')}</Link>
       </nav>
       <nav className="nf__side nf__side--right">
-        <Link to="/">HOME →</Link>
+        <Link to="/">{t('nf.home')}</Link>
       </nav>
 
       <footer className="nf__foot">

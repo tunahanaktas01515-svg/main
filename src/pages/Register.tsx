@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import AuthShell from '../components/AuthShell'
 import { useAuth } from '../context/AuthContext'
+import { useI18n } from '../context/I18nContext'
 import './Register.css'
 
 const ROLES = [
@@ -15,6 +16,7 @@ const ROLES = [
 
 export default function Register() {
   const { register, isAuthenticated, ready, findByEmail } = useAuth()
+  const { t } = useI18n()
   const navigate = useNavigate()
   const [params] = useSearchParams()
   const [showPass, setShowPass] = useState(false)
@@ -95,12 +97,12 @@ export default function Register() {
             </svg>
           </div>
 
-          <h1>Create an account</h1>
-          <p className="register__sub">Welcome! Create an account to get started.</p>
+          <h1>{t('register.title')}</h1>
+          <p className="register__sub">{t('register.sub')}</p>
 
           <form onSubmit={onSubmit} className="register__form">
             <label className="register__field">
-              <span>Role</span>
+              <span>{t('register.role')}</span>
               <div className="register__input register__input--select">
                 <span className="register__lead" aria-hidden="true">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
@@ -128,7 +130,7 @@ export default function Register() {
 
             <div className="register__row">
               <label className="register__field">
-                <span>First name</span>
+                <span>{t('register.firstName')}</span>
                 <input
                   value={form.firstName}
                   onChange={(e) => setForm({ ...form, firstName: e.target.value })}
@@ -136,7 +138,7 @@ export default function Register() {
                 />
               </label>
               <label className="register__field">
-                <span>Last name</span>
+                <span>{t('register.lastName')}</span>
                 <input
                   value={form.lastName}
                   onChange={(e) => setForm({ ...form, lastName: e.target.value })}
@@ -146,7 +148,7 @@ export default function Register() {
             </div>
 
             <label className="register__field">
-              <span>Username</span>
+              <span>{t('register.username')}</span>
               <input
                 value={form.nickname}
                 onChange={(e) => setForm({ ...form, nickname: e.target.value })}
@@ -155,7 +157,7 @@ export default function Register() {
             </label>
 
             <label className="register__field">
-              <span>Email address</span>
+              <span>{t('register.email')}</span>
               <input
                 type="email"
                 value={form.email}
@@ -165,7 +167,7 @@ export default function Register() {
             </label>
 
             <label className="register__field">
-              <span>Password</span>
+              <span>{t('register.password')}</span>
               <div className="register__pass">
                 <input
                   type={showPass ? 'text' : 'password'}
@@ -175,7 +177,7 @@ export default function Register() {
                   minLength={4}
                 />
                 <button type="button" onClick={() => setShowPass((v) => !v)} aria-label="Şifreyi göster">
-                  {showPass ? 'Hide' : 'Show'}
+                  {showPass ? t('register.hide') : t('register.show')}
                 </button>
               </div>
             </label>
@@ -183,19 +185,19 @@ export default function Register() {
             <label className="register__agree">
               <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} />
               <span>
-                I agree to the <a href="#terms">Terms</a> and <a href="#conditions">Conditions</a>.
+                {t('register.agree')}
               </span>
             </label>
 
             {error && <p className="register__error">{error}</p>}
 
             <button type="submit" className="register__submit">
-              Create free account
+              {t('register.submit')}
             </button>
           </form>
 
           <p className="register__footer">
-            Already have an account? <Link to="/giris">Sign in</Link>
+            {t('register.haveAccount')} <Link to="/giris">{t('register.signIn')}</Link>
           </p>
         </div>
       </div>

@@ -149,6 +149,11 @@
   align-items: stretch;
 }
 
+.plans__grid--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 920px;
+}
+
 .plan-card {
   display: flex;
   flex-direction: column;
@@ -415,7 +420,8 @@
 }
 
 @media (max-width: 1100px) {
-  .plans__grid {
+  .plans__grid,
+  .plans__grid--3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
@@ -429,7 +435,8 @@
 }
 
 @media (max-width: 760px) {
-  .plans__grid {
+  .plans__grid,
+  .plans__grid--3 {
     grid-template-columns: 1fr;
     max-width: 400px;
   }

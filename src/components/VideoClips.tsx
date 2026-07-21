@@ -1,12 +1,15 @@
 import { VIDEO_CLIPS } from '../config'
+import { useI18n } from '../context/I18nContext'
 import './VideoClips.css'
 
 export default function VideoClips() {
+  const { t } = useI18n()
+
   return (
     <section className="clips" id="reklamlar">
       <div className="clips__head">
-        <h2>Kısa klipler</h2>
-        <p>Cenan AI reklamlarından kısa kesitler.</p>
+        <h2>{t('home.clipsTitle')}</h2>
+        <p>{t('home.clipsLead')}</p>
       </div>
 
       <div className="clips__rail">
@@ -21,8 +24,8 @@ export default function VideoClips() {
               <span className="clip__dur">{clip.duration}</span>
             </div>
             <div className="clip__meta">
-              <span className="clip__tag">{clip.tag}</span>
-              <h3>{clip.title}</h3>
+              <span className="clip__tag">{t(clip.tagKey)}</span>
+              <h3>{t(clip.titleKey)}</h3>
             </div>
           </article>
         ))}

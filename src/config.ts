@@ -15,12 +15,14 @@ export interface Plan {
   yearly: number | null
   credits: number | null
   popular?: boolean
-  badge?: string
-  audience: string
-  features: string[]
-  note?: string
+  badgeKey?: string
+  audienceKey: string
+  featureKeys: string[]
+  noteKey?: string
   companiesOnly?: boolean
   startingPrice?: number
+  /** Hide on yearly billing */
+  monthlyOnly?: boolean
 }
 
 export const PLANS: Plan[] = [
@@ -30,16 +32,15 @@ export const PLANS: Plan[] = [
     monthly: 14.99,
     yearly: 144.99,
     credits: 1500,
-    audience: 'Bireysel kullanıcılar için ideal',
-    features: [
-      '1.500 kredi / dönem',
-      '1 kredi = 0.01 euro',
-      'Cenan AI sohbet erişimi',
-      'Temel e-fatura analizi',
-      'KDV hesaplama',
-      'Web + uygulama erişimi',
+    audienceKey: 'plan.standart.audience',
+    featureKeys: [
+      'plan.standart.f1',
+      'plan.standart.f2',
+      'plan.standart.f3',
+      'plan.standart.f4',
+      'plan.standart.f5',
     ],
-    note: '1 kredi = 0.01 euro',
+    noteKey: 'plan.standart.f2',
   },
   {
     id: 'pro',
@@ -48,17 +49,16 @@ export const PLANS: Plan[] = [
     yearly: 399.99,
     credits: 4500,
     popular: true,
-    badge: 'MOST POPULAR',
-    audience: 'Küçük ekipler için ideal',
-    features: [
-      '4.500 kredi / dönem',
-      '1 kredi = 0.01 euro',
-      'Gelişmiş analiz raporları',
-      'Otonom onaylı ödeme',
-      'Öncelikli destek',
-      'Web + uygulama erişimi',
+    badgeKey: 'plans.mostPopular',
+    audienceKey: 'plan.pro.audience',
+    featureKeys: [
+      'plan.pro.f1',
+      'plan.pro.f2',
+      'plan.pro.f3',
+      'plan.pro.f4',
+      'plan.pro.f5',
     ],
-    note: '1 kredi = 0.01 euro',
+    noteKey: 'plan.pro.f2',
   },
   {
     id: 'business',
@@ -66,15 +66,15 @@ export const PLANS: Plan[] = [
     monthly: 79.99,
     yearly: 799.99,
     credits: 9000,
-    audience: 'Şirketler ve ajanslar için en iyi seçim',
-    features: [
-      '9.000 kredi / dönem',
-      '1 kredi = 0.01 euro',
-      'Takım yönetimi',
-      'Gelişmiş vergi & KDV',
-      'Özel raporlar',
+    audienceKey: 'plan.business.audience',
+    featureKeys: [
+      'plan.business.f1',
+      'plan.business.f2',
+      'plan.business.f3',
+      'plan.business.f4',
+      'plan.business.f5',
     ],
-    note: '1 kredi = 0.01 euro',
+    noteKey: 'plan.business.f2',
   },
   {
     id: 'unlimited',
@@ -83,15 +83,16 @@ export const PLANS: Plan[] = [
     yearly: null,
     credits: null,
     startingPrice: 20,
-    audience: 'Yoğun kullanım ve esnek kredi için',
-    features: [
-      'Başlangıç 20 euro',
-      'Kredi başına ücretlendirme',
-      '1 kredi = 0.02 euro',
-      'Sınırsız kullanım esnekliği',
-      'Web + uygulama erişimi',
+    monthlyOnly: true,
+    audienceKey: 'plan.unlimited.audience',
+    featureKeys: [
+      'plan.unlimited.f1',
+      'plan.unlimited.f2',
+      'plan.unlimited.f3',
+      'plan.unlimited.f4',
+      'plan.unlimited.f5',
     ],
-    note: '1 kredi = 0.02 euro',
+    noteKey: 'plan.unlimited.f3',
   },
   {
     id: 'havuz',
@@ -99,56 +100,24 @@ export const PLANS: Plan[] = [
     monthly: null,
     yearly: null,
     credits: null,
-    badge: '%20 daha uygun',
+    badgeKey: 'plans.havuzBadge',
     companiesOnly: true,
-    audience: '5+ kullanıcılı şirketler için',
-    features: [
-      '%20 daha uygun fiyat',
-      '5+ kullanıcı desteği',
-      'Sadece şirketler için',
-      'Ortak kredi havuzu',
-      'Kurumsal destek',
+    monthlyOnly: true,
+    audienceKey: 'plan.havuz.audience',
+    featureKeys: [
+      'plan.havuz.f1',
+      'plan.havuz.f2',
+      'plan.havuz.f3',
+      'plan.havuz.f4',
+      'plan.havuz.f5',
     ],
-    note: '5 ten fazla kullanıcı için desteklenen paket. Sadece şirketler ulaşabilir.',
+    noteKey: 'plan.havuz.note',
   },
-]
-
-export const SEARCH_TOPICS = [
-  'Cenan AI güç ve analiz yeteneği',
-  'Cenan AI analiz raporları',
-  'Cenan AI hakkında bilgiler',
-]
-
-export const AI_FEATURES = [
-  { title: 'E-Fatura Analizi', tone: 'mint' as const },
-  { title: 'Otonom Onaylı Ödeme', tone: 'blue' as const },
-  { title: 'KDV ve Vergi hesaplama', tone: 'violet' as const },
-  { title: '10 dan fazla özellik', tone: 'amber' as const },
 ]
 
 export const VIDEO_CLIPS = [
-  {
-    id: '1',
-    title: 'Cenan AI Tanıtım',
-    duration: '0:18',
-    tag: 'Reklam',
-  },
-  {
-    id: '2',
-    title: 'Analiz Gücü',
-    duration: '0:12',
-    tag: 'Klip',
-  },
-  {
-    id: '3',
-    title: 'E-Fatura Anında',
-    duration: '0:15',
-    tag: 'Reklam',
-  },
-  {
-    id: '4',
-    title: 'Web & App',
-    duration: '0:10',
-    tag: 'Klip',
-  },
+  { id: '1', titleKey: 'home.clip1', duration: '0:18', tagKey: 'home.clipTagAd' },
+  { id: '2', titleKey: 'home.clip2', duration: '0:12', tagKey: 'home.clipTagClip' },
+  { id: '3', titleKey: 'home.clip3', duration: '0:15', tagKey: 'home.clipTagAd' },
+  { id: '4', titleKey: 'home.clip4', duration: '0:10', tagKey: 'home.clipTagClip' },
 ]

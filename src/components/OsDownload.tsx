@@ -1,4 +1,5 @@
 import { useEffect, useState, type ReactElement } from 'react'
+import { useI18n } from '../context/I18nContext'
 import './OsDownload.css'
 
 export type OsKind = 'mac' | 'windows' | 'linux'
@@ -16,10 +17,10 @@ export function detectOs(): OsKind {
   return 'windows'
 }
 
-const META: Record<OsKind, { label: string; file: string; title: string }> = {
-  mac: { label: 'macOS', file: 'CenanAI-macOS.dmg.txt', title: 'Mac için indir' },
-  windows: { label: 'Windows', file: 'CenanAI-Windows.exe.txt', title: 'Windows için indir' },
-  linux: { label: 'Linux', file: 'CenanAI-Linux.AppImage.txt', title: 'Linux için indir' },
+const META: Record<OsKind, { label: string; file: string; titleKey: string }> = {
+  mac: { label: 'macOS', file: 'CenanAI-macOS.dmg.txt', titleKey: 'download.forMac' },
+  windows: { label: 'Windows', file: 'CenanAI-Windows.exe.txt', titleKey: 'download.forWindows' },
+  linux: { label: 'Linux', file: 'CenanAI-Linux.AppImage.txt', titleKey: 'download.forLinux' },
 }
 
 function downloadFor(os: OsKind) {
@@ -128,6 +129,7 @@ const ICONS: Record<OsKind, () => ReactElement> = {
 const ALL: OsKind[] = ['mac', 'windows', 'linux']
 
 export default function OsDownload({ compact = false }: { compact?: boolean }) {
+  const { t } = useI18n()
   const [os, setOs] = useState<OsKind>('windows')
 
   useEffect(() => {
@@ -136,6 +138,7 @@ export default function OsDownload({ compact = false }: { compact?: boolean }) {
 
   const PrimaryIcon = ICONS[os]
   const others = ALL.filter((item) => item !== os)
+  const title = t(META[os].titleKey)
 
   if (compact) {
     return (
@@ -143,41 +146,42 @@ export default function OsDownload({ compact = false }: { compact?: boolean }) {
         type="button"
         className="os-download os-download--compact"
         onClick={() => downloadFor(os)}
-        aria-label={META[os].title}
+        aria-label={title}
       >
         <PrimaryIcon />
-        <span>İndir · {META[os].label}</span>
+        <span>
+          {t('download.compact')} · {META[os].label}
+        </span>
       </button>
     )
   }
 
   return (
     <div className="os-download">
-      <button
-        type="button"
-        className="os-download__primary"
-        onClick={() => downloadFor(os)}
-      >
+      <button type="button" className="os-download__primary" onClick={() => downloadFor(os)}>
         <span className="os-download__badge">
           <PrimaryIcon />
         </span>
         <span className="os-download__copy">
-          <strong>{META[os].title}</strong>
-          <small>Sisteminiz otomatik algılandı: {META[os].label}</small>
+          <strong>{title}</strong>
+          <small>
+            {t('download.detected')}: {META[os].label}
+          </small>
         </span>
       </button>
 
-      <div className="os-download__others" aria-label="Diğer platformlar">
+      <div className="os-download__others" aria-label={t('download.others')}>
         {others.map((item) => {
           const Icon = ICONS[item]
+          const itemTitle = t(META[item].titleKey)
           return (
             <button
               key={item}
               type="button"
               className="os-download__alt"
               onClick={() => downloadFor(item)}
-              title={META[item].title}
-              aria-label={META[item].title}
+              title={itemTitle}
+              aria-label={itemTitle}
             >
               <Icon />
               <span>{META[item].label}</span>

@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
-import { AI_FEATURES, SEARCH_TOPICS } from '../config'
 import ContactSection from '../components/ContactSection'
 import { AskBar } from '../components/AttachMenu'
+import { useI18n } from '../context/I18nContext'
 import './CenanAI.css'
 
 interface Message {
@@ -9,27 +9,28 @@ interface Message {
   text: string
 }
 
-function replyFor(query: string): string {
+function replyFor(query: string, t: (k: string) => string): string {
   const q = query.toLowerCase()
-  if (q.includes('güç') || q.includes('analiz') || q.includes('e-fatura')) {
-    return 'Cenan AI güç ve analiz yeteneğiyle e-faturaları, ödemeleri ve vergi hesaplarını hızla işler. Raporlarınızı özetler, anomalileri işaretler ve karar desteği sunar.'
+  if (q.includes('güç') || q.includes('analiz') || q.includes('power') || q.includes('analysis') || q.includes('e-fatura') || q.includes('invoice')) {
+    return t('ai.topic1') + ' — Cenan AI.'
   }
-  if (q.includes('rapor')) {
-    return 'Cenan AI analiz raporları; dönemsel özetler, KDV görünümü ve ödeme onay geçmişini tek ekranda birleştirir. Daha derin raporlar için Pro veya Business paketini seçebilirsiniz.'
+  if (q.includes('rapor') || q.includes('report')) {
+    return t('ai.topic2') + ' — Cenan AI.'
   }
-  if (q.includes('ödeme') || q.includes('otonom')) {
-    return 'Otonom Onaylı Ödeme ile Cenan AI, uygun faturaları kurallarınıza göre onaylar ve ödeme akışını hızlandırır.'
+  if (q.includes('ödeme') || q.includes('payment') || q.includes('otonom')) {
+    return t('ai.feat2') + ' — Cenan AI.'
   }
-  if (q.includes('kdv') || q.includes('vergi')) {
-    return 'KDV ve vergi hesaplamada Cenan AI dönemsel oranları, istisnaları ve rapor özetlerini birlikte sunar.'
+  if (q.includes('kdv') || q.includes('vergi') || q.includes('tax') || q.includes('vat')) {
+    return t('ai.feat3') + ' — Cenan AI.'
   }
-  if (q.includes('hakkında') || q.includes('nedir') || q.includes('bilgi')) {
-    return 'Cenan AI, hem web hem uygulamada çalışan yapay zeka asistanımızdır. E-fatura analizi, otonom onaylı ödeme, KDV/vergi hesaplama ve 10’dan fazla özellikle yanınızda.'
+  if (q.includes('hakkında') || q.includes('about') || q.includes('nedir') || q.includes('bilgi')) {
+    return t('ai.topic3') + ' — Cenan AI.'
   }
-  return `“${query}” hakkında Cenan AI bilgileri tarandı. Güç ve analiz yeteneği, raporlar ve ürün özellikleri üzerinden size yardımcı olabilirim.`
+  return `“${query}” · Cenan AI`
 }
 
 export default function CenanAI() {
+  const { t } = useI18n()
   const [input, setInput] = useState('')
   const [messages, setMessages] = useState<Message[]>([])
   const [busy, setBusy] = useState(false)
@@ -40,7 +41,7 @@ export default function CenanAI() {
     const fileName = attachedName
     if ((!trimmed && !fileName) || busy) return
     const payload = fileName
-      ? `${trimmed || 'Dosyayı incele'} [Dosya: ${fileName}]`
+      ? `${trimmed || fileName} [${fileName}]`
       : trimmed
     setMessages((m) => [...m, { role: 'user', text: payload }])
     setInput('')
@@ -52,8 +53,8 @@ export default function CenanAI() {
         {
           role: 'assistant',
           text: fileName
-            ? `“${fileName}” dosyası alındı. Cenan AI belgeyi analiz için sıraya aldı. ${replyFor(trimmed || 'e-fatura analiz')}`
-            : replyFor(trimmed),
+            ? `${fileName} · ${replyFor(trimmed || 'e-fatura', t)}`
+            : replyFor(trimmed, t),
         },
       ])
       setBusy(false)
@@ -66,18 +67,23 @@ export default function CenanAI() {
   }
 
   const onAttachAction = (id: string) => {
-    const labels: Record<string, string> = {
-      recents: 'Son kullanılan belgeler açıldı.',
-      skills: 'Beceriler paneli açıldı: E-Fatura, KDV, Ödeme Onayı…',
-      connector: 'Bağlayıcı ekleme hazır. ERP / e-fatura entegrasyonu bağlanabilir.',
-    }
-    setMessages((m) => [
-      ...m,
-      { role: 'assistant', text: labels[id] || 'Eklenti seçildi.' },
-    ])
+    const key =
+      id === 'recents'
+        ? 'ai.attach.recents'
+        : id === 'skills'
+          ? 'ai.attach.skills'
+          : 'ai.attach.connector'
+    setMessages((m) => [...m, { role: 'assistant', text: t(key) }])
   }
 
   const started = messages.length > 0
+  const topics = ['ai.topic1', 'ai.topic2', 'ai.topic3'] as const
+  const feats = [
+    { key: 'ai.feat1', tone: 'mint' },
+    { key: 'ai.feat2', tone: 'blue' },
+    { key: 'ai.feat3', tone: 'violet' },
+    { key: 'ai.feat4', tone: 'amber' },
+  ] as const
 
   return (
     <div className="cenan-ai">
@@ -107,38 +113,35 @@ export default function CenanAI() {
 
             {attachedName && (
               <p className="cenan-attach-chip">
-                Ekli dosya: <strong>{attachedName}</strong>
-                <button type="button" onClick={() => setAttachedName(null)} aria-label="Dosyayı kaldır">
+                {t('ai.attached')}: <strong>{attachedName}</strong>
+                <button type="button" onClick={() => setAttachedName(null)} aria-label="×">
                   ×
                 </button>
               </p>
             )}
 
             <div className="cenan-stage__topics">
-              {SEARCH_TOPICS.map((topic) => (
-                <button key={topic} type="button" onClick={() => send(topic)}>
-                  {topic}
+              {topics.map((key) => (
+                <button key={key} type="button" onClick={() => send(t(key))}>
+                  {t(key)}
                 </button>
               ))}
             </div>
 
             <div className="cenan-stage__features">
-              {AI_FEATURES.map((f) => (
+              {feats.map((f) => (
                 <button
-                  key={f.title}
+                  key={f.key}
                   type="button"
                   className={`cenan-chip cenan-chip--${f.tone}`}
-                  onClick={() => send(f.title)}
+                  onClick={() => send(t(f.key))}
                 >
-                  {f.title}
+                  {t(f.key)}
                 </button>
               ))}
             </div>
 
-            <p className="cenan-stage__blurb">
-              Cenan AI — güç ve analiz yeteneğiyle e-fatura, vergi ve onaylı ödeme süreçlerini bir araya getiren
-              yapay zeka.
-            </p>
+            <p className="cenan-stage__blurb">{t('ai.blurb')}</p>
           </>
         ) : (
           <div className="cenan-chat">
@@ -149,13 +152,13 @@ export default function CenanAI() {
                   <p>{m.text}</p>
                 </div>
               ))}
-              {busy && <p className="cenan-chat__typing">Cenan AI düşünüyor…</p>}
+              {busy && <p className="cenan-chat__typing">{t('ai.thinking')}</p>}
             </div>
 
             {attachedName && (
               <p className="cenan-attach-chip cenan-attach-chip--dock">
-                Ekli dosya: <strong>{attachedName}</strong>
-                <button type="button" onClick={() => setAttachedName(null)} aria-label="Dosyayı kaldır">
+                {t('ai.attached')}: <strong>{attachedName}</strong>
+                <button type="button" onClick={() => setAttachedName(null)} aria-label="×">
                   ×
                 </button>
               </p>

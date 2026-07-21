@@ -47,6 +47,39 @@
   padding: 2.5rem 1.5rem;
 }
 
+.auth-shell__lang {
+  position: absolute;
+  top: 1.35rem;
+  right: 1.75rem;
+  z-index: 6;
+  display: flex;
+  gap: 0.3rem;
+  padding: 0.25rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+}
+
+.auth-shell__lang button {
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.5);
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0.35rem 0.5rem;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.auth-shell__lang button.is-active,
+.auth-shell__lang button:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
 @keyframes neonFlash {
   0% {
     border-color: rgba(255, 40, 60, 0.15);
