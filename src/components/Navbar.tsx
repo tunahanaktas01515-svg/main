@@ -1,18 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import AuthModal from './AuthModal'
 import SettingsModal from './SettingsModal'
 import BlackHoleIcon from './BlackHoleIcon'
 import './Navbar.css'
 
-type ModalMode = null | 'login' | 'register' | 'settings'
-
 export default function Navbar() {
   const { isAuthenticated, user, logout } = useAuth()
   const [menuOpen, setMenuOpen] = useState(false)
-  const [modal, setModal] = useState<ModalMode>(null)
+  const [settingsOpen, setSettingsOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const onDoc = (e: MouseEvent) => {
@@ -58,8 +56,8 @@ export default function Navbar() {
                   type="button"
                   onClick={() => {
                     setMenuOpen(false)
-                    if (isAuthenticated) setModal('settings')
-                    else setModal('login')
+                    if (isAuthenticated) setSettingsOpen(true)
+                    else navigate('/giris')
                   }}
                 >
                   Ayarlar
@@ -70,7 +68,7 @@ export default function Navbar() {
                       type="button"
                       onClick={() => {
                         setMenuOpen(false)
-                        setModal('register')
+                        navigate('/kayit')
                       }}
                     >
                       Kayıt Olma
@@ -79,7 +77,7 @@ export default function Navbar() {
                       type="button"
                       onClick={() => {
                         setMenuOpen(false)
-                        setModal('login')
+                        navigate('/giris')
                       }}
                     >
                       Giriş Yapma
@@ -91,6 +89,7 @@ export default function Navbar() {
                     onClick={() => {
                       setMenuOpen(false)
                       logout()
+                      navigate('/giris')
                     }}
                   >
                     Çıkış ({user?.nickname || user?.firstName})
@@ -105,14 +104,7 @@ export default function Navbar() {
         </div>
       </header>
 
-      {(modal === 'login' || modal === 'register') && (
-        <AuthModal
-          mode={modal}
-          onClose={() => setModal(null)}
-          onSwitch={(m) => setModal(m)}
-        />
-      )}
-      {modal === 'settings' && <SettingsModal onClose={() => setModal(null)} />}
+      {settingsOpen && <SettingsModal onClose={() => setSettingsOpen(false)} />}
     </>
   )
 }

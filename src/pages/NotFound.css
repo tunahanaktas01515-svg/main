@@ -1,0 +1,248 @@
+.nf {
+  position: relative;
+  min-height: 100vh;
+  background: #050505;
+  overflow: hidden;
+  color: #fff;
+}
+
+.nf__art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 55% 80% at 18% 55%, rgba(255, 255, 255, 0.08), transparent 55%),
+    linear-gradient(110deg, #111 0%, #050505 45%, #0a0a0a 100%);
+}
+
+.nf__veil {
+  position: absolute;
+  left: -5%;
+  top: 5%;
+  width: min(52vw, 560px);
+  height: 90%;
+  background:
+    radial-gradient(ellipse at 45% 35%, rgba(255, 255, 255, 0.18), transparent 45%),
+    radial-gradient(ellipse at 40% 70%, rgba(40, 40, 40, 0.9), transparent 60%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.05), transparent 50%);
+  filter: contrast(1.15) grayscale(1);
+  opacity: 0.85;
+  mask-image: linear-gradient(90deg, #000 40%, transparent 95%);
+  -webkit-mask-image: linear-gradient(90deg, #000 40%, transparent 95%);
+}
+
+.nf__petals {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.nf__petal {
+  position: absolute;
+  width: 18px;
+  height: 28px;
+  background: radial-gradient(circle at 30% 30%, #ff4d5e, #8b0018 70%);
+  border-radius: 60% 40% 60% 40%;
+  opacity: 0.85;
+  filter: blur(0.2px);
+  animation: petalFall 11s linear infinite;
+}
+
+.nf__petal--1 {
+  left: 42%;
+  top: -10%;
+  animation-delay: 0s;
+}
+.nf__petal--2 {
+  left: 55%;
+  top: -20%;
+  width: 14px;
+  height: 22px;
+  animation-delay: -2s;
+  animation-duration: 13s;
+}
+.nf__petal--3 {
+  left: 68%;
+  top: -15%;
+  animation-delay: -4s;
+}
+.nf__petal--4 {
+  left: 48%;
+  top: -25%;
+  width: 12px;
+  height: 18px;
+  animation-delay: -1s;
+  animation-duration: 9s;
+}
+.nf__petal--5 {
+  left: 75%;
+  top: -8%;
+  animation-delay: -6s;
+}
+.nf__petal--6 {
+  left: 60%;
+  top: -30%;
+  animation-delay: -3.5s;
+  animation-duration: 14s;
+}
+.nf__petal--7 {
+  left: 38%;
+  top: -18%;
+  width: 16px;
+  height: 24px;
+  animation-delay: -7s;
+}
+
+.nf__top,
+.nf__main,
+.nf__side,
+.nf__foot {
+  position: relative;
+  z-index: 2;
+}
+
+.nf__top {
+  text-align: center;
+  padding: 1.75rem 1rem 0;
+}
+
+.nf__brand {
+  display: block;
+  font-family: var(--font-display);
+  letter-spacing: 0.35em;
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+.nf__tag {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.28em;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.nf__main {
+  min-height: calc(100vh - 200px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 2rem clamp(1.25rem, 8vw, 8rem) 3rem;
+  gap: 1.25rem;
+}
+
+.nf__back-home {
+  display: inline-block;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  padding: 0.65rem 1.1rem;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nf__back-home:hover {
+  background: #fff;
+  color: #000;
+}
+
+.nf__code-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.nf__code {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: clamp(5.5rem, 16vw, 10rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+}
+
+.nf__label {
+  margin: 0;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.nf__side {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+}
+
+.nf__side a {
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+}
+
+.nf__side--left {
+  left: 1.25rem;
+}
+
+.nf__side--right {
+  right: 1.25rem;
+}
+
+.nf__foot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.nf__dots {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.nf__dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.nf__dots .is-active {
+  background: #fff;
+}
+
+@keyframes petalFall {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate3d(40px, 110vh, 0) rotate(240deg);
+    opacity: 0.15;
+  }
+}
+
+@media (max-width: 720px) {
+  .nf__main {
+    align-items: center;
+    text-align: center;
+  }
+  .nf__side {
+    display: none;
+  }
+  .nf__veil {
+    opacity: 0.45;
+    width: 80vw;
+  }
+}
