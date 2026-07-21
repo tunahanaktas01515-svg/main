@@ -14,8 +14,9 @@ export interface Plan {
   monthly: number | null
   yearly: number | null
   credits: number | null
-  highlight?: 'blue' | 'purple' | 'chrome'
+  popular?: boolean
   badge?: string
+  audience: string
   features: string[]
   note?: string
   companiesOnly?: boolean
@@ -29,6 +30,7 @@ export const PLANS: Plan[] = [
     monthly: 14.99,
     yearly: 144.99,
     credits: 1500,
+    audience: 'Bireysel kullanıcılar için ideal',
     features: [
       '1.500 kredi / dönem',
       'Cenan AI sohbet erişimi',
@@ -43,8 +45,9 @@ export const PLANS: Plan[] = [
     monthly: 39.99,
     yearly: 399.99,
     credits: 4500,
-    highlight: 'blue',
-    badge: 'Popüler',
+    popular: true,
+    badge: 'MOST POPULAR',
+    audience: 'Küçük ekipler için ideal',
     features: [
       '4.500 kredi / dönem',
       'Gelişmiş analiz raporları',
@@ -59,7 +62,7 @@ export const PLANS: Plan[] = [
     monthly: 79.99,
     yearly: 799.99,
     credits: 9000,
-    highlight: 'purple',
+    audience: 'Şirketler ve ajanslar için en iyi seçim',
     features: [
       '9.000 kredi / dönem',
       'Takım yönetimi',
@@ -76,7 +79,7 @@ export const PLANS: Plan[] = [
     yearly: null,
     credits: null,
     startingPrice: 20,
-    highlight: 'chrome',
+    audience: 'Yoğun kullanım ve esnek kredi için',
     features: [
       'Başlangıç 20 euro',
       'Kredi başına ücretlendirme',
@@ -94,6 +97,7 @@ export const PLANS: Plan[] = [
     credits: null,
     badge: '%20 daha uygun',
     companiesOnly: true,
+    audience: '5+ kullanıcılı şirketler için',
     features: [
       '%20 daha uygun fiyat',
       '5+ kullanıcı desteği',
