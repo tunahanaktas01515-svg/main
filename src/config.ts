@@ -1,9 +1,9 @@
 /** İletişim ve site ayarları — telefon numaranızı buradan güncelleyin */
 export const CONTACT = {
-  phone: '+905551234567',
-  phoneDisplay: '+90 555 123 45 67',
+  phone: '+905333814319',
+  phoneDisplay: '+90 533 381 43 19',
   email: 'tunahanaktas01515@gmail.com',
-  whatsapp: '905551234567',
+  whatsapp: '905333814319',
 }
 
 export type PlanId = 'standart' | 'pro' | 'business' | 'unlimited' | 'havuz'
