@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import CenanAI from './pages/CenanAI'
@@ -80,7 +80,7 @@ export default function App() {
             <Route path="ayarlar" element={<AppSettings />} />
           </Route>
           <Route path="/404" element={<NotFound />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
     </div>
