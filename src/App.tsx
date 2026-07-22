@@ -2,7 +2,8 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import CenanAI from './pages/CenanAI'
-import { Suspense, lazy } from 'react'
+import { Suspense, lazy, useEffect } from 'react'
+import About from './pages/About'
 import Subscriptions from './pages/Subscriptions'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -30,8 +31,18 @@ export default function App() {
     location.pathname === '/' ||
     location.pathname === '/cenan-ai' ||
     location.pathname === '/abonelikler' ||
-    location.pathname === '/borsa'
+    location.pathname === '/borsa' ||
+    location.pathname === '/hakkinda'
   const showNav = known && !isImmersive
+
+  useEffect(() => {
+    if (location.hash) {
+      const el = document.getElementById(location.hash.slice(1))
+      if (el) {
+        window.setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60)
+      }
+    }
+  }, [location.pathname, location.hash])
 
   return (
     <div className="app">
@@ -39,6 +50,7 @@ export default function App() {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/hakkinda" element={<About />} />
           <Route path="/cenan-ai" element={<CenanAI />} />
           <Route path="/abonelikler" element={<Subscriptions />} />
           <Route

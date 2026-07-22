@@ -11,15 +11,18 @@ export default function Navbar() {
   const { t, lang, setLang, langs } = useI18n()
   const [menuOpen, setMenuOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
+  const [aboutOpen, setAboutOpen] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const langRef = useRef<HTMLDivElement>(null)
+  const aboutRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
 
   useEffect(() => {
     const onDoc = (e: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false)
       if (langRef.current && !langRef.current.contains(e.target as Node)) setLangOpen(false)
+      if (aboutRef.current && !aboutRef.current.contains(e.target as Node)) setAboutOpen(false)
     }
     document.addEventListener('mousedown', onDoc)
     return () => document.removeEventListener('mousedown', onDoc)
@@ -34,6 +37,33 @@ export default function Navbar() {
           </Link>
 
           <nav className="nav__links" aria-label="Main">
+            <div
+              className="nav__about"
+              ref={aboutRef}
+              onMouseEnter={() => setAboutOpen(true)}
+              onMouseLeave={() => setAboutOpen(false)}
+            >
+              <NavLink
+                to="/hakkinda"
+                className="nav__about-trigger"
+                onClick={() => setAboutOpen(false)}
+              >
+                {t('nav.about')}
+              </NavLink>
+              {aboutOpen && (
+                <div className="nav__about-menu">
+                  <NavLink to="/hakkinda#uygulama" onClick={() => setAboutOpen(false)}>
+                    {t('about.appTitle')}
+                  </NavLink>
+                  <NavLink to="/hakkinda#ai" onClick={() => setAboutOpen(false)}>
+                    {t('about.aiTitle')}
+                  </NavLink>
+                  <NavLink to="/hakkinda#yapimci" onClick={() => setAboutOpen(false)}>
+                    {t('about.makerTitle')}
+                  </NavLink>
+                </div>
+              )}
+            </div>
             <NavLink to="/" end>
               {t('nav.home')}
             </NavLink>
