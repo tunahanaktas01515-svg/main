@@ -76,7 +76,7 @@
 }
 
 .capp__link.active {
-  background: rgba(126, 200, 255, 0.12);
+  background: rgba(245, 196, 81, 0.12);
   color: #fff;
 }
 
@@ -185,7 +185,7 @@
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: linear-gradient(135deg, #7ec8ff, #ff7eb6);
+  background: var(--grad-gold);
   color: #0a0a0a;
   font-weight: 700;
   font-size: 0.85rem;
@@ -292,7 +292,7 @@
 }
 
 .ainput:focus {
-  border-color: rgba(126, 200, 255, 0.5);
+  border-color: rgba(245, 196, 81, 0.5);
 }
 
 .pill {

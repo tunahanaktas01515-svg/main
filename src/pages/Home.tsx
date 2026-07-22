@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import LiquidBackground from '../components/LiquidBackground'
 import ContactSection from '../components/ContactSection'
 import OsDownload from '../components/OsDownload'
 import ChatDemo from '../components/ChatDemo'
@@ -15,17 +14,14 @@ export default function Home() {
     <div className="home">
       {/* HERO */}
       <section className="hero">
-        <LiquidBackground />
+        <div className="hero__glow" aria-hidden="true" />
 
         <div className="hero__grid">
           <div className="hero__left">
             <span className="hero__eyebrow">{t('home.kicker')}</span>
-            <h1 className="hero__title" aria-label="CENAN">
-              <span>C</span>
-              <span>E</span>
-              <span>N</span>
-              <span>A</span>
-              <span>N</span>
+            <h1 className="hero__title" aria-label="CENAN AI">
+              <span className="hero__title-1">CENAN</span>
+              <span className="hero__title-2">AI</span>
             </h1>
             <p className="hero__tagline">{t('home.tagline')}</p>
             <p className="hero__lead">{t('home.lead')}</p>
@@ -40,15 +36,41 @@ export default function Home() {
               </Link>
             </div>
 
-            <div className="hero__badges">
-              <span>{t('home.badge247')}</span>
-              <span>{t('home.badgeDevices')}</span>
-              <span>{t('home.badgeVoice')}</span>
+            <div className="hero__stats">
+              <div className="hero__stat">
+                <span className="hero__stat-ico">✦</span>
+                <div>
+                  <strong>7/24</strong>
+                  <small>{t('home.badge247')}</small>
+                </div>
+              </div>
+              <div className="hero__stat">
+                <span className="hero__stat-ico">⚡</span>
+                <div>
+                  <strong>10+</strong>
+                  <small>{t('home.statFeatures')}</small>
+                </div>
+              </div>
+              <div className="hero__stat">
+                <span className="hero__stat-ico">◈</span>
+                <div>
+                  <strong>{t('home.badgeDevices')}</strong>
+                  <small>{t('home.badgeVoice')}</small>
+                </div>
+              </div>
             </div>
           </div>
 
           <div className="hero__right">
-            <ChatDemo />
+            <div className="hero__figure">
+              <img src="/hero-cenan.png" alt="Cenan AI — muhasebe ve ihracat asistanı" />
+              <div className="hero__figure-fade" aria-hidden="true" />
+              <div className="hero__figure-card">
+                <span className="hero__fc-row"><i>👤</i> {t('home.fcRole')}</span>
+                <span className="hero__fc-row"><i>📅</i> {t('home.fcSince')}</span>
+                <span className="hero__fc-row"><i>📈</i> {t('home.fcValue')}</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>

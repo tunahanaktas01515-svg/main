@@ -1,9 +1,20 @@
 :root {
   --font-body: 'Outfit', sans-serif;
   --font-display: 'Syne', sans-serif;
-  --bg: #000000;
+  --font-techno: 'Orbitron', 'Syne', sans-serif;
+
+  --bg: #070605;
   --fg: #ffffff;
   --muted: rgba(255, 255, 255, 0.55);
+
+  /* Luxury gold palette */
+  --gold: #f5c451;
+  --gold-2: #e2a53a;
+  --gold-3: #b9822a;
+  --gold-soft: rgba(245, 196, 81, 0.14);
+  --gold-line: rgba(245, 196, 81, 0.32);
+  --grad-gold: linear-gradient(135deg, #ffe6a3 0%, #f5c451 45%, #d99a2e 100%);
+
   color-scheme: dark;
   font-family: var(--font-body);
   line-height: 1.5;
@@ -30,13 +41,17 @@ body,
 }
 
 body {
-  background: #000;
   overflow-x: hidden;
+  background:
+    radial-gradient(1100px 620px at 78% -8%, rgba(245, 196, 81, 0.12), transparent 60%),
+    radial-gradient(900px 500px at 12% 8%, rgba(185, 130, 42, 0.08), transparent 60%),
+    linear-gradient(180deg, #0c0a07 0%, #070605 55%, #050403 100%);
+  background-attachment: fixed;
 }
 
 .app {
   min-height: 100vh;
-  background: #000;
+  background: transparent;
 }
 
 a {
@@ -64,24 +79,25 @@ img {
 }
 
 .btn--white {
-  background: #fff;
-  color: #0a0a0a;
+  background: var(--grad-gold);
+  color: #1a1204;
+  box-shadow: 0 8px 24px rgba(245, 196, 81, 0.25);
 }
 
 .btn--white:hover {
   transform: translateY(-1px);
-  background: #f2f2f2;
+  filter: brightness(1.05);
 }
 
 .btn--ghost {
   background: transparent;
   color: #fff;
-  border-color: rgba(255, 255, 255, 0.28);
+  border-color: var(--gold-line);
 }
 
 .btn--ghost:hover {
-  border-color: rgba(255, 255, 255, 0.55);
-  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--gold);
+  background: var(--gold-soft);
 }
 
 .btn--icon {
@@ -97,11 +113,11 @@ img {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(245, 196, 81, 0.3);
   border-radius: 999px;
 }
 
 ::selection {
-  background: rgba(126, 200, 255, 0.35);
+  background: rgba(245, 196, 81, 0.35);
   color: #fff;
 }

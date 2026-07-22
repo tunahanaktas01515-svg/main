@@ -45,8 +45,8 @@
   width: 40px;
   height: 16px;
   border-radius: 4px;
-  background: linear-gradient(135deg, #7ec8ff, #ff7eb6);
-  box-shadow: 0 0 18px rgba(126, 200, 255, 0.4);
+  background: var(--grad-gold);
+  box-shadow: 0 0 18px rgba(245, 196, 81, 0.4);
 }
 
 /* Spinning Earth stage — smaller, on the right */
@@ -139,7 +139,7 @@
   width: 22px;
   height: 10px;
   border-radius: 3px;
-  background: linear-gradient(135deg, #7ec8ff, #ff7eb6);
+  background: var(--grad-gold);
 }
 
 .about__card {
@@ -187,7 +187,7 @@
   height: 7px;
   border-radius: 50%;
   margin-top: 0.4rem;
-  background: linear-gradient(135deg, #7ec8ff, #ff7eb6);
+  background: var(--grad-gold);
 }
 
 @keyframes about-spin {
@@ -243,7 +243,7 @@
   place-items: center;
   border-radius: 50%;
   font-size: 0.8rem;
-  background: linear-gradient(135deg, #7ec8ff, #ff7eb6);
+  background: var(--grad-gold);
   color: #0a0a0a;
 }
 
@@ -256,7 +256,7 @@
 .about__ask-caret {
   width: 2px;
   height: 1.1em;
-  background: #7ec8ff;
+  background: #f5c451;
   animation: about-blink 0.8s step-end infinite;
 }
 
@@ -294,7 +294,7 @@
 }
 
 .about__feature-icon--mint { background: linear-gradient(145deg, #9ff0d0, #5fd4a8); }
-.about__feature-icon--blue { background: linear-gradient(145deg, #9ec8ff, #5a9dff); }
+.about__feature-icon--blue { background: linear-gradient(145deg, #ffe6a3, #d99a2e); }
 
 .about__feature-body {
   min-width: 0;
@@ -319,7 +319,7 @@
 
 .about__qa-q {
   font-size: 0.8rem;
-  color: #9fd0ff;
+  color: #f5c451;
   font-weight: 500;
 }
 

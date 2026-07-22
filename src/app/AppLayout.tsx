@@ -86,8 +86,8 @@ export default function AppLayout() {
               <defs>
                 <linearGradient id="cg" x1="6" y1="4" x2="18" y2="20">
                   <stop stopColor="#fff" />
-                  <stop offset="0.5" stopColor="#7ec8ff" />
-                  <stop offset="1" stopColor="#ff7eb6" />
+                  <stop offset="0.5" stopColor="#f5c451" />
+                  <stop offset="1" stopColor="#e2a53a" />
                 </linearGradient>
               </defs>
             </svg>

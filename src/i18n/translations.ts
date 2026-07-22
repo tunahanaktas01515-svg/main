@@ -58,6 +58,10 @@ const tr: Dict = {
   'home.badge247': '7/24 sesli asistan',
   'home.badgeDevices': 'Her cihazda',
   'home.badgeVoice': 'Konuşarak işlem',
+  'home.statFeatures': 'Muhasebe & ihracat özelliği',
+  'home.fcRole': 'Muhasebe & İhracat Asistanı',
+  'home.fcSince': 'Yapay zeka destekli · 7/24',
+  'home.fcValue': 'Logo · Paraşüt · Zirve uyumlu',
   'home.positioning':
     'Cenan AI bir muhasebe ve ihracat programıdır. Logo, Zirve ve Paraşüt gibi uygulamaların yanında destekçi ve eğitici olarak çalışır; ileride bu uygulamalar, ihracat yazılımları ve Excel ile entegre olacaktır.',
   'home.accountingTag': 'Muhasebe',
@@ -364,6 +368,10 @@ const en: Dict = {
   'home.badge247': '24/7 voice assistant',
   'home.badgeDevices': 'On any device',
   'home.badgeVoice': 'Work by talking',
+  'home.statFeatures': 'Accounting & export features',
+  'home.fcRole': 'Accounting & Export Assistant',
+  'home.fcSince': 'AI-powered · 24/7',
+  'home.fcValue': 'Logo · Paraşüt · Zirve ready',
   'home.positioning':
     'Cenan AI is accounting and export software. It works alongside apps like Logo, Zirve, and Paraşüt as a supportive, educational tool — and will integrate with them, export software, and Excel.',
   'home.accountingTag': 'Accounting',
