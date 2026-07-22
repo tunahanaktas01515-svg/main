@@ -24,17 +24,13 @@ const tr: Dict = {
 
   'about.pageTitle': 'Cenan AI Nedir',
   'about.whatTitle': 'Cenan AI nedir?',
-  'about.appTitle': 'Cenan Uygulaması Özellikleri',
-  'about.aiTitle': 'Cenan AI Özellikleri',
+  'about.appTitle': 'Ana Muhasebe Özellikleri',
+  'about.aiTitle': 'Ana İhracat Özellikleri',
   'about.makerTitle': 'Yapımcı',
-  'about.app.f1': 'Fatura okuma ve otomatik veri çıkarımı',
-  'about.app.f2': 'Banka mutabakatı ve hesap eşleştirme',
-  'about.app.f3': 'İhracat belge takibi ve hatırlatmalar',
-  'about.app.f4': 'Web ve masaüstü uygulama desteği',
-  'about.ai.f1': 'Yapay zeka destekli KDV ve vergi kontrolü',
-  'about.ai.f2': 'Otonom onaylı ödeme akışı',
-  'about.ai.f3': 'Doğal dilde soru-cevap asistanı',
-  'about.ai.f4': 'Analiz raporları ve anomali tespiti',
+  'about.askLabel': 'Cenan AI’ya neler sorabilirsiniz?',
+  'about.visionTitle': 'Vizyon ve Entegrasyonlar',
+  'about.visionText':
+    'Cenan AI ileride Logo, Zirve ve Paraşüt ile, ihracat uygulamalarıyla ve Excel ile entegre olarak çalışacak. Amaç; muhasebeci ve ihracatçının tüm gündelik işlemlerini tek bir yapay zeka asistanı üzerinden yürütmesini sağlamaktır.',
   'about.makerText':
     'Cenan AI, muhasebe ve ihracat süreçlerini yapay zeka ile hızlandırmak için geliştirilmiştir.',
 
@@ -52,9 +48,33 @@ const tr: Dict = {
 
   'home.eyebrowLeft': 'YAPAY ZEKA',
   'home.eyebrowRight': 'ANALİZ',
-  'home.lead':
-    'Cenan AI — güç ve analiz yeteneğiyle web’de ve uygulamada yanınızda. Programı indirin, sohbet edin, raporlarınızı hızlandırın.',
   'home.scroll': 'SCROLL TO EXPLORE',
+
+  'home.kicker': 'MUHASEBE & İHRACAT · YAPAY ZEKA',
+  'home.tagline': 'Muhasebe ve ihracat programı.',
+  'home.lead':
+    'Cenan; Logo, Paraşüt ve Zirve’nin yanında destekçi ve eğitici bir programdır. Gündelik işlemlerinizi her bilgisayarda veya telefonda, kasmadan, yapay zeka ile 7/24 konuşarak halledin.',
+  'home.tryCenan': 'Cenan AI’yı Dene',
+  'home.badge247': '7/24 sesli asistan',
+  'home.badgeDevices': 'Her cihazda',
+  'home.badgeVoice': 'Konuşarak işlem',
+  'home.positioning':
+    'Cenan AI bir muhasebe ve ihracat programıdır. Logo, Zirve ve Paraşüt gibi uygulamaların yanında destekçi ve eğitici olarak çalışır; ileride bu uygulamalar, ihracat yazılımları ve Excel ile entegre olacaktır.',
+  'home.accountingTag': 'Muhasebe',
+  'home.accountingTitle': 'Ana Muhasebe Özellikleri',
+  'home.accountingSub': 'Fatura okumadan mutabakata, sesli asistandan anomali tespitine kadar.',
+  'home.exportTag': 'İhracat',
+  'home.exportTitle': 'Ana İhracat Özellikleri',
+  'home.exportSub': 'GTİP kodundan belge kontrolüne, risk analizinden dosya hazırlığına kadar.',
+  'home.integTag': 'Entegrasyon · Yakında',
+  'home.integTitle': 'Sevdiğiniz programlarla entegre',
+  'home.integSub': 'Cenan AI, kullandığınız muhasebe ve ihracat araçlarının yanında çalışır.',
+  'home.soon': 'Yakında',
+  'home.reelTitle': 'Cenan AI iş başında',
+  'home.reelSub': 'Sorun, saniyeler içinde cevap alın — tıpkı bir asistan gibi.',
+  'home.reelPitchTitle': 'Konuşarak muhasebe ve ihracat',
+  'home.reelPitch':
+    'Fatura işlemekten KDV sorgusuna, GTİP kodundan ihracat dosyasına kadar; yazın veya konuşun, Cenan halleder. Manuel giriş ve dağınık dosyalarla uğraşmayın.',
   'home.downloadTitle': 'Cenan’ı indir',
   'home.downloadLead':
     'Sisteminiz otomatik algılanır. Mac, Windows veya Linux için hafif ikonlarla tek tıkta indirin.',
@@ -311,17 +331,13 @@ const en: Dict = {
 
   'about.pageTitle': 'What is Cenan AI',
   'about.whatTitle': 'What is Cenan AI?',
-  'about.appTitle': 'Cenan App Features',
-  'about.aiTitle': 'Cenan AI Features',
+  'about.appTitle': 'Core Accounting Features',
+  'about.aiTitle': 'Core Export Features',
   'about.makerTitle': 'Maker',
-  'about.app.f1': 'Invoice reading and automatic data extraction',
-  'about.app.f2': 'Bank reconciliation and account matching',
-  'about.app.f3': 'Export document tracking and reminders',
-  'about.app.f4': 'Web and desktop app support',
-  'about.ai.f1': 'AI-powered VAT and tax checks',
-  'about.ai.f2': 'Autonomous approved payment flow',
-  'about.ai.f3': 'Natural-language Q&A assistant',
-  'about.ai.f4': 'Analysis reports and anomaly detection',
+  'about.askLabel': 'What can you ask Cenan AI?',
+  'about.visionTitle': 'Vision & Integrations',
+  'about.visionText':
+    'Cenan AI will integrate with Logo, Zirve, and Paraşüt, with export software, and with Excel. The goal is to let accountants and exporters run all daily work through a single AI assistant.',
   'about.makerText':
     'Cenan AI is built to accelerate accounting and export workflows with artificial intelligence.',
 
@@ -339,8 +355,32 @@ const en: Dict = {
 
   'home.eyebrowLeft': 'ARTIFICIAL INTELLIGENCE',
   'home.eyebrowRight': 'ANALYSIS',
+
+  'home.kicker': 'ACCOUNTING & EXPORT · AI',
+  'home.tagline': 'Accounting and export software.',
   'home.lead':
-    'Cenan AI — with power and analysis by your side on web and app. Download, chat, and speed up your reports.',
+    'Cenan is a supportive, educational program alongside Logo, Paraşüt, and Zirve. Handle daily tasks on any computer or phone by talking to AI, 24/7.',
+  'home.tryCenan': 'Try Cenan AI',
+  'home.badge247': '24/7 voice assistant',
+  'home.badgeDevices': 'On any device',
+  'home.badgeVoice': 'Work by talking',
+  'home.positioning':
+    'Cenan AI is accounting and export software. It works alongside apps like Logo, Zirve, and Paraşüt as a supportive, educational tool — and will integrate with them, export software, and Excel.',
+  'home.accountingTag': 'Accounting',
+  'home.accountingTitle': 'Core Accounting Features',
+  'home.accountingSub': 'From invoice reading to reconciliation, voice assistant to anomaly detection.',
+  'home.exportTag': 'Export',
+  'home.exportTitle': 'Core Export Features',
+  'home.exportSub': 'From HS codes to document checks, risk analysis to file preparation.',
+  'home.integTag': 'Integrations · Soon',
+  'home.integTitle': 'Integrated with the tools you love',
+  'home.integSub': 'Cenan AI works alongside your accounting and export tools.',
+  'home.soon': 'Soon',
+  'home.reelTitle': 'Cenan AI at work',
+  'home.reelSub': 'Ask and get answers in seconds — just like an assistant.',
+  'home.reelPitchTitle': 'Accounting and export by talking',
+  'home.reelPitch':
+    'From processing invoices to VAT queries, HS codes to export files — type or talk, Cenan handles it. No more manual entry and scattered files.',
   'home.downloadTitle': 'Download Cenan',
   'home.downloadLead':
     'Your system is detected automatically. Download for Mac, Windows, or Linux in one click.',

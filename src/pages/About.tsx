@@ -1,25 +1,31 @@
+import { useEffect, useState } from 'react'
+import { IHRACAT_FEATURES, INTEGRATIONS, MUHASEBE_FEATURES } from '../data/features'
+import FeatureIcon from '../components/FeatureIcon'
 import { useI18n } from '../context/I18nContext'
 import './About.css'
 
+const ASK_QUESTIONS = [
+  'Bu ayki KDV ne kadar?',
+  'Şu faturayı sisteme işle',
+  'Almanya’ya ihracat riski nedir?',
+  'Bu ürünün GTİP kodu ne?',
+  'Banka ekstresini mutabakat yap',
+  'Bu carinin borcu ne kadar?',
+]
+
 export default function About() {
   const { t } = useI18n()
+  const [ask, setAsk] = useState(0)
 
-  const appFeatures = [
-    'about.app.f1',
-    'about.app.f2',
-    'about.app.f3',
-    'about.app.f4',
-  ]
-  const aiFeatures = [
-    'about.ai.f1',
-    'about.ai.f2',
-    'about.ai.f3',
-    'about.ai.f4',
-  ]
+  useEffect(() => {
+    const id = window.setInterval(() => setAsk((a) => (a + 1) % ASK_QUESTIONS.length), 2600)
+    return () => window.clearInterval(id)
+  }, [])
 
   return (
     <div className="about">
       <div className="about__inner">
+        {/* HERO */}
         <div className="about__hero" id="nedir">
           <div className="about__hero-text">
             <header className="about__title-row">
@@ -35,6 +41,11 @@ export default function About() {
                 asistandır. Fatura okuma, banka mutabakatı, KDV kontrolü, ihracat belge takibi gibi
                 işleri hızlandırır ve kolaylaştırır.
               </p>
+              <p className="about__paragraph">
+                Logo, Paraşüt ve Zirve gibi uygulamaların yanında destekçi ve eğitici bir program
+                olarak çalışır. Gündelik işlemleri her bilgisayarda veya telefonda, kasmadan, yapay
+                zeka ile 7/24 konuşarak halledebilirsiniz.
+              </p>
             </div>
           </div>
 
@@ -48,32 +59,80 @@ export default function About() {
           </div>
         </div>
 
+        {/* ASK */}
+        <section className="about__ask">
+          <span className="about__ask-label">{t('about.askLabel')}</span>
+          <div className="about__ask-box">
+            <span className="about__ask-mark">✦</span>
+            <span key={ask} className="about__ask-text">
+              {ASK_QUESTIONS[ask]}
+            </span>
+            <span className="about__ask-caret" />
+          </div>
+        </section>
+
+        {/* MUHASEBE */}
         <section className="about__block" id="uygulama">
           <h2 className="about__h2">{t('about.appTitle')}</h2>
-          <ul className="about__list">
-            {appFeatures.map((k) => (
-              <li key={k}>
-                <span className="about__dot" aria-hidden="true" />
-                <p className="about__paragraph">{t(k)}</p>
-              </li>
+          <div className="about__feature-list">
+            {MUHASEBE_FEATURES.map((f) => (
+              <article key={f.id} className="about__feature">
+                <span className="about__feature-icon about__feature-icon--mint">
+                  <FeatureIcon name={f.icon} />
+                </span>
+                <div className="about__feature-body">
+                  <h3>{f.title}</h3>
+                  <p className="about__paragraph">{f.desc}</p>
+                  <div className="about__qa">
+                    <span className="about__qa-q">“{f.question}”</span>
+                    <span className="about__qa-a">{f.answer}</span>
+                  </div>
+                </div>
+              </article>
             ))}
-          </ul>
+          </div>
         </section>
 
+        {/* IHRACAT */}
         <section className="about__block" id="ai">
           <h2 className="about__h2">{t('about.aiTitle')}</h2>
-          <ul className="about__list">
-            {aiFeatures.map((k) => (
-              <li key={k}>
-                <span className="about__dot" aria-hidden="true" />
-                <p className="about__paragraph">{t(k)}</p>
-              </li>
+          <div className="about__feature-list">
+            {IHRACAT_FEATURES.map((f) => (
+              <article key={f.id} className="about__feature">
+                <span className="about__feature-icon about__feature-icon--blue">
+                  <FeatureIcon name={f.icon} />
+                </span>
+                <div className="about__feature-body">
+                  <h3>{f.title}</h3>
+                  <p className="about__paragraph">{f.desc}</p>
+                  <div className="about__qa">
+                    <span className="about__qa-q">“{f.question}”</span>
+                    <span className="about__qa-a">{f.answer}</span>
+                  </div>
+                </div>
+              </article>
             ))}
-          </ul>
+          </div>
         </section>
 
+        {/* VISION / INTEGRATIONS */}
         <section className="about__block" id="yapimci">
-          <h2 className="about__h2">{t('about.makerTitle')}</h2>
+          <h2 className="about__h2">{t('about.visionTitle')}</h2>
+          <div className="about__card">
+            <p className="about__paragraph">{t('about.visionText')}</p>
+            <div className="about__integ">
+              {INTEGRATIONS.map((it) => (
+                <span key={it.name} className="about__integ-chip">
+                  {it.name}
+                  <em>{t('home.soon')}</em>
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <h2 className="about__h2" style={{ marginTop: '1.75rem' }}>
+            {t('about.makerTitle')}
+          </h2>
           <div className="about__card">
             <p className="about__paragraph">{t('about.makerText')}</p>
           </div>
