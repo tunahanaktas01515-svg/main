@@ -1,7 +1,9 @@
 .auth-shell {
   position: relative;
   min-height: 100vh;
-  background: #000;
+  background:
+    radial-gradient(900px 500px at 80% -10%, rgba(245, 196, 81, 0.12), transparent 60%),
+    linear-gradient(180deg, #0c0a07, #060505);
   overflow: hidden;
   isolation: isolate;
 }
@@ -9,7 +11,7 @@
 .auth-shell__frame {
   position: absolute;
   inset: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--gold-line);
   border-radius: 4px;
   pointer-events: none;
   z-index: 5;

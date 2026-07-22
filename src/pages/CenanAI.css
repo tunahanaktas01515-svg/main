@@ -43,14 +43,14 @@
     radial-gradient(circle at 50% 50%, #000 0 28%, transparent 29%),
     conic-gradient(
       from 200deg,
-      #1d4ed8,
-      #22d3ee,
+      #7a5518,
+      #d99a2e,
+      #ffe6a3,
       #fff7ed,
-      #fbbf24,
-      #f97316,
-      #ef4444,
-      #a855f7,
-      #1d4ed8
+      #f5c451,
+      #b9822a,
+      #6b4a15,
+      #7a5518
     );
   filter: blur(1.5px);
   opacity: 0.55;
@@ -279,21 +279,16 @@
   transform: translateY(-3px);
 }
 
-.cenan-chip--mint {
-  background: linear-gradient(145deg, rgba(34, 197, 94, 0.22), rgba(0, 0, 0, 0.45));
-  border-color: rgba(74, 222, 128, 0.35);
-}
-.cenan-chip--blue {
-  background: linear-gradient(145deg, rgba(59, 130, 246, 0.25), rgba(0, 0, 0, 0.45));
-  border-color: rgba(96, 165, 250, 0.35);
-}
-.cenan-chip--violet {
-  background: linear-gradient(145deg, rgba(168, 85, 247, 0.25), rgba(0, 0, 0, 0.45));
-  border-color: rgba(192, 132, 252, 0.35);
-}
+.cenan-chip--mint,
+.cenan-chip--blue,
+.cenan-chip--violet,
 .cenan-chip--amber {
-  background: linear-gradient(145deg, rgba(251, 146, 60, 0.28), rgba(0, 0, 0, 0.45));
-  border-color: rgba(251, 191, 36, 0.4);
+  background: linear-gradient(145deg, rgba(245, 196, 81, 0.18), rgba(0, 0, 0, 0.45));
+  border-color: var(--gold-line);
+}
+
+.cenan-chip:hover {
+  border-color: var(--gold);
 }
 
 .cenan-stage__blurb {

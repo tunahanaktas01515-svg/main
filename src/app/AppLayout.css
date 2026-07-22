@@ -2,7 +2,9 @@
   display: grid;
   grid-template-columns: 250px 1fr;
   min-height: 100vh;
-  background: #08080a;
+  background:
+    radial-gradient(900px 500px at 85% -10%, rgba(245, 196, 81, 0.08), transparent 60%),
+    linear-gradient(180deg, #0c0a07, #060505);
   color: #fff;
 }
 
@@ -11,8 +13,8 @@
   flex-direction: column;
   gap: 1.25rem;
   padding: 1.25rem 1rem;
-  border-right: 1px solid rgba(255, 255, 255, 0.06);
-  background: linear-gradient(180deg, #0d0d10, #08080a);
+  border-right: 1px solid var(--gold-line);
+  background: linear-gradient(180deg, rgba(20, 16, 10, 0.6), rgba(8, 7, 5, 0.4));
   position: sticky;
   top: 0;
   height: 100vh;
