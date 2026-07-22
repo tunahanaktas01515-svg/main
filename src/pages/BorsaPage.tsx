@@ -33,13 +33,13 @@ export default function BorsaPage() {
   return (
     <div className="min-h-screen bg-bg-primary pb-10 page-shell">
       <header className="sticky top-0 z-40 bg-bg-primary/90 backdrop-blur-md border-b border-border">
-        <div className="page-inner h-14 flex items-center justify-between">
-          <div className="flex items-center gap-8 min-w-0">
-            <div className="flex items-center gap-2.5 flex-shrink-0">
+        <div className="page-inner-header h-14 flex items-center justify-between">
+          <div className="flex items-center gap-6 min-w-0">
+            <div className="flex items-center gap-2 flex-shrink-0">
               <BubbleOrb />
               <CenanLogo />
             </div>
-            <nav className="hidden md:flex items-center gap-6">
+            <nav className="hidden md:flex items-center gap-5">
               {['Sohbet', 'Portföy', 'Borsa', 'Cüzdan', 'Ortaklık'].map((item) => (
                 <button
                   key={item}

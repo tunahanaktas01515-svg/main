@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback, type ReactNode } from 'react'
+import { useRef, useEffect, useCallback, type ReactNode, type MouseEvent } from 'react'
 
 interface HoverScrollRowProps {
   children: ReactNode
@@ -24,14 +24,14 @@ export default function HoverScrollRow({ children, className = '' }: HoverScroll
     return () => cancelAnimationFrame(rafRef.current)
   }, [])
 
-  const onMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+  const onMouseMove = useCallback((e: MouseEvent<HTMLDivElement>) => {
     const el = ref.current
     if (!el) return
     hoveringRef.current = true
     const rect = el.getBoundingClientRect()
-    const ratio = (e.clientX - rect.left) / rect.width // 0 left → 1 right
+    const ratio = (e.clientX - rect.left) / rect.width
 
-    // Center dead zone; edges scroll faster. Right = forward, left = back.
+    // Center dead zone; right edge = ileri (sağa), left edge = geri (sola)
     const dead = 0.28
     const leftEdge = 0.5 - dead / 2
     const rightEdge = 0.5 + dead / 2

@@ -30,28 +30,53 @@ body {
   scrollbar-gutter: stable;
 }
 
-/* Equal left/right page gutters matching browser chrome spacing */
+/* Side gutters — ~half of previous, equal left/right */
 .page-inner {
   width: 100%;
-  max-width: 1400px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 2.5rem;
-  padding-right: 2.5rem;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
   box-sizing: border-box;
 }
 
 @media (min-width: 768px) {
   .page-inner {
-    padding-left: 3.5rem;
-    padding-right: 3.5rem;
+    padding-left: 1.75rem;
+    padding-right: 1.75rem;
   }
 }
 
 @media (min-width: 1280px) {
   .page-inner {
-    padding-left: 4.5rem;
-    padding-right: 4.5rem;
+    padding-left: 2.25rem;
+    padding-right: 2.25rem;
+  }
+}
+
+/* Header brand + nav sit a bit further left */
+.page-inner-header {
+  width: 100%;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0.85rem;
+  padding-right: 1.25rem;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .page-inner-header {
+    padding-left: 1.1rem;
+    padding-right: 1.75rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .page-inner-header {
+    padding-left: 1.35rem;
+    padding-right: 2.25rem;
   }
 }
 
