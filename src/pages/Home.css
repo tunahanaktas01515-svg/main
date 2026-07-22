@@ -175,24 +175,33 @@
 
 .hero__figure {
   position: relative;
-  border-radius: 24px;
-  overflow: hidden;
+  border-radius: 0;
+  overflow: visible;
+  background: none;
 }
 
 .hero__figure img {
   display: block;
   width: 100%;
   height: auto;
-  object-fit: cover;
+  object-fit: contain;
+  /* Feather every edge so the image's dark backdrop melts into the page */
+  -webkit-mask-image: radial-gradient(
+    ellipse 78% 86% at 58% 46%,
+    #000 46%,
+    rgba(0, 0, 0, 0.55) 66%,
+    transparent 82%
+  );
+  mask-image: radial-gradient(
+    ellipse 78% 86% at 58% 46%,
+    #000 46%,
+    rgba(0, 0, 0, 0.55) 66%,
+    transparent 82%
+  );
 }
 
 .hero__figure-fade {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg, rgba(7, 6, 5, 0.85) 0%, transparent 32%),
-    linear-gradient(0deg, rgba(7, 6, 5, 0.7) 0%, transparent 30%);
+  display: none;
 }
 
 .hero__figure-card {
