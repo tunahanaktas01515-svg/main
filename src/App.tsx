@@ -2,6 +2,7 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import CenanAI from './pages/CenanAI'
+import { Suspense, lazy } from 'react'
 import Subscriptions from './pages/Subscriptions'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -16,6 +17,8 @@ import Reports from './app/pages/Reports'
 import AppSettings from './app/pages/AppSettings'
 import { AppStoreProvider } from './app/store/AppStore'
 
+const Borsa = lazy(() => import('./pages/Borsa'))
+
 export default function App() {
   const location = useLocation()
   const isImmersive =
@@ -26,7 +29,8 @@ export default function App() {
   const known =
     location.pathname === '/' ||
     location.pathname === '/cenan-ai' ||
-    location.pathname === '/abonelikler'
+    location.pathname === '/abonelikler' ||
+    location.pathname === '/borsa'
   const showNav = known && !isImmersive
 
   return (
@@ -37,6 +41,14 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/cenan-ai" element={<CenanAI />} />
           <Route path="/abonelikler" element={<Subscriptions />} />
+          <Route
+            path="/borsa"
+            element={
+              <Suspense fallback={<div className="borsa" style={{ minHeight: '60vh' }} />}>
+                <Borsa />
+              </Suspense>
+            }
+          />
           <Route path="/giris" element={<Login />} />
           <Route path="/kayit" element={<Register />} />
           <Route

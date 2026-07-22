@@ -39,25 +39,10 @@ export default function Navbar() {
             </NavLink>
             <NavLink to="/abonelikler">{t('nav.plans')}</NavLink>
             <NavLink to="/cenan-ai">{t('nav.ai')}</NavLink>
+            <NavLink to="/borsa">{t('nav.stocks')}</NavLink>
             <NavLink to="/uygulama" className="nav__login-link nav__app-link">
               {t('nav.openApp')}
             </NavLink>
-            {isAuthenticated ? (
-              <button
-                type="button"
-                className="nav__login-link"
-                onClick={() => {
-                  logout()
-                  navigate('/giris')
-                }}
-              >
-                {t('nav.logout')}
-              </button>
-            ) : (
-              <NavLink to="/giris" className="nav__login-link">
-                {t('nav.login')}
-              </NavLink>
-            )}
           </nav>
 
           <div className="nav__right">
