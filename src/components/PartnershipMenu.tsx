@@ -38,6 +38,8 @@ export default function PartnershipMenu() {
     }, 200)
   }, [clearTimers])
 
+  const activeLabel = MENU_ITEMS.find((i) => i.id === activeItem)?.label
+
   return (
     <div
       className="relative flex items-center gap-1"
@@ -70,36 +72,43 @@ export default function PartnershipMenu() {
       </button>
 
       {showItems && (
-        <div className="flex items-center gap-0.5 ml-1 partnership-items-enter">
-          {MENU_ITEMS.map(({ id, label, Icon }) => {
-            const isActive = activeItem === id
-            const isHidden = activeItem !== null && activeItem !== id
+        <div
+          className="relative flex items-center ml-1 partnership-items-enter"
+          onMouseLeave={() => setActiveItem(null)}
+        >
+          {/* Fixed icon hitboxes — leave one icon boundary / enter another switches cleanly */}
+          <div className="flex items-center">
+            {MENU_ITEMS.map(({ id, label, Icon }) => {
+              const isActive = activeItem === id
+              const anotherActive = activeItem !== null && activeItem !== id
 
-            return (
-              <div
-                key={id}
-                className={`flex items-center gap-2 px-2 py-1.5 rounded-lg cursor-pointer transition-all duration-200 ${
-                  isHidden
-                    ? 'opacity-0 max-w-0 px-0 overflow-hidden pointer-events-none'
-                    : 'opacity-100 hover:bg-white/5'
-                }`}
-                onMouseEnter={() => setActiveItem(id)}
-                onMouseLeave={() => setActiveItem(null)}
-              >
-                <span className={`flex items-center justify-center w-7 h-7 flex-shrink-0 ${isActive ? 'icon-glow-wrap' : ''}`}>
-                  <Icon glowing={isActive} />
-                </span>
-                {isActive && (
-                  <span
-                    key={`${id}-label`}
-                    className="menu-label-reveal text-sm font-medium text-text-secondary whitespace-nowrap"
-                  >
-                    {label}
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  aria-label={label}
+                  className={`flex items-center justify-center w-9 h-9 rounded-lg bg-transparent border-0 cursor-pointer transition-opacity duration-150 ${
+                    anotherActive ? 'opacity-0' : 'opacity-100'
+                  }`}
+                  onMouseEnter={() => setActiveItem(id)}
+                >
+                  <span className={isActive ? 'icon-glow-wrap' : ''}>
+                    <Icon glowing={isActive} />
                   </span>
-                )}
-              </div>
-            )
-          })}
+                </button>
+              )
+            })}
+          </div>
+
+          {/* Label sits after all icon slots so it never blocks switching */}
+          {activeItem && activeLabel && (
+            <span
+              key={activeItem}
+              className="menu-label-reveal text-sm font-medium text-text-secondary whitespace-nowrap ml-1.5"
+            >
+              {activeLabel}
+            </span>
+          )}
         </div>
       )}
     </div>

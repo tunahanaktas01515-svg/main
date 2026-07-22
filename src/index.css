@@ -96,11 +96,14 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: transparent;
+  overflow: visible;
 }
 
 .bubble-orb {
   animation: bubble-breathe 5.5s ease-in-out infinite;
   will-change: transform;
+  background: transparent;
   filter: drop-shadow(0 0 6px rgba(200, 120, 255, 0.25));
 }
 

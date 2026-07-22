@@ -33,7 +33,7 @@ export default function BorsaPage() {
     <div className="min-h-screen bg-bg-primary pb-10">
       {/* Header */}
       <header className="sticky top-0 z-40 bg-bg-primary/90 backdrop-blur-md border-b border-border">
-        <div className="max-w-[1440px] mx-auto pl-10 pr-5 sm:pl-14 sm:pr-8 h-14 flex items-center justify-between">
+        <div className="max-w-[1440px] mx-auto px-8 sm:px-14 lg:px-20 h-14 flex items-center justify-between">
           <div className="flex items-center gap-8 min-w-0">
             <div className="flex items-center gap-2.5 flex-shrink-0">
               <BubbleOrb />
@@ -64,7 +64,7 @@ export default function BorsaPage() {
         </div>
       </header>
 
-      <main className="max-w-[1440px] mx-auto pl-10 pr-5 sm:pl-14 sm:pr-8 py-5 space-y-5">
+      <main className="max-w-[1440px] mx-auto px-8 sm:px-14 lg:px-20 py-5 space-y-5">
         {/* Top Summary + Top 10 Currency Cards */}
         <section>
           <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-thin">
