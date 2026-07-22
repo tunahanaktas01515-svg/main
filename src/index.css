@@ -64,3 +64,95 @@ body {
 .pulse-dot {
   animation: pulse-dot 2s ease-in-out infinite;
 }
+
+/* —— Cenan handwriting logo —— */
+.cenan-script {
+  font-family: 'Great Vibes', 'Dancing Script', cursive;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.cenan-writing {
+  display: inline-block;
+  animation: cenan-write 1.35s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+@keyframes cenan-write {
+  0% {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0.85;
+  }
+  12% {
+    opacity: 1;
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
+/* —— Bubble orb breathing —— */
+.bubble-orb-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bubble-orb {
+  animation: bubble-breathe 5.5s ease-in-out infinite;
+  will-change: transform;
+  filter: drop-shadow(0 0 6px rgba(200, 120, 255, 0.25));
+}
+
+@keyframes bubble-breathe {
+  0%, 100% {
+    transform: scale(0.92);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+/* —— Icon white glow —— */
+.icon-glow,
+.icon-glow-wrap svg {
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.85))
+    drop-shadow(0 0 10px rgba(255, 255, 255, 0.45));
+}
+
+/* —— Menu label left-to-right reveal —— */
+.menu-label-reveal {
+  display: inline-block;
+  overflow: hidden;
+  animation: label-write 0.55s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  white-space: nowrap;
+}
+
+@keyframes label-write {
+  0% {
+    max-width: 0;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    max-width: 220px;
+    opacity: 1;
+  }
+}
+
+.partnership-items-enter {
+  animation: fade-slide-in 0.35s ease-out forwards;
+}
+
+@keyframes fade-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
