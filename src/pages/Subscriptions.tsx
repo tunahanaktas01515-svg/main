@@ -94,6 +94,9 @@ export default function Subscriptions() {
               key={plan.id}
               className={`plan-card ${plan.popular ? 'plan-card--popular' : ''}`}
             >
+              {(plan.id === 'pro' || plan.id === 'business') && (
+                <span className="plan-card__ribbon">{t('plans.discount10')}</span>
+              )}
               {plan.badgeKey && (
                 <span className={`plan-card__badge ${plan.popular ? 'plan-card__badge--hot' : ''}`}>
                   {t(plan.badgeKey)}

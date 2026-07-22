@@ -90,7 +90,6 @@ export const PLANS: Plan[] = [
       'plan.unlimited.f2',
       'plan.unlimited.f3',
       'plan.unlimited.f4',
-      'plan.unlimited.f5',
     ],
     noteKey: 'plan.unlimited.f3',
   },

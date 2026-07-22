@@ -95,6 +95,7 @@ const tr: Dict = {
   'plans.cheaper': 'daha uygun',
   'plans.mostPopular': 'MOST POPULAR',
   'plans.havuzBadge': '%20 daha uygun',
+  'plans.discount10': '%10 indirim',
 
   'plan.standart.audience': 'Bireysel kullanıcılar için ideal',
   'plan.pro.audience': 'Küçük ekipler için ideal',
@@ -122,9 +123,8 @@ const tr: Dict = {
 
   'plan.unlimited.f1': 'Başlangıç 20 euro',
   'plan.unlimited.f2': 'Kredi başına ücretlendirme',
-  'plan.unlimited.f3': '1 kredi = 0.02 euro',
+  'plan.unlimited.f3': '1 kredi = 0.012 euro',
   'plan.unlimited.f4': 'Sınırsız kullanım esnekliği',
-  'plan.unlimited.f5': 'Web + uygulama erişimi',
 
   'plan.havuz.f1': '%20 daha uygun fiyat',
   'plan.havuz.f2': '5+ kullanıcı desteği',
@@ -370,6 +370,7 @@ const en: Dict = {
   'plans.start': 'starting',
   'plans.cheaper': 'cheaper',
   'plans.havuzBadge': '20% cheaper',
+  'plans.discount10': '10% off',
 
   'plan.standart.audience': 'Ideal for individual users',
   'plan.pro.audience': 'Ideal for small teams',
@@ -397,9 +398,8 @@ const en: Dict = {
 
   'plan.unlimited.f1': 'Starting at 20 euro',
   'plan.unlimited.f2': 'Pay per credit',
-  'plan.unlimited.f3': '1 credit = 0.02 euro',
+  'plan.unlimited.f3': '1 credit = 0.012 euro',
   'plan.unlimited.f4': 'Unlimited usage flexibility',
-  'plan.unlimited.f5': 'Web + app access',
 
   'plan.havuz.f1': '20% better pricing',
   'plan.havuz.f2': '5+ user support',

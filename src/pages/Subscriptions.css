@@ -214,6 +214,24 @@
   transform: scale(1.03) translateY(-2px);
 }
 
+.plan-card__ribbon {
+  position: absolute;
+  top: 14px;
+  left: -34px;
+  z-index: 3;
+  transform: rotate(-45deg);
+  width: 150px;
+  text-align: center;
+  padding: 0.3rem 0;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #1a0a00;
+  background: linear-gradient(135deg, #ffd27a, #ff9a3c);
+  box-shadow: 0 4px 12px rgba(255, 140, 50, 0.35);
+  pointer-events: none;
+}
+
 .plan-card__badge {
   position: absolute;
   top: 1rem;
