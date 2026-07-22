@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import ContactSection from '../components/ContactSection'
 import OsDownload from '../components/OsDownload'
 import ChatDemo from '../components/ChatDemo'
+import GoldParticles from '../components/GoldParticles'
 import FeatureIcon from '../components/FeatureIcon'
 import { IHRACAT_FEATURES, INTEGRATIONS, MUHASEBE_FEATURES } from '../data/features'
 import { useI18n } from '../context/I18nContext'
@@ -63,8 +64,7 @@ export default function Home() {
 
           <div className="hero__right">
             <div className="hero__figure">
-              <img src="/hero-cenan.png" alt="Cenan AI — muhasebe ve ihracat asistanı" />
-              <div className="hero__figure-fade" aria-hidden="true" />
+              <GoldParticles />
               <div className="hero__figure-card">
                 <span className="hero__fc-row"><i>👤</i> {t('home.fcRole')}</span>
                 <span className="hero__fc-row"><i>📅</i> {t('home.fcSince')}</span>
