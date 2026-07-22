@@ -13,7 +13,7 @@ export default function CurrencyGrid({ currencies, prices, selectedCode, onSelec
   const priceMap = Object.fromEntries(prices.map((p) => [p.code, p]))
 
   return (
-    <div className="bg-bg-card border border-border rounded-xl p-5">
+    <div className="bg-bg-card border border-border rounded-2xl p-5">
       <h3 className="text-base font-semibold text-white mb-4">Diğer Dövizler</h3>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
         {currencies.map((currency) => {

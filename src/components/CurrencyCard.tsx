@@ -26,7 +26,7 @@ export default function CurrencyCard({ currency, price, isSelected, onClick, com
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-xl border transition-all cursor-pointer text-left ${compact ? 'flex-shrink-0 w-[140px] p-3' : 'p-4 w-full'} ${baseClass}`}
+      className={`rounded-2xl border transition-all cursor-pointer text-left ${compact ? 'flex-shrink-0 w-[140px] p-3' : 'p-4 w-full'} ${baseClass}`}
     >
       <div className="flex items-center gap-2">
         <span className="text-lg">{currency.flag}</span>

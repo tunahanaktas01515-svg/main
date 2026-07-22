@@ -8,6 +8,7 @@ import CurrencyCard from '../components/CurrencyCard'
 import MainChart from '../components/MainChart'
 import CurrencyGrid from '../components/CurrencyGrid'
 import TickerBar from '../components/TickerBar'
+import HoverScrollRow from '../components/HoverScrollRow'
 
 export default function BorsaPage() {
   const [selectedCode, setSelectedCode] = useState('USD')
@@ -30,10 +31,9 @@ export default function BorsaPage() {
   }, [priceMap])
 
   return (
-    <div className="min-h-screen bg-bg-primary pb-10">
-      {/* Header */}
+    <div className="min-h-screen bg-bg-primary pb-10 page-shell">
       <header className="sticky top-0 z-40 bg-bg-primary/90 backdrop-blur-md border-b border-border">
-        <div className="max-w-[1440px] mx-auto px-8 sm:px-14 lg:px-20 h-14 flex items-center justify-between">
+        <div className="page-inner h-14 flex items-center justify-between">
           <div className="flex items-center gap-8 min-w-0">
             <div className="flex items-center gap-2.5 flex-shrink-0">
               <BubbleOrb />
@@ -57,18 +57,16 @@ export default function BorsaPage() {
             </nav>
           </div>
 
-          {/* Mobile: partnership menu on the right */}
           <div className="md:hidden">
             <PartnershipMenu />
           </div>
         </div>
       </header>
 
-      <main className="max-w-[1440px] mx-auto px-8 sm:px-14 lg:px-20 py-5 space-y-5">
-        {/* Top Summary + Top 10 Currency Cards */}
+      <main className="page-inner py-5 space-y-5">
         <section>
-          <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-thin">
-            <div className="flex-shrink-0 w-[220px] p-4 bg-bg-card border border-border rounded-xl">
+          <HoverScrollRow>
+            <div className="flex-shrink-0 w-[220px] p-4 bg-bg-card border border-border rounded-2xl">
               <p className="text-text-muted text-xs mb-1">Döviz Endeksi</p>
               <p className="text-xl font-bold text-white">50 Para Birimi</p>
               <div className="flex gap-0.5 mt-3 h-1.5 rounded-full overflow-hidden">
@@ -92,7 +90,7 @@ export default function BorsaPage() {
                 compact
               />
             ))}
-          </div>
+          </HoverScrollRow>
         </section>
 
         <section>

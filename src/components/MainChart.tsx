@@ -25,7 +25,7 @@ export default function MainChart({ currency, price, period, onPeriodChange }: M
   const isPositive = price.changePercent >= 0
 
   return (
-    <div className="bg-bg-card border border-border rounded-xl p-5 flex-1">
+    <div className="bg-bg-card border border-border rounded-2xl overflow-hidden p-5 flex-1">
       <div className="flex items-center justify-between mb-4">
         <div>
           <h2 className="text-lg font-semibold text-white flex items-center gap-2">
