@@ -65,11 +65,6 @@ export default function Home() {
           <div className="hero__right">
             <div className="hero__figure">
               <GoldParticles />
-              <div className="hero__figure-card">
-                <span className="hero__fc-row"><i>👤</i> {t('home.fcRole')}</span>
-                <span className="hero__fc-row"><i>📅</i> {t('home.fcSince')}</span>
-                <span className="hero__fc-row"><i>📈</i> {t('home.fcValue')}</span>
-              </div>
             </div>
           </div>
         </div>
