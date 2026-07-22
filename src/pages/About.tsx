@@ -20,31 +20,33 @@ export default function About() {
   return (
     <div className="about">
       <div className="about__inner">
-        <header className="about__title-row">
-          <h1 className="about__title">{t('about.pageTitle')}</h1>
-          <span className="about__badge" aria-hidden="true" />
-        </header>
+        <div className="about__hero" id="nedir">
+          <div className="about__hero-text">
+            <header className="about__title-row">
+              <h1 className="about__title">{t('about.pageTitle')}</h1>
+              <span className="about__badge" aria-hidden="true" />
+            </header>
 
-        <div className="about__stage">
-          <div className="about__stars" aria-hidden="true" />
-          <div className="about__globe-wrap" aria-hidden="true">
-            <div className="about__globe" />
-            <div className="about__globe-shade" />
-            <div className="about__globe-glow" />
+            <h2 className="about__h2">{t('about.whatTitle')}</h2>
+            <div className="about__card">
+              <h3 className="about__lead-title">Cenan Nedir?</h3>
+              <p className="about__paragraph">
+                Cenan, muhasebeci ve ihracatçılar için geliştirilmiş yapay zeka destekli akıllı bir
+                asistandır. Fatura okuma, banka mutabakatı, KDV kontrolü, ihracat belge takibi gibi
+                işleri hızlandırır ve kolaylaştırır.
+              </p>
+            </div>
+          </div>
+
+          <div className="about__stage">
+            <div className="about__stars" aria-hidden="true" />
+            <div className="about__globe-wrap" aria-hidden="true">
+              <div className="about__globe" />
+              <div className="about__globe-shade" />
+              <div className="about__globe-glow" />
+            </div>
           </div>
         </div>
-
-        <section className="about__block" id="nedir">
-          <h2 className="about__h2">{t('about.whatTitle')}</h2>
-          <div className="about__card">
-            <h3 className="about__lead-title">Cenan Nedir?</h3>
-            <p className="about__paragraph">
-              Cenan, muhasebeci ve ihracatçılar için geliştirilmiş yapay zeka destekli akıllı bir
-              asistandır. Fatura okuma, banka mutabakatı, KDV kontrolü, ihracat belge takibi gibi
-              işleri hızlandırır ve kolaylaştırır.
-            </p>
-          </div>
-        </section>
 
         <section className="about__block" id="uygulama">
           <h2 className="about__h2">{t('about.appTitle')}</h2>
