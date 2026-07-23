@@ -12,9 +12,8 @@
   border-radius: 30px;
   overflow: hidden;
   background:
-    linear-gradient(180deg, rgba(20, 30, 22, 0) 0%, rgba(20, 30, 22, 0) 40%, #f4f5f1 40%, #f4f5f1 100%),
     radial-gradient(900px 420px at 78% -6%, rgba(150, 175, 130, 0.9) 0%, transparent 60%),
-    linear-gradient(150deg, #7f8a6f 0%, #5b6a4f 34%, #45543c 40%);
+    linear-gradient(155deg, #7f8a6f 0%, #5b6a4f 48%, #3a4732 100%);
   box-shadow: 0 40px 90px rgba(0, 0, 0, 0.45);
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
@@ -65,7 +64,6 @@
 
 .ic {
   display: block;
-  transform-origin: center;
 }
 
 .navbtn__label {
@@ -84,40 +82,56 @@
   opacity: 1;
 }
 
-/* Cenan — bloom (shrink inward then grow); label appears while growing */
+/* Cenan — bloom: shrinks inward then grows back (animated via size, not transform) */
+.ic-flower { width: 28px; height: 28px; }
 .navbtn--cenan:hover .ic-flower {
-  animation: bloom 0.9s ease;
+  animation: bloom 0.95s ease;
 }
 .navbtn--cenan:hover .navbtn__label {
-  transition-delay: 0.34s;
+  transition-delay: 0.4s;
 }
 @keyframes bloom {
-  0% { transform: scale(1) rotate(0deg); }
-  42% { transform: scale(0.45) rotate(-18deg); }
-  100% { transform: scale(1) rotate(0deg); }
+  0% { width: 28px; height: 28px; }
+  38% { width: 11px; height: 11px; }
+  72% { width: 34px; height: 34px; }
+  100% { width: 28px; height: 28px; }
 }
 
-/* İşlemler — white glow + continuous chimney smoke */
-.navbtn--islemler:hover .ic-house {
-  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.95))
-    drop-shadow(0 0 12px rgba(255, 255, 255, 0.8));
+/* İşlemler — white glow halo + continuous chimney smoke */
+.navbtn--islemler::after {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: -2px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.55) 32%, rgba(255, 255, 255, 0) 72%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 0;
 }
+.navbtn--islemler:hover::after { opacity: 1; }
+.navbtn__icon,
+.navbtn__label { position: relative; z-index: 1; }
 .smoke {
   position: absolute;
-  top: -3px;
+  top: -32px;
   left: 15px;
-  width: 12px;
-  height: 22px;
+  width: 16px;
+  height: 38px;
   pointer-events: none;
+  z-index: 4;
 }
 .smoke i {
   position: absolute;
-  bottom: 0;
   left: 0;
+  bottom: 0;
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: rgba(240, 240, 240, 0.9);
+  background: rgba(48, 52, 50, 0.92);
   opacity: 0;
 }
 .navbtn--islemler:hover .smoke i {
@@ -125,23 +139,25 @@
 }
 .smoke i:nth-child(2) { animation-delay: 0.46s; }
 .smoke i:nth-child(3) { animation-delay: 0.92s; }
+/* rise using position + size (no transform, which this renderer ignores) */
 @keyframes puff {
-  0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
-  20% { opacity: 0.85; }
-  100% { transform: translate(7px, -20px) scale(1.7); opacity: 0; }
+  0% { bottom: 0; left: 0; width: 5px; height: 5px; opacity: 0; }
+  25% { opacity: 0.92; }
+  100% { bottom: 34px; left: 9px; width: 13px; height: 13px; opacity: 0; }
 }
 
-/* Borsa — orb slides out then returns (spins like a pinwheel) */
+/* Borsa — orb slides out to the right then returns (animated via margin) */
+.ic-orb { position: relative; left: 0; }
 .navbtn--borsa:hover .ic-orb {
-  animation: orbTrip 1s ease;
+  animation: orbTrip 1.1s ease;
 }
 .navbtn--borsa:hover .navbtn__label {
-  transition-delay: 0.48s;
+  transition-delay: 0.5s;
 }
 @keyframes orbTrip {
-  0% { transform: translateX(0) rotate(0deg); }
-  45% { transform: translateX(15px) rotate(130deg); }
-  100% { transform: translateX(0) rotate(360deg); }
+  0% { left: 0; }
+  42% { left: 18px; }
+  100% { left: 0; }
 }
 
 /* ---------- Header actions ---------- */
@@ -167,7 +183,6 @@
 }
 .glow-chip:hover {
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6), 0 0 20px 5px rgba(255, 255, 255, 0.85);
-  transform: translateY(-1px);
 }
 
 /* ---------- Content ---------- */
@@ -266,8 +281,7 @@
 .tl-dot {
   position: absolute;
   left: -13px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: calc(50% - 5.5px);
   width: 11px;
   height: 11px;
   border-radius: 50%;
@@ -357,7 +371,6 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .borsa-launch:hover {
-  transform: translateY(-1px);
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.25);
 }
 .borsa-launch__icon { color: #fff; }
