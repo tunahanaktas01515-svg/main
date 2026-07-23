@@ -1,47 +1,59 @@
 import { useState } from 'react';
 import './App.css';
-import { NavBar } from './components/NavBar';
+import { Sidebar } from './components/Sidebar';
 import { Header } from './components/Header';
 import { LoginModal } from './components/LoginModal';
+import { BgPicker, BACKGROUNDS } from './components/BgPicker';
 import { Dashboard } from './pages/Dashboard';
-import { Islemler } from './pages/Islemler';
 import { Borsa } from './pages/Borsa';
 import { Ajanlar } from './pages/Ajanlar';
 import { CenanAI } from './pages/CenanAI';
-import { LanguageProvider } from './i18n';
-import type { PageId } from './types';
+import { PlaceholderPage } from './pages/PlaceholderPage';
+import { LanguageProvider, useLang } from './i18n';
+import { findItemLabel } from './menu';
 
 export type User = { name: string; email: string };
 
-export default function App() {
-  const [page, setPage] = useState<PageId>('ev');
+function Shell() {
+  const { lang } = useLang();
+  const [page, setPage] = useState<string>('dashboard');
   const [user, setUser] = useState<User | null>({ name: 'Ayşe', email: 'ayse@cenan.io' });
   const [loginOpen, setLoginOpen] = useState(false);
+  const [bgOpen, setBgOpen] = useState(false);
+  const [bgId, setBgId] = useState('glass');
 
   const displayName = user?.name ?? 'Misafir';
+  const bg = BACKGROUNDS.find((b) => b.id === bgId) ?? BACKGROUNDS[0];
+
+  const renderPage = () => {
+    switch (page) {
+      case 'dashboard':
+        return <Dashboard userName={displayName} onNavigate={setPage} />;
+      case 'borsa':
+        return <Borsa />;
+      case 'ajanlar':
+        return <Ajanlar />;
+      case 'cenanai':
+        return <CenanAI />;
+      default:
+        return <PlaceholderPage title={findItemLabel(page, lang)} />;
+    }
+  };
 
   return (
-    <LanguageProvider>
-      <div className="app-shell">
-        <div className="app-frame">
-          <div className="topbar">
-            <NavBar active={page} onNavigate={setPage} />
-            <Header
-              user={user}
-              onLogin={() => setLoginOpen(true)}
-              onLogout={() => setUser(null)}
-              onProfile={() => setPage('cenanai')}
-            />
-          </div>
-
-          <main className="app-content">
-            {page === 'ev' && <Dashboard userName={displayName} onNavigate={setPage} />}
-            {page === 'islemler' && <Islemler />}
-            {page === 'borsa' && <Borsa />}
-            {page === 'ajanlar' && <Ajanlar />}
-            {page === 'cenanai' && <CenanAI />}
-          </main>
+    <div className="app-shell" style={{ background: bg.bg }}>
+      <Sidebar active={page} onNavigate={setPage} />
+      <div className="app-main">
+        <div className="topbar">
+          <Header
+            user={user}
+            onLogin={() => setLoginOpen(true)}
+            onLogout={() => setUser(null)}
+            onProfile={() => setPage('cenanai')}
+            onOpenBg={() => setBgOpen(true)}
+          />
         </div>
+        <main className="app-content">{renderPage()}</main>
       </div>
 
       {loginOpen && (
@@ -53,6 +65,17 @@ export default function App() {
           }}
         />
       )}
+      {bgOpen && (
+        <BgPicker current={bgId} onSelect={(id) => setBgId(id)} onClose={() => setBgOpen(false)} />
+      )}
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <Shell />
     </LanguageProvider>
   );
 }

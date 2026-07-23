@@ -1,6 +1,7 @@
 import { CartIcon, IyzicoLogo, GlobeIcon } from '../icons';
 import { markets, quickStats, statements, todayActivities } from '../data';
 import { MarketCard } from '../components/MarketCard';
+import { Widgets } from '../components/Widgets';
 import { useLang } from '../i18n';
 import type { PageId } from '../types';
 
@@ -44,6 +45,9 @@ export function Dashboard({ userName, onNavigate }: DashboardProps) {
           </div>
         </div>
       </section>
+
+      {/* Glass widgets */}
+      <Widgets />
 
       {/* Quick stats — makes the home screen fuller */}
       <section className="dash__quick">

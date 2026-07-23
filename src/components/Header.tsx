@@ -1,4 +1,4 @@
-import { GearIcon, StarManIcon } from '../icons';
+import { GearIcon, StarManIcon, BrushIcon } from '../icons';
 import { useLang } from '../i18n';
 import type { User } from '../App';
 
@@ -7,13 +7,19 @@ type HeaderProps = {
   onLogin: () => void;
   onLogout: () => void;
   onProfile: () => void;
+  onOpenBg: () => void;
   onOpenSettings?: () => void;
 };
 
-export function Header({ user, onLogin, onLogout, onProfile, onOpenSettings }: HeaderProps) {
+export function Header({ user, onLogin, onLogout, onProfile, onOpenBg, onOpenSettings }: HeaderProps) {
   const { lang, setLang, L } = useLang();
   return (
     <div className="header-actions">
+      {/* Edit / customize (brush) — leftmost, colorful rotating glow on hover */}
+      <button type="button" className="icon-chip brush-btn" aria-label={L.editBg} onClick={onOpenBg}>
+        <BrushIcon size={20} />
+      </button>
+
       <div className="lang-switch" role="group" aria-label={L.language}>
         <button
           type="button"

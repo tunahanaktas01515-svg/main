@@ -1,1 +1,1 @@
-export type PageId = 'ev' | 'islemler' | 'borsa' | 'ajanlar' | 'cenanai';
+export type PageId = string;

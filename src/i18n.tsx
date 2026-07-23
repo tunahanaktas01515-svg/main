@@ -109,6 +109,21 @@ const tr = {
   fieldName: 'Ad Soyad',
   fieldEmail: 'E-posta',
   fieldPassword: 'Şifre',
+
+  editBg: 'Görünümü düzenle',
+  bgTitle: 'Arka Plan Seç',
+  bgSub: 'Uygulama arka planını kişiselleştir.',
+  wSky: 'Parçalı Bulutlu',
+  wCharge: 'Şarj Durumu',
+  wToday: 'Bugün',
+  wEvent1: 'Ekip toplantısı · 14:00',
+  wEvent2: 'KDV son gün · 26 Nis',
+  phDesc: 'Bu bölüm hazırlanıyor. Yakında burada olacak.',
+  phSoon: 'Yakında',
+  phLine: 'Cenan bu modülü sizin için otomatikleştiriyor.',
+  phCard1: 'Genel Bakış',
+  phCard2: 'Son Hareketler',
+  phCard3: 'AI Önerileri',
 };
 
 const en: typeof tr = {
@@ -218,6 +233,21 @@ const en: typeof tr = {
   fieldName: 'Full Name',
   fieldEmail: 'Email',
   fieldPassword: 'Password',
+
+  editBg: 'Edit appearance',
+  bgTitle: 'Choose Background',
+  bgSub: 'Personalize the app background.',
+  wSky: 'Partly Cloudy',
+  wCharge: 'Charge',
+  wToday: 'Today',
+  wEvent1: 'Team meeting · 2:00 PM',
+  wEvent2: 'VAT due · Apr 26',
+  phDesc: 'This section is being prepared. Coming soon.',
+  phSoon: 'Soon',
+  phLine: 'Cenan is automating this module for you.',
+  phCard1: 'Overview',
+  phCard2: 'Recent Activity',
+  phCard3: 'AI Suggestions',
 };
 
 const dicts = { tr, en };

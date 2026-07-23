@@ -302,6 +302,67 @@ export function PlusIcon({ className, size = 18 }: IconProps) {
   );
 }
 
+// Paint brush (edit / customize).
+export function BrushIcon({ className, size = 22 }: IconProps) {
+  return (
+    <svg
+      className={className}
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M15.5 3.5l5 5-8.8 8.8a3 3 0 0 1-1.7.85l-3.6.6.6-3.6a3 3 0 0 1 .85-1.7z" />
+      <path d="M13.5 5.5l5 5" />
+      <path d="M6.5 14.5c-1.8.6-2.4 2.2-2.6 4-.06.5-.5 1.6-1.4 2 1.7.5 4.2.4 5.6-1a3 3 0 0 0 .4-3.6" />
+    </svg>
+  );
+}
+
+// Menu group icons
+export function GridIcon({ className, size = 20 }: IconProps) {
+  return (
+    <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <rect x="3" y="3" width="7.5" height="7.5" rx="2" />
+      <rect x="13.5" y="3" width="7.5" height="7.5" rx="2" />
+      <rect x="3" y="13.5" width="7.5" height="7.5" rx="2" />
+      <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2" />
+    </svg>
+  );
+}
+export function SwapIcon({ className, size = 20 }: IconProps) {
+  return (
+    <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M4 8h13l-3-3" />
+      <path d="M20 16H7l3 3" />
+    </svg>
+  );
+}
+export function ReportIcon({ className, size = 20 }: IconProps) {
+  return (
+    <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M4 20V4" />
+      <rect x="7" y="11" width="3.4" height="7" rx="1" fill="currentColor" stroke="none" />
+      <rect x="12.5" y="7" width="3.4" height="11" rx="1" fill="currentColor" stroke="none" />
+      <rect x="18" y="13" width="3.4" height="5" rx="1" fill="currentColor" stroke="none" />
+      <path d="M4 20h17" />
+    </svg>
+  );
+}
+export function TaxIcon({ className, size = 20 }: IconProps) {
+  return (
+    <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M6 3h9l3 3v15l-3-1.5L15 21l-3-1.5L9 21l-1.5-1.5L6 21z" />
+      <path d="M9 8h6M9 12h6M9 16h4" />
+    </svg>
+  );
+}
+
 // Chevron down.
 export function ChevronDownIcon({ className, size = 14 }: IconProps) {
   return (
