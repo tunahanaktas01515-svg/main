@@ -22,15 +22,12 @@ const I18nContext = createContext<I18nValue | null>(null)
 function detectInitial(): Lang {
   try {
     const saved = localStorage.getItem(STORAGE_KEY) as Lang | null
-    if (saved && DICTS[saved]) return saved
+    if (saved === 'tr' || saved === 'en') return saved
   } catch {
     /* ignore */
   }
   const nav = (navigator.language || 'tr').slice(0, 2).toLowerCase()
-  if (nav === 'tr' || nav === 'en' || nav === 'fr' || nav === 'de' || nav === 'ru') {
-    return nav
-  }
-  return 'tr'
+  return nav === 'en' ? 'en' : 'tr'
 }
 
 export function I18nProvider({ children }: { children: ReactNode }) {

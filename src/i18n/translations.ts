@@ -3,9 +3,6 @@ export type Lang = 'tr' | 'en' | 'fr' | 'de' | 'ru'
 export const LANGS: { id: Lang; label: string; short: string }[] = [
   { id: 'tr', label: 'Türkçe', short: 'TR' },
   { id: 'en', label: 'English', short: 'EN' },
-  { id: 'fr', label: 'Français', short: 'FR' },
-  { id: 'de', label: 'Deutsch', short: 'DE' },
-  { id: 'ru', label: 'Русский', short: 'RU' },
 ]
 
 type Dict = Record<string, string>
