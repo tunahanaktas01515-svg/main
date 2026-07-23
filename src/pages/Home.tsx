@@ -151,7 +151,7 @@ export default function Home() {
           <div className="reel__demo reel__demo--video">
             <video
               className="reel__video"
-              src="/home-yazisma.mp4"
+              src="/home-yaziyazma.mp4"
               autoPlay
               loop
               muted
@@ -159,23 +159,10 @@ export default function Home() {
               preload="metadata"
               aria-label={t('home.demoTitle')}
             />
-            <span className="reel__video-tag">{t('home.demoTag')}</span>
           </div>
           <div className="reel__copy">
             <h3>{t('home.reelPitchTitle')}</h3>
             <p>{t('home.reelPitch')}</p>
-            <div className="reel__demo reel__demo--video reel__demo--sm">
-              <video
-                className="reel__video"
-                src="/home-yaziyazma.mp4"
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="metadata"
-                aria-hidden="true"
-              />
-            </div>
             <Link to="/cenan-ai" className="hero__try hero__try--solid">
               {t('home.tryCenan')}
             </Link>
