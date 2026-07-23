@@ -34,7 +34,7 @@ export function MainChart({ series, dates, range, lang, positive }: MainChartPro
   const linePoints = series.map((v, i) => `${xAt(i).toFixed(1)},${yAt(v).toFixed(1)}`).join(' ');
   const areaPath = `M0,${H} L${series.map((v, i) => `${xAt(i).toFixed(1)},${yAt(v).toFixed(1)}`).join(' L')} L${W},${H} Z`;
 
-  const stroke = positive ? '#4ade80' : '#f87171';
+  const stroke = positive ? '#2f9e44' : '#e03131';
   const fillId = positive ? 'grad-up' : 'grad-down';
 
   const gridVals = [max, min + span * 0.5, min];
@@ -64,16 +64,16 @@ export function MainChart({ series, dates, range, lang, positive }: MainChartPro
       <svg className="chart__svg" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden="true">
         <defs>
           <linearGradient id="grad-up" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#4ade80" stopOpacity="0.35" />
-            <stop offset="100%" stopColor="#4ade80" stopOpacity="0" />
+            <stop offset="0%" stopColor="#2f9e44" stopOpacity="0.28" />
+            <stop offset="100%" stopColor="#2f9e44" stopOpacity="0" />
           </linearGradient>
           <linearGradient id="grad-down" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#f87171" stopOpacity="0.35" />
-            <stop offset="100%" stopColor="#f87171" stopOpacity="0" />
+            <stop offset="0%" stopColor="#e03131" stopOpacity="0.24" />
+            <stop offset="100%" stopColor="#e03131" stopOpacity="0" />
           </linearGradient>
         </defs>
         {gridVals.map((v, i) => (
-          <line key={i} x1="0" x2={W} y1={yAt(v)} y2={yAt(v)} stroke="rgba(255,255,255,0.10)" strokeWidth="1" />
+          <line key={i} x1="0" x2={W} y1={yAt(v)} y2={yAt(v)} stroke="rgba(20,40,25,0.10)" strokeWidth="1" />
         ))}
         <path d={areaPath} fill={`url(#${fillId})`} />
         <polyline points={linePoints} fill="none" stroke={stroke} strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" />

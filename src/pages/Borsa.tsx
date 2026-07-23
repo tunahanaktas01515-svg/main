@@ -2,156 +2,234 @@ import { useState } from 'react';
 import { allCurrencies, majorCurrencies, otherCurrencies, type Currency } from '../data';
 import { useLang } from '../i18n';
 import { MainChart } from '../components/MainChart';
-import { Ticker } from '../components/Ticker';
-import { RANGE_IDS, buildDates, buildSeries, type RangeId } from '../chart';
+import { MiniCandles, MiniBars, MiniArea } from '../components/MiniCharts';
+import { buildDates, buildSeries, type RangeId } from '../chart';
+
+const TIME_RANGES: RangeId[] = ['1d', '1w', '1m', '6m', '1y'];
 
 function fmtVal(v: number): string {
   const digits = v < 5 ? 4 : 2;
   return v.toLocaleString('tr-TR', { minimumFractionDigits: digits, maximumFractionDigits: digits });
 }
 
-function CurrencyChip({
-  c,
-  active,
-  onClick,
-  lang,
-}: {
-  c: Currency;
-  active?: boolean;
-  onClick?: () => void;
-  lang: 'tr' | 'en';
-}) {
-  const up = c.change >= 0;
-  return (
-    <button type="button" className={`cur-chip ${active ? 'is-active' : ''}`} onClick={onClick}>
-      <div className="cur-chip__top">
-        <span className="cur-chip__flag">{c.flag}</span>
-        <div className="cur-chip__id">
-          <span className="cur-chip__code">{c.code}</span>
-          <span className="cur-chip__name">{c.name[lang]}</span>
-        </div>
-      </div>
-      <div className="cur-chip__val">{fmtVal(c.value)}</div>
-      <div className={`cur-chip__chg ${up ? 'up' : 'down'}`}>
-        {up ? '+' : ''}{c.change.toFixed(2)}%
-      </div>
-    </button>
-  );
+function liquidity(seed: number): ('g' | 'a' | 'r')[] {
+  let s = (seed * 9301 + 49297) % 233280;
+  const rnd = () => {
+    s = (s * 9301 + 49297) % 233280;
+    return s / 233280;
+  };
+  return Array.from({ length: 6 }, () => {
+    const v = rnd();
+    return v > 0.6 ? 'g' : v > 0.3 ? 'a' : 'r';
+  });
 }
+
+type Filter = 'all' | 'major' | 'other';
 
 export function Borsa() {
   const { lang, L } = useLang();
   const [code, setCode] = useState<string>(majorCurrencies[0].code);
-  const [range, setRange] = useState<RangeId>('1y');
+  const [rangeIdx, setRangeIdx] = useState<number>(4); // Yıl
+  const [filter, setFilter] = useState<Filter>('all');
 
+  const range = TIME_RANGES[rangeIdx];
   const selected = allCurrencies.find((c) => c.code === code) ?? majorCurrencies[0];
   const series = buildSeries(selected.seed, range, selected.value, selected.change);
   const dates = buildDates(range, series.length);
-  const daySeries = buildSeries(selected.seed, '1d', selected.value, selected.change);
-  const high = Math.max(...daySeries);
-  const low = Math.min(...daySeries);
   const up = selected.change >= 0;
 
-  const avgChange =
-    allCurrencies.reduce((s, c) => s + c.change, 0) / allCurrencies.length;
+  const avgChange = allCurrencies.reduce((s, c) => s + c.change, 0) / allCurrencies.length;
+  const rows =
+    filter === 'major' ? majorCurrencies : filter === 'other' ? otherCurrencies : allCurrencies;
+
+  const sideItems: { key: string; label: string; filter?: Filter }[] = [
+    { key: 'overview', label: L.borsaOverview, filter: 'all' },
+    { key: 'stats', label: L.sideStats },
+    { key: 'market', label: L.sideMarket, filter: 'all' },
+  ];
 
   return (
-    <div className="borsa">
-      <header className="page__head">
-        <h1>{L.borsaTitle}</h1>
-        <p>{L.borsaDesc}</p>
-      </header>
-
-      {/* Index card + currency strip */}
-      <section className="borsa__strip">
-        <div className="index-card">
-          <span className="index-card__label">{L.dovizEndeksi}</span>
-          <span className="index-card__value">{allCurrencies.length + 42} {L.paraBirimi}</span>
-          <div className="index-card__bar">
-            {majorCurrencies.map((c, i) => (
-              <span key={i} className={c.change >= 0 ? 'up' : 'down'} />
-            ))}
-          </div>
-          <span className={`index-card__avg ${avgChange >= 0 ? 'up' : 'down'}`}>
-            {avgChange >= 0 ? '+' : ''}{avgChange.toFixed(2)}% {L.ortalamaBugun}
-          </span>
+    <div className="vault">
+      {/* Sidebar */}
+      <aside className="vside">
+        <div className="vside__brand">
+          <span className="vside__logo" aria-hidden="true">₺</span>
+          <span>Borsa</span>
         </div>
 
-        <div className="cur-strip">
-          {majorCurrencies.map((c) => (
-            <CurrencyChip
-              key={c.code}
-              c={c}
-              lang={lang}
-              active={c.code === code}
-              onClick={() => setCode(c.code)}
-            />
+        <div className="vside__search">
+          <span aria-hidden="true">⌕</span>
+          <input type="text" placeholder={L.borsaSearch} />
+        </div>
+
+        <nav className="vside__nav">
+          {sideItems.map((it) => (
+            <button
+              key={it.key}
+              type="button"
+              className={`vside__item ${it.filter && filter === it.filter && it.key === 'overview' ? 'is-active' : ''}`}
+              onClick={() => it.filter && setFilter(it.filter)}
+            >
+              <span className="vside__ico" aria-hidden="true" />
+              {it.label}
+            </button>
           ))}
-        </div>
-      </section>
 
-      {/* Main chart */}
-      <section className="chart-panel">
-        <header className="chart-panel__head">
-          <div className="chart-panel__id">
-            <span className="chart-panel__flag">{selected.flag}</span>
-            <div>
-              <span className="chart-panel__pair">{selected.code}/TRY</span>
-              <span className="chart-panel__name">{selected.name[lang]}</span>
-            </div>
+          <span className="vside__group">{L.sidePairs}</span>
+          <button
+            type="button"
+            className={`vside__sub ${filter === 'major' ? 'is-active' : ''}`}
+            onClick={() => setFilter('major')}
+          >
+            <i className="dot dot--g" /> {L.sideMajor}
+          </button>
+          <button
+            type="button"
+            className={`vside__sub ${filter === 'other' ? 'is-active' : ''}`}
+            onClick={() => setFilter('other')}
+          >
+            <i className="dot dot--b" /> {L.sideCross}
+          </button>
+          <button type="button" className="vside__sub" onClick={() => setFilter('other')}>
+            <i className="dot dot--a" /> {L.sideMetals}
+          </button>
+        </nav>
+
+        <div className="vside__foot">
+          <button type="button" className="vside__item">
+            <span className="vside__ico" aria-hidden="true" /> {L.sideSupport}
+          </button>
+          <button type="button" className="vside__item">
+            <span className="vside__ico" aria-hidden="true" /> {L.sideSettings}
+          </button>
+        </div>
+
+        <div className="vside__user">
+          <span className="vside__avatar">A</span>
+          <div>
+            <span className="vside__uname">Ayşe Kenter</span>
+            <span className="vside__umail">ayse@cenan.io</span>
           </div>
-          <div className="chart-panel__price">
-            <span className="chart-panel__value">{fmtVal(selected.value)} ₺</span>
-            <span className={`chart-panel__chg ${up ? 'up' : 'down'}`}>
-              {up ? '▲' : '▼'} {Math.abs(selected.change).toFixed(2)}%
-            </span>
+        </div>
+      </aside>
+
+      {/* Main */}
+      <div className="vmain">
+        <header className="vmain__head">
+          <h1>{L.borsaOverview}</h1>
+          <div className="vmain__head-right">
+            <span className="vpill">📅 23 Tem 2026</span>
+            <span className="vpill vpill--select">{L.baseTry} ▾</span>
           </div>
         </header>
 
-        <div className="range-tabs">
-          {RANGE_IDS.map((r, i) => (
-            <button
-              key={r}
-              type="button"
-              className={`range-tab ${r === range ? 'is-active' : ''}`}
-              onClick={() => setRange(r)}
-            >
-              {L.ranges[i]}
-            </button>
-          ))}
-        </div>
-
-        <MainChart series={series} dates={dates} range={range} lang={lang} positive={up} />
-
-        <div className="chart-stats">
-          <div>
-            <span className="chart-stats__label">{L.yuksek24}</span>
-            <span className="chart-stats__val">{fmtVal(high)}</span>
+        {/* Stat cards */}
+        <section className="vstats">
+          <div className="vstat">
+            <div className="vstat__info">
+              <span className="vstat__label">{L.dovizEndeksi}</span>
+              <span className="vstat__value">142,4</span>
+              <span className="vstat__delta up">+3,2 · +2,3%</span>
+            </div>
+            <div className="vstat__chart"><MiniCandles seed={9} /></div>
           </div>
-          <div>
-            <span className="chart-stats__label">{L.dusuk24}</span>
-            <span className="chart-stats__val">{fmtVal(low)}</span>
+          <div className="vstat">
+            <div className="vstat__info">
+              <span className="vstat__label">{L.statVolume}</span>
+              <span className="vstat__value">48,9 M ₺</span>
+              <span className="vstat__delta up">+5,2 M · +12%</span>
+            </div>
+            <div className="vstat__chart"><MiniBars seed={13} /></div>
           </div>
-          <div>
-            <span className="chart-stats__label">{L.degisim}</span>
-            <span className={`chart-stats__val ${up ? 'up' : 'down'}`}>
-              {up ? '+' : ''}{selected.change.toFixed(2)}%
-            </span>
+          <div className="vstat">
+            <div className="vstat__info">
+              <span className="vstat__label">{L.statReturn}</span>
+              <span className="vstat__value">{avgChange >= 0 ? '+' : ''}{avgChange.toFixed(2)}%</span>
+              <span className={`vstat__delta ${avgChange >= 0 ? 'up' : 'down'}`}>{L.ortalamaBugun}</span>
+            </div>
+            <div className="vstat__chart"><MiniArea seed={21} positive={avgChange >= 0} /></div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Other currencies */}
-      <section className="borsa__others">
-        <h2>{L.digerDovizler}</h2>
-        <div className="others-grid">
-          {otherCurrencies.map((c) => (
-            <CurrencyChip key={c.code} c={c} lang={lang} onClick={() => setCode(c.code)} active={c.code === code} />
-          ))}
-        </div>
-      </section>
+        {/* General statistics */}
+        <section className="vchart-card">
+          <header className="vchart-card__head">
+            <div>
+              <h2>{L.generalStats}</h2>
+              <span className="vchart-card__pair">
+                {selected.flag} {selected.code}/TRY · {fmtVal(selected.value)} ₺
+              </span>
+            </div>
+            <div className="time-pills">
+              {L.timePills.map((t, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  className={`time-pill ${i === rangeIdx ? 'is-active' : ''}`}
+                  onClick={() => setRangeIdx(i)}
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
+          </header>
+          <MainChart series={series} dates={dates} range={range} lang={lang} positive={up} />
+        </section>
 
-      <Ticker />
+        {/* Currency table */}
+        <section className="vtable-card">
+          <div className="vtable">
+            <div className="vtable__head">
+              <span>{L.thDoviz}</span>
+              <span>{L.thGunluk}</span>
+              <span>{L.thDeger}</span>
+              <span>{L.degisim}</span>
+              <span>{L.thDurum}</span>
+              <span>{L.thLikidite}</span>
+              <span />
+            </div>
+            {rows.map((c: Currency) => {
+              const cu = c.change >= 0;
+              const daily = (c.value * c.change) / 100;
+              const liq = liquidity(c.seed);
+              return (
+                <button
+                  key={c.code}
+                  type="button"
+                  className={`vrow ${c.code === code ? 'is-active' : ''}`}
+                  onClick={() => setCode(c.code)}
+                >
+                  <span className="vrow__cur">
+                    <span className="vrow__flag">{c.flag}</span>
+                    <span className="vrow__id">
+                      <span className="vrow__code">{c.code}/TRY</span>
+                      <span className="vrow__name">{c.name[lang]}</span>
+                    </span>
+                  </span>
+                  <span className={`vrow__daily ${cu ? 'up' : 'down'}`}>
+                    {cu ? '+' : ''}{daily.toFixed(4)} ₺
+                  </span>
+                  <span className="vrow__val">{fmtVal(c.value)} ₺</span>
+                  <span className={`vrow__chg ${cu ? 'up' : 'down'}`}>
+                    {cu ? '+' : ''}{c.change.toFixed(2)}%
+                  </span>
+                  <span className="vrow__state">
+                    <span className={`state-badge ${cu ? 'up' : 'down'}`}>
+                      {cu ? L.stateUp : L.stateDown}
+                    </span>
+                  </span>
+                  <span className="vrow__liq" aria-hidden="true">
+                    {liq.map((seg, i) => (
+                      <i key={i} className={`liq liq--${seg}`} />
+                    ))}
+                  </span>
+                  <span className="vrow__more" aria-hidden="true">⋯</span>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
