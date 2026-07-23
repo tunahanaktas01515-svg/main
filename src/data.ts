@@ -113,3 +113,36 @@ export const quickStats: QuickStat[] = [
   { label: { tr: 'Tahsilat', en: 'Collections' }, value: '48.9K ₺', delta: '+12%', accent: 'green' },
   { label: { tr: 'Aktif Ajan', en: 'Active Agents', }, value: '3', delta: '/4', accent: 'violet' },
 ];
+
+// ---- Borsa Takip (currency tracker) ----
+export type Currency = {
+  code: string;
+  name: LangText;
+  flag: string;
+  value: number;
+  change: number; // percent, 24h
+  seed: number;
+};
+
+// Major currencies shown in the horizontal strip + main chart.
+export const majorCurrencies: Currency[] = [
+  { code: 'USD', name: { tr: 'ABD Doları', en: 'US Dollar' }, flag: '🇺🇸', value: 41.28, change: 0.42, seed: 11 },
+  { code: 'EUR', name: { tr: 'Euro', en: 'Euro' }, flag: '🇪🇺', value: 44.9, change: -0.18, seed: 23 },
+  { code: 'GBP', name: { tr: 'İngiliz Sterlini', en: 'British Pound' }, flag: '🇬🇧', value: 52.64, change: 0.71, seed: 37 },
+  { code: 'JPY', name: { tr: 'Japon Yeni', en: 'Japanese Yen' }, flag: '🇯🇵', value: 0.276, change: -0.27, seed: 41 },
+  { code: 'CHF', name: { tr: 'İsviçre Frangı', en: 'Swiss Franc' }, flag: '🇨🇭', value: 47.85, change: 0.29, seed: 53 },
+  { code: 'CNY', name: { tr: 'Çin Yuanı', en: 'Chinese Yuan' }, flag: '🇨🇳', value: 5.71, change: -0.9, seed: 67 },
+  { code: 'CAD', name: { tr: 'Kanada Doları', en: 'Canadian Dollar' }, flag: '🇨🇦', value: 30.12, change: -0.62, seed: 71 },
+  { code: 'AUD', name: { tr: 'Avustralya Doları', en: 'Australian Dollar' }, flag: '🇦🇺', value: 27.05, change: -0.53, seed: 83 },
+];
+
+// Extra currencies shown in the "Diğer Dövizler" grid.
+export const otherCurrencies: Currency[] = [
+  { code: 'SAR', name: { tr: 'Suudi Riyali', en: 'Saudi Riyal' }, flag: '🇸🇦', value: 11.0, change: 0.03, seed: 91 },
+  { code: 'AED', name: { tr: 'BAE Dirhemi', en: 'UAE Dirham' }, flag: '🇦🇪', value: 11.24, change: 0.05, seed: 97 },
+  { code: 'SEK', name: { tr: 'İsveç Kronu', en: 'Swedish Krona' }, flag: '🇸🇪', value: 3.86, change: -0.49, seed: 103 },
+  { code: 'NOK', name: { tr: 'Norveç Kronu', en: 'Norwegian Krone' }, flag: '🇳🇴', value: 3.79, change: -0.07, seed: 109 },
+  { code: 'RUB', name: { tr: 'Rus Rublesi', en: 'Russian Ruble' }, flag: '🇷🇺', value: 0.52, change: 0.11, seed: 113 },
+];
+
+export const allCurrencies: Currency[] = [...majorCurrencies, ...otherCurrencies];
