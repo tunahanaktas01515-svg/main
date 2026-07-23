@@ -23,6 +23,27 @@
   min-width: 0;
 }
 
+.about__hero-lead {
+  margin: 0.5rem 0 0;
+  font-size: 15px;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.about__bikmis-wrap {
+  display: grid;
+  place-items: center;
+}
+
+.about__bikmis {
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  /* Drop the pure-black backdrop so the white figure blends with the page */
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 30px rgba(245, 196, 81, 0.12));
+}
+
 /* Title + rectangle accent — top-left */
 .about__title-row {
   display: flex;
