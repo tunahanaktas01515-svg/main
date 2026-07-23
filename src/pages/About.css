@@ -23,11 +23,47 @@
   min-width: 0;
 }
 
+.about__tired-title {
+  margin: 0.4rem 0 0.9rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  background: linear-gradient(100deg, #fff 0%, #ffe6a3 45%, #f5c451 70%, #fff 100%);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 18px rgba(245, 196, 81, 0.35));
+  animation: about-shine 5s linear infinite, about-glow 3.2s ease-in-out infinite;
+}
+
 .about__hero-lead {
-  margin: 0.5rem 0 0;
+  margin: 0.7rem 0 0;
   font-size: 15px;
-  line-height: 1.75;
-  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 520px;
+  opacity: 0;
+  animation: about-fade-up 0.8s ease forwards;
+}
+
+.about__hero-lead--1 { animation-delay: 0.2s; }
+.about__hero-lead--2 { animation-delay: 0.45s; }
+
+@keyframes about-shine {
+  0% { background-position: 0% center; }
+  100% { background-position: 220% center; }
+}
+
+@keyframes about-glow {
+  0%, 100% { filter: drop-shadow(0 0 12px rgba(245, 196, 81, 0.25)); }
+  50% { filter: drop-shadow(0 0 26px rgba(245, 196, 81, 0.55)); }
+}
+
+@keyframes about-fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .about__bikmis-wrap {

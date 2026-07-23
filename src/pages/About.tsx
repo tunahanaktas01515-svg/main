@@ -33,11 +33,14 @@ export default function About() {
               <span className="about__badge" aria-hidden="true" />
             </header>
 
-            <p className="about__hero-lead">
-              Karmaşık menüler, içinden çıkılmaz ekranlar, her işlemi yapmak için üç yerden onay
-              istemek… Muhasebe programı açınca bir de yorulmak zorunda mısın? Biz de bıktık. O yüzden
-              her şeyi sade, net ve hızlı tasarladık. Artık programla uğraşmak yerine işine
-              odaklanabilirsin.
+            <h2 className="about__tired-title">Her Gün Aynı Yorgunluk</h2>
+            <p className="about__hero-lead about__hero-lead--1">
+              Her gün aynı işler... Faturalar, ekstreler, mutabakatlar, belgeler. Saatlerce
+              uğraşıyorsun, yine de yetişmiyor. Yorgunsun, bıktın.
+            </p>
+            <p className="about__hero-lead about__hero-lead--2">
+              Cenan ile konuşman yeterli. Faturayı at, okusun. Ekstreyi ver, mutabakat yapsın. Sesli
+              sor, anında cevaplasın. Artık sen yorulma, Cenan yapsın.
             </p>
           </div>
 
