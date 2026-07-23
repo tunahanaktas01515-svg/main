@@ -1,1 +1,1 @@
-export type PageId = 'cenan' | 'islemler' | 'borsa' | 'ajanlar';
+export type PageId = 'ev' | 'islemler' | 'borsa' | 'ajanlar';

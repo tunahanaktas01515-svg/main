@@ -1,12 +1,14 @@
 import { markets } from '../data';
 import { MarketCard } from '../components/MarketCard';
+import { useLang } from '../i18n';
 
 export function Borsa() {
+  const { L } = useLang();
   return (
     <div className="page">
       <header className="page__head">
-        <h1>Borsa</h1>
-        <p>Döviz ve emtia kurlarını canlı takip edin.</p>
+        <h1>{L.borsaTitle}</h1>
+        <p>{L.borsaDesc}</p>
       </header>
       <div className="market-grid">
         {markets.map((m) => (
