@@ -149,12 +149,25 @@ export default function Home() {
           <p>{t('home.reelSub')}</p>
         </div>
         <div className="reel__grid">
-          <div className="reel__demo">
-            <ChatDemo />
+          <div className="reel__demo reel__demo--video">
+            <video
+              className="reel__video"
+              src="/demo-uygulama.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="metadata"
+              aria-label={t('home.demoTitle')}
+            />
+            <span className="reel__video-tag">{t('home.demoTag')}</span>
           </div>
           <div className="reel__copy">
             <h3>{t('home.reelPitchTitle')}</h3>
             <p>{t('home.reelPitch')}</p>
+            <div className="reel__demo-chat">
+              <ChatDemo />
+            </div>
             <Link to="/cenan-ai" className="hero__try hero__try--solid">
               {t('home.tryCenan')}
             </Link>

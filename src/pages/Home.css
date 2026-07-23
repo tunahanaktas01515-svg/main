@@ -464,6 +464,39 @@
   align-items: center;
 }
 
+.reel__demo--video {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--gold-line);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(245, 196, 81, 0.08) inset;
+  background: #0a0805;
+}
+
+.reel__video {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.reel__video-tag {
+  position: absolute;
+  top: 0.85rem;
+  left: 0.85rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1a1204;
+  background: var(--grad-gold);
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+}
+
+.reel__demo-chat {
+  margin: 0 0 1.25rem;
+}
+
 .reel__copy h3 {
   font-family: var(--font-display);
   font-size: 1.5rem;

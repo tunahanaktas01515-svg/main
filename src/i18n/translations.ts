@@ -76,6 +76,8 @@ const tr: Dict = {
   'home.soon': 'Yakında',
   'home.reelTitle': 'Cenan AI iş başında',
   'home.reelSub': 'Sorun, saniyeler içinde cevap alın — tıpkı bir asistan gibi.',
+  'home.demoTitle': 'Uygulama turu',
+  'home.demoTag': 'Uygulama turu',
   'home.reelPitchTitle': 'Konuşarak muhasebe ve ihracat',
   'home.reelPitch':
     'Fatura işlemekten KDV sorgusuna, GTİP kodundan ihracat dosyasına kadar; yazın veya konuşun, Cenan halleder. Manuel giriş ve dağınık dosyalarla uğraşmayın.',
@@ -386,6 +388,8 @@ const en: Dict = {
   'home.soon': 'Soon',
   'home.reelTitle': 'Cenan AI at work',
   'home.reelSub': 'Ask and get answers in seconds — just like an assistant.',
+  'home.demoTitle': 'Product tour',
+  'home.demoTag': 'Product tour',
   'home.reelPitchTitle': 'Accounting and export by talking',
   'home.reelPitch':
     'From processing invoices to VAT queries, HS codes to export files — type or talk, Cenan handles it. No more manual entry and scattered files.',
