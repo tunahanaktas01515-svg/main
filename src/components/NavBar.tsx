@@ -1,4 +1,4 @@
-import { HouseIcon, OrbIcon, GlobeIcon } from '../icons';
+import { HouseIcon, OrbIcon, GlobeIcon, SquircleIcon } from '../icons';
 import { useLang } from '../i18n';
 import type { PageId } from '../types';
 
@@ -69,6 +69,19 @@ export function NavBar({ active, onNavigate }: NavBarProps) {
           <OrbIcon className="ic ic-orb" />
         </span>
         <span className="navbtn__label">{L.navAjanlar}</span>
+      </button>
+
+      {/* Cenan AI — squircle spins 75° once + white glow + name reveal */}
+      <button
+        type="button"
+        className={`navbtn navbtn--cenanai has-glow ${active === 'cenanai' ? 'is-active' : ''}`}
+        onClick={() => onNavigate('cenanai')}
+        aria-label={L.navCenanAI}
+      >
+        <span className="navbtn__icon">
+          <SquircleIcon className="ic ic-squircle" />
+        </span>
+        <span className="navbtn__label">{L.navCenanAI}</span>
       </button>
     </nav>
   );

@@ -220,3 +220,104 @@ export function CartIcon({ className, size = 26 }: IconProps) {
 export function IyzicoLogo({ className }: { className?: string }) {
   return <span className={className}>iyzico</span>;
 }
+
+// Cenan AI — pinched squircle outline (brand mark).
+export function SquircleIcon({ className, size = 26 }: IconProps) {
+  return (
+    <svg
+      className={className}
+      width={size}
+      height={size}
+      viewBox="0 0 100 100"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="4"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M26 26 C42 34 58 34 74 26 C66 42 66 58 74 74 C58 66 42 66 26 74 C34 58 34 42 26 26 Z" />
+    </svg>
+  );
+}
+
+// Microphone.
+export function MicIcon({ className, size = 20 }: IconProps) {
+  return (
+    <svg
+      className={className}
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="9" y="3" width="6" height="11" rx="3" />
+      <path d="M6 11a6 6 0 0 0 12 0" />
+      <path d="M12 17v3" />
+    </svg>
+  );
+}
+
+// Send (up arrow).
+export function SendUpIcon({ className, size = 18 }: IconProps) {
+  return (
+    <svg
+      className={className}
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M12 20V5" />
+      <path d="M6 11l6-6 6 6" />
+    </svg>
+  );
+}
+
+// Plus.
+export function PlusIcon({ className, size = 18 }: IconProps) {
+  return (
+    <svg
+      className={className}
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      aria-hidden="true"
+    >
+      <path d="M12 5v14M5 12h14" />
+    </svg>
+  );
+}
+
+// Chevron down.
+export function ChevronDownIcon({ className, size = 14 }: IconProps) {
+  return (
+    <svg
+      className={className}
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M6 9l6 6 6-6" />
+    </svg>
+  );
+}

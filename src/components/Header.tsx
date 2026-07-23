@@ -1,13 +1,16 @@
 import { GearIcon, StarManIcon } from '../icons';
 import { useLang } from '../i18n';
+import type { User } from '../App';
 
 type HeaderProps = {
-  userName: string;
+  user: User | null;
+  onLogin: () => void;
+  onLogout: () => void;
+  onProfile: () => void;
   onOpenSettings?: () => void;
-  onOpenProfile?: () => void;
 };
 
-export function Header({ userName, onOpenSettings, onOpenProfile }: HeaderProps) {
+export function Header({ user, onLogin, onLogout, onProfile, onOpenSettings }: HeaderProps) {
   const { lang, setLang, L } = useLang();
   return (
     <div className="header-actions">
@@ -38,14 +41,38 @@ export function Header({ userName, onOpenSettings, onOpenProfile }: HeaderProps)
       >
         <GearIcon size={22} />
       </button>
-      <button
-        type="button"
-        className="icon-chip avatar-chip glow-chip"
-        aria-label={`${userName} ${L.profile}`}
-        onClick={onOpenProfile}
-      >
-        <StarManIcon size={30} />
-      </button>
+
+      {/* Profile with hover dropdown */}
+      <div className="profile">
+        <button
+          type="button"
+          className="icon-chip avatar-chip glow-chip"
+          aria-label={user ? `${user.name} ${L.profile}` : L.profile}
+        >
+          <StarManIcon size={30} />
+        </button>
+        <div className="profile__menu" role="menu">
+          <div className="profile__head">
+            <span className="profile__name">{user ? user.name : L.guest}</span>
+            <span className="profile__mail">{user ? user.email : '—'}</span>
+          </div>
+          <button type="button" className="profile__item" role="menuitem" onClick={onProfile}>
+            {L.profileInfo}
+          </button>
+          <button type="button" className="profile__item" role="menuitem" onClick={onLogin}>
+            {L.login}
+          </button>
+          <button
+            type="button"
+            className="profile__item profile__item--danger"
+            role="menuitem"
+            onClick={onLogout}
+            disabled={!user}
+          >
+            {L.logout}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

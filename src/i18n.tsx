@@ -85,6 +85,30 @@ const tr = {
   kindExport: 'İhracat',
   kindPayment: 'Ödeme',
   kindReport: 'Rapor',
+
+  navCenanAI: 'Cenan AI',
+  aiTitle: 'Ben Cenan',
+  aiSubtitle: 'Ben Sizler İçin oluşturuldum',
+  aiPlaceholder: 'Bir şey sorun ya da bir görev tanımlayın…',
+  aiSuggest1: 'E-Fatura analizi',
+  aiSuggest2: 'KDV hesaplama',
+  aiSuggest3: 'Web ürün bilgisi araştırma',
+  attachFile: 'Dosya yükle',
+  attachPlugin: 'Eklenti ekle',
+  attachMedia: 'Fotoğraf veya video ekle',
+  modelAuto: 'Auto',
+  modelPro: 'Cenan Pro',
+  modelUltra: 'Cenan Ultra',
+
+  profileInfo: 'Profil Bilgileri',
+  login: 'Giriş Yap',
+  logout: 'Çıkış Yap',
+  guest: 'Misafir',
+  loginTitle: 'Giriş Yap',
+  loginSub: 'Cenan hesabınıza giriş yapın',
+  fieldName: 'Ad Soyad',
+  fieldEmail: 'E-posta',
+  fieldPassword: 'Şifre',
 };
 
 const en: typeof tr = {
@@ -170,6 +194,30 @@ const en: typeof tr = {
   kindExport: 'Export',
   kindPayment: 'Payment',
   kindReport: 'Report',
+
+  navCenanAI: 'Cenan AI',
+  aiTitle: 'I am Cenan',
+  aiSubtitle: 'I was created for you',
+  aiPlaceholder: 'Ask anything or describe a task…',
+  aiSuggest1: 'E-invoice analysis',
+  aiSuggest2: 'VAT calculation',
+  aiSuggest3: 'Web product research',
+  attachFile: 'Upload file',
+  attachPlugin: 'Add plugin',
+  attachMedia: 'Add photo or video',
+  modelAuto: 'Auto',
+  modelPro: 'Cenan Pro',
+  modelUltra: 'Cenan Ultra',
+
+  profileInfo: 'Profile Info',
+  login: 'Log in',
+  logout: 'Log out',
+  guest: 'Guest',
+  loginTitle: 'Log in',
+  loginSub: 'Sign in to your Cenan account',
+  fieldName: 'Full Name',
+  fieldEmail: 'Email',
+  fieldPassword: 'Password',
 };
 
 const dicts = { tr, en };
