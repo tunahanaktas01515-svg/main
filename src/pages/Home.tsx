@@ -151,7 +151,7 @@ export default function Home() {
           <div className="reel__demo reel__demo--video">
             <video
               className="reel__video"
-              src="/home-yaziyazma.mp4"
+              src="/home-duzeltilmis.mp4"
               autoPlay
               loop
               muted
