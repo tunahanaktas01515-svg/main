@@ -6,7 +6,7 @@ import {
   useState,
   type ReactNode,
 } from 'react'
-import { DICTS, LANGS, translate, type Lang } from '../i18n/translations'
+import { LANGS, translate, type Lang } from '../i18n/translations'
 
 const STORAGE_KEY = 'cenan_lang'
 
