@@ -8,28 +8,29 @@ Cenan, muhasebe ve ihracat süreçlerini yöneten, uygulama (app) benzeri bir we
 
 Menüde yazı yerine 4 ikon bulunur; imleç üzerine geldiğinde ikonun sağında yazı soldan sağa açılır.
 
-- **Cenan** — tel-örgü çiçek ikonu. Üzerine gelince içe doğru küçülüp tekrar büyür, ardından "Cenan" yazısı açılır. (Ana panel)
-- **İşlemler** — siyah ev ikonu. Üzerine gelince etrafına beyaz ışık yayılır ve imleç ayrılmadıkça bacadan sürekli duman çıkar; "İşlemler" yazısı açılır.
-- **Borsa** — küre/pervane ikonu. Üzerine gelince küre sağa açılıp yerine geri döner; "Borsa" yazısı açılır.
-- **Ajanlar** — dünya ikonu. İkon animasyonu yoktur; sadece "Ajanlar" yazısı açılır.
+- **Ev** — en solda, siyah bacalı ev ikonu (ana panel). Üzerine gelince etrafına beyaz ışık yayılır ve imleç ayrılmadıkça bacadan sürekli duman çıkar; "Ev" yazısı açılır.
+- **İşlemler** — halka + sap (lollipop) ikonu. Üzerine gelince halka hafifçe zıplayıp geri gelir, etrafına beyaz ışık yayılır; "İşlemler" yazısı açılır.
+- **Borsa** — dünya küre ikonu; "Borsa" yazısı açılır.
+- **Ajanlar** — çiçek/küre ikonu. Üzerine gelince küre sağa açılıp yerine döner; "Ajanlar" yazısı açılır.
 
 ### Üst bar
 
-- Arama ikonu kaldırıldı.
+- Ayarların **soluna** TR/EN **dil değiştirici** eklendi (tüm arayüz Türkçe ↔ İngilizce).
 - Ayarlar ve profil ikonu; üzerine gelince çevrelerine beyaz ışık yayar.
 - Varsayılan profil görseli: yıldızlı çöp-adam avatarı.
 
-### Ana panel
+### Ana panel (Ev)
 
 - "Hoşgeldin, Ayşe!" karşılaması.
-- **Günlük İş Geçmişi** — o gün yapılan işleri noktalarla gösteren zaman çizelgesi.
+- **Hızlı Bakış** — 4 mini istatistik kartı (fatura, ihracat, tahsilat, aktif ajan).
+- **Günlük İş Akışı** — o gün tamamlanan işleri renkli, etiketli satırlarla gösteren zaman çizelgesi.
 - **Bugün Kullanılan Kredi** ve **Kalan Kredi** kutuları.
-- **Ekstreler** kutusu: sol üstte şeffaf arka planlı siyah sepet ikonu + "Ekstremelerim", sağ üstte küçük **iyzico** etiketi; ekstre geçmişi + otonom ödemeler.
+- **Ekstremelerim** kutusu: sol üstte şeffaf arka planlı siyah sepet ikonu + başlık, sağ üstte küçük **iyzico** etiketi; ekstre geçmişi + otonom ödemeler.
 - **Borsa** butonu (Borsa sayfasına gider) ve piyasa kartları.
 
 ### Sayfalar
 
-`Cenan` (panel), `İşlemler`, `Borsa`, `Ajanlar`.
+`Ev` (panel), `İşlemler`, `Borsa`, `Ajanlar`. Arayüz TR/EN olarak çevrilebilir.
 
 ## Geliştirme
 
