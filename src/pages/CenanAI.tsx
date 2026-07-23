@@ -31,7 +31,7 @@ export function CenanAI() {
           placeholder={L.aiPlaceholder}
           value={text}
           onChange={(e) => setText(e.target.value)}
-          rows={3}
+          rows={2}
         />
 
         <div className="ai-box__bar">
