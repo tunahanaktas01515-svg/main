@@ -33,7 +33,7 @@ export default function About() {
               <span className="about__badge" aria-hidden="true" />
             </header>
 
-            <h2 className="about__tired-title">Her Gün Aynı Yorgunluk</h2>
+            <h2 className="about__tired-title">Hep Aynı Yorgunluk</h2>
             <p className="about__hero-lead about__hero-lead--1">
               Her gün aynı işler... Faturalar, ekstreler, mutabakatlar, belgeler. Saatlerce
               uğraşıyorsun, yine de yetişmiyor. Yorgunsun, bıktın.
@@ -55,6 +55,34 @@ export default function About() {
               preload="metadata"
               aria-hidden="true"
             />
+          </div>
+        </div>
+
+        {/* SECTION 2: animation left, text right */}
+        <div className="about__hero about__hero--rev">
+          <div className="about__bikmis-wrap">
+            <video
+              className="about__bikmis"
+              src="/about-dusme.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="metadata"
+              aria-hidden="true"
+            />
+          </div>
+
+          <div className="about__hero-text">
+            <h2 className="about__tired-title">Programla Uğraşma, İşine Bak</h2>
+            <p className="about__hero-lead about__hero-lead--1">
+              Programlar çok mu karmaşık? Cenan’ın sade ve kullanışlı arayüzüyle işleriniz artık çok
+              daha kolay. Karmaşık menüler ve dağınık ekranlar yok; her şey net ve elinizin altında.
+            </p>
+            <p className="about__hero-lead about__hero-lead--2">
+              Yorulmadan, takılmadan ilerleyebilirsiniz. Cenan sizin için çalışırken siz asıl işinize
+              odaklanın. Daha az uğraş, daha fazla verim.
+            </p>
           </div>
         </div>
 
