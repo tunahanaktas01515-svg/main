@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { allCurrencies, majorCurrencies, otherCurrencies, type Currency } from '../data';
 import { useLang } from '../i18n';
 import { MainChart } from '../components/MainChart';
-import { MiniCandles, MiniBars, MiniArea } from '../components/MiniCharts';
 import { buildDates, buildSeries, type RangeId } from '../chart';
 
 const TIME_RANGES: RangeId[] = ['1d', '1w', '1m', '6m', '1y'];
@@ -38,7 +37,6 @@ export function Borsa() {
   const dates = buildDates(range, series.length);
   const up = selected.change >= 0;
 
-  const avgChange = allCurrencies.reduce((s, c) => s + c.change, 0) / allCurrencies.length;
   const rows =
     filter === 'major' ? majorCurrencies : filter === 'other' ? otherCurrencies : allCurrencies;
 
@@ -122,34 +120,6 @@ export function Borsa() {
             <span className="vpill vpill--select">{L.baseTry} ▾</span>
           </div>
         </header>
-
-        {/* Stat cards */}
-        <section className="vstats">
-          <div className="vstat">
-            <div className="vstat__info">
-              <span className="vstat__label">{L.dovizEndeksi}</span>
-              <span className="vstat__value">142,4</span>
-              <span className="vstat__delta up">+3,2 · +2,3%</span>
-            </div>
-            <div className="vstat__chart"><MiniCandles seed={9} /></div>
-          </div>
-          <div className="vstat">
-            <div className="vstat__info">
-              <span className="vstat__label">{L.statVolume}</span>
-              <span className="vstat__value">48,9 M ₺</span>
-              <span className="vstat__delta up">+5,2 M · +12%</span>
-            </div>
-            <div className="vstat__chart"><MiniBars seed={13} /></div>
-          </div>
-          <div className="vstat">
-            <div className="vstat__info">
-              <span className="vstat__label">{L.statReturn}</span>
-              <span className="vstat__value">{avgChange >= 0 ? '+' : ''}{avgChange.toFixed(2)}%</span>
-              <span className={`vstat__delta ${avgChange >= 0 ? 'up' : 'down'}`}>{L.ortalamaBugun}</span>
-            </div>
-            <div className="vstat__chart"><MiniArea seed={21} positive={avgChange >= 0} /></div>
-          </div>
-        </section>
 
         {/* General statistics */}
         <section className="vchart-card">
