@@ -1,32 +1,43 @@
-# React + TypeScript + Vite
+# Cenan — Muhasebe & İhracat Paneli
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Cenan, muhasebe ve ihracat süreçlerini yöneten, uygulama (app) benzeri bir web panelidir. React + Vite + TypeScript ile geliştirilmiştir; ileride mobil/masaüstü uygulamaya dönüştürülebilecek şekilde tasarlanmıştır.
 
-Currently, two official plugins are available:
+## Özellikler
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Sayfa ikonları (üst menü)
 
-## React Compiler
+Menüde yazı yerine 4 ikon bulunur; imleç üzerine geldiğinde ikonun sağında yazı soldan sağa açılır.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Cenan** — tel-örgü çiçek ikonu. Üzerine gelince içe doğru küçülüp tekrar büyür, ardından "Cenan" yazısı açılır. (Ana panel)
+- **İşlemler** — siyah ev ikonu. Üzerine gelince etrafına beyaz ışık yayılır ve imleç ayrılmadıkça bacadan sürekli duman çıkar; "İşlemler" yazısı açılır.
+- **Borsa** — küre/pervane ikonu. Üzerine gelince küre sağa açılıp yerine geri döner; "Borsa" yazısı açılır.
+- **Ajanlar** — dünya ikonu. İkon animasyonu yoktur; sadece "Ajanlar" yazısı açılır.
 
-## Expanding the Oxlint configuration
+### Üst bar
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+- Arama ikonu kaldırıldı.
+- Ayarlar ve profil ikonu; üzerine gelince çevrelerine beyaz ışık yayar.
+- Varsayılan profil görseli: yıldızlı çöp-adam avatarı.
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+### Ana panel
+
+- "Hoşgeldin, Ayşe!" karşılaması.
+- **Günlük İş Geçmişi** — o gün yapılan işleri noktalarla gösteren zaman çizelgesi.
+- **Bugün Kullanılan Kredi** ve **Kalan Kredi** kutuları.
+- **Ekstreler** kutusu: sol üstte şeffaf arka planlı siyah sepet ikonu + "Ekstremelerim", sağ üstte küçük **iyzico** etiketi; ekstre geçmişi + otonom ödemeler.
+- **Borsa** butonu (Borsa sayfasına gider) ve piyasa kartları.
+
+### Sayfalar
+
+`Cenan` (panel), `İşlemler`, `Borsa`, `Ajanlar`.
+
+## Geliştirme
+
+```bash
+npm install
+npm run dev      # http://localhost:5173
+npm run build    # tip kontrol + üretim derlemesi
+npm run lint     # oxlint
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+> Not: Bazı ikon hareketleri (küçülme/büyüme, kayma, duman) `transform` yerine `width/height`, `top/left`, `opacity` gibi özelliklerle yapılmıştır; böylece her ortamda güvenilir şekilde çalışır.
