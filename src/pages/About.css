@@ -1,6 +1,6 @@
 .about {
   min-height: calc(100vh - 74px);
-  background: radial-gradient(ellipse at 50% 0%, #0c1018, #050507 60%);
+  background: transparent;
   color: #fff;
 }
 
@@ -83,6 +83,9 @@
   height: auto;
   /* Pure-black backdrop is dropped so only the figure shows — no frame, no glow */
   mix-blend-mode: screen;
+  /* Feather the edges so the video's rectangular corners never show */
+  -webkit-mask-image: radial-gradient(ellipse 88% 82% at 50% 52%, #000 68%, transparent 90%);
+  mask-image: radial-gradient(ellipse 88% 82% at 50% 52%, #000 68%, transparent 90%);
 }
 
 /* Title + rectangle accent — top-left */

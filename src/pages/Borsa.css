@@ -1,6 +1,6 @@
 .borsa {
   min-height: calc(100vh - 74px);
-  background: #08080a;
+  background: transparent;
   color: #fff;
   padding-bottom: 56px;
 }
