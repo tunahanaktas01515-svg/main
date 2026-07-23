@@ -77,11 +77,23 @@ export const MENU: MenuGroup[] = [
   },
 ];
 
+export const QUICK_ACTIONS: MenuItem[] = [
+  { id: 'belge', tr: 'Belge & Fatura İşlemleri', en: 'Documents & Invoices' },
+  { id: 'bankamut', tr: 'Banka & Mutabakat', en: 'Bank & Reconciliation' },
+  { id: 'ihracat', tr: 'İhracat & Belgeler', en: 'Export & Documents' },
+  { id: 'sorgu', tr: 'Hızlı Sorgulama & Hesaplama', en: 'Quick Query & Calc' },
+  { id: 'webtara', tr: 'Web / Bilgi Tarama', en: 'Web / Info Search' },
+  { id: 'yazma', tr: 'Yazma & Düzenleme', en: 'Writing & Editing' },
+];
+
 export function findItemLabel(id: string, lang: Lang): string {
   for (const g of MENU) {
     for (const it of g.items) {
       if (it.id === id) return it[lang];
     }
+  }
+  for (const q of QUICK_ACTIONS) {
+    if (q.id === id) return q[lang];
   }
   return id;
 }

@@ -13,6 +13,7 @@ import {
 
 type SidebarProps = {
   active: string;
+  collapsed: boolean;
   onNavigate: (id: string) => void;
 };
 
@@ -24,7 +25,7 @@ const GROUP_ICONS = {
   gear: GearIcon,
 } as const;
 
-export function Sidebar({ active, onNavigate }: SidebarProps) {
+export function Sidebar({ active, collapsed, onNavigate }: SidebarProps) {
   const { lang } = useLang();
   const [hover, setHover] = useState<string | null>(null);
   const [pinned, setPinned] = useState<Set<string>>(new Set(['ana']));
@@ -39,7 +40,7 @@ export function Sidebar({ active, onNavigate }: SidebarProps) {
     });
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${collapsed ? 'is-collapsed' : ''}`}>
       <div className="sidebar__brand">
         <span className="sidebar__logo">
           <SquircleIcon size={22} />

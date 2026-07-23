@@ -110,6 +110,11 @@ const tr = {
   fieldEmail: 'E-posta',
   fieldPassword: 'Şifre',
 
+  toggleMenu: 'Menü',
+  homeLink: 'Ana Sayfa',
+  quickActions: 'Hızlı İşlemler',
+  smartHome: 'Akıllı Ev',
+  backToWork: 'İş Paneline Dön',
   editBg: 'Görünümü düzenle',
   bgTitle: 'Arka Plan Seç',
   bgSub: 'Uygulama arka planını kişiselleştir.',
@@ -234,6 +239,11 @@ const en: typeof tr = {
   fieldEmail: 'Email',
   fieldPassword: 'Password',
 
+  toggleMenu: 'Menu',
+  homeLink: 'Home',
+  quickActions: 'Quick Actions',
+  smartHome: 'Smart Home',
+  backToWork: 'Back to Work',
   editBg: 'Edit appearance',
   bgTitle: 'Choose Background',
   bgSub: 'Personalize the app background.',
