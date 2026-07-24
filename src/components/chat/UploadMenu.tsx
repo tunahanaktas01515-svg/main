@@ -1,58 +1,75 @@
 import { useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { FileText, Image as ImageIcon, ScanLine } from 'lucide-react';
+import { FileText, Image as ImageIcon, ScanLine, Table2 } from 'lucide-react';
 
 interface UploadMenuProps {
   isOpen: boolean;
   onClose: () => void;
-  onFilesSelected: (files: FileList) => void;
+  onFileSelected: (file: File) => void;
+  /** Kamera taraması yerine örnek belgeyle yükleme akışını başlatır (demo) */
+  onScanDemo: () => void;
 }
 
 /**
  * "+" ikonuna tıklandığında açılan dosya / fotoğraf / belge yükleme menüsü.
- * Dışarı tıklayınca kapatma mantığı, üst bileşen (ChatInputBar) tarafındaki
- * sarmalayıcı ref üzerinden useClickOutside ile yönetilir (bkz. ChatInputBar).
+ * Dışarı tıklayınca kapanma, üst bileşendeki sarmalayıcı ref üzerinden yönetilir.
  */
-export function UploadMenu({ isOpen, onClose, onFilesSelected }: UploadMenuProps) {
-  const fileInputRef = useRef<HTMLInputElement>(null);
+export function UploadMenu({ isOpen, onClose, onFileSelected, onScanDemo }: UploadMenuProps) {
+  const docInputRef = useRef<HTMLInputElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
+  const sheetInputRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
-      onFilesSelected(event.target.files);
-    }
+    const file = event.target.files?.[0];
+    if (file) onFileSelected(file);
     event.target.value = '';
     onClose();
   };
 
   return (
     <>
-      <input ref={fileInputRef} type="file" className="hidden" onChange={handleChange} multiple />
-      <input ref={imageInputRef} type="file" accept="image/*" className="hidden" onChange={handleChange} multiple />
+      <input ref={docInputRef} type="file" accept=".pdf,.xml,.txt,.doc,.docx" className="hidden" onChange={handleChange} />
+      <input ref={imageInputRef} type="file" accept="image/*" className="hidden" onChange={handleChange} />
+      <input ref={sheetInputRef} type="file" accept=".csv,.xls,.xlsx" className="hidden" onChange={handleChange} />
 
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 8, scale: 0.96 }}
+            initial={{ opacity: 0, y: 10, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 8, scale: 0.96 }}
-            transition={{ duration: 0.18, ease: 'easeOut' }}
-            className="glass-panel-strong absolute bottom-full left-0 z-30 mb-2 w-56 origin-bottom-left rounded-2xl p-1.5"
+            exit={{ opacity: 0, y: 10, scale: 0.96 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+            className="glass-strong absolute bottom-full left-0 z-40 mb-2.5 w-[212px] origin-bottom-left rounded-2xl p-1.5"
           >
+            <p className="px-2.5 pb-1 pt-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/30">
+              Yükle
+            </p>
             <MenuOption
               icon={<FileText className="h-4 w-4" />}
-              label="Dosya Yükle"
-              onClick={() => fileInputRef.current?.click()}
+              label="Belge / PDF"
+              hint="e-Fatura XML dahil"
+              onClick={() => docInputRef.current?.click()}
             />
             <MenuOption
               icon={<ImageIcon className="h-4 w-4" />}
-              label="Fotoğraf Yükle"
+              label="Fotoğraf"
+              hint="JPG, PNG"
               onClick={() => imageInputRef.current?.click()}
+            />
+            <MenuOption
+              icon={<Table2 className="h-4 w-4" />}
+              label="Tablo"
+              hint="CSV, XLSX"
+              onClick={() => sheetInputRef.current?.click()}
             />
             <MenuOption
               icon={<ScanLine className="h-4 w-4" />}
               label="Belge Tara"
-              onClick={onClose}
+              hint="Örnek fatura ile dene"
+              onClick={() => {
+                onScanDemo();
+                onClose();
+              }}
             />
           </motion.div>
         )}
@@ -64,20 +81,27 @@ export function UploadMenu({ isOpen, onClose, onFilesSelected }: UploadMenuProps
 function MenuOption({
   icon,
   label,
+  hint,
   onClick,
 }: {
   icon: React.ReactNode;
   label: string;
+  hint: string;
   onClick: () => void;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm text-white/75 transition-colors hover:bg-white/10 hover:text-white"
+      className="focus-ring flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-left transition-colors duration-200 hover:bg-white/[0.08]"
     >
-      {icon}
-      {label}
+      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.05] text-white/65">
+        {icon}
+      </span>
+      <span className="min-w-0">
+        <span className="block truncate text-[12.5px] font-medium text-white/85">{label}</span>
+        <span className="block truncate text-[10px] text-white/35">{hint}</span>
+      </span>
     </button>
   );
 }

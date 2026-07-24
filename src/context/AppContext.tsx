@@ -1,43 +1,8 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import type { CenanFeatureId, ChatAttachment, ChatMessage, ModelId, PageId, ThemeMode } from '../types';
 import { cenanFeatures } from '../data/cenanFeatures';
-import { backgroundOptions } from '../data/backgrounds';
-
-interface AppContextValue {
-  // Sayfa navigasyonu
-  activePage: PageId;
-  setActivePage: (page: PageId) => void;
-
-  // Tema (şu anlık sadece koyu tema tam stillendirildi)
-  theme: ThemeMode;
-  toggleTheme: () => void;
-
-  // Arka plan seçici
-  isBackgroundModalOpen: boolean;
-  openBackgroundModal: () => void;
-  closeBackgroundModal: () => void;
-  activeBackgroundId: string;
-  setActiveBackgroundId: (id: string) => void;
-
-  // Sohbet paneli
-  messages: ChatMessage[];
-  model: ModelId;
-  setModel: (model: ModelId) => void;
-  activeFeatureId: CenanFeatureId | null;
-  triggerCenanFeature: (featureId: CenanFeatureId) => void;
-  sendUserMessage: (content: string, attachments?: ChatAttachment[]) => void;
-  isAssistantTyping: boolean;
-
-  // Sesli asistan
-  isVoiceActive: boolean;
-  openVoiceAssistant: () => void;
-  closeVoiceAssistant: () => void;
-
-  // Oturum durumu (demo amaçlı - backend yok)
-  isLoggedIn: boolean;
-}
-
-const AppContext = createContext<AppContextValue | null>(null);
+import { defaultBackgroundId } from '../data/backgrounds';
+import { AppContext, type AppContextValue, type UploadTask } from './appContextCore';
 
 function createTimestamp() {
   return new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
@@ -47,48 +12,94 @@ function createId() {
   return Math.random().toString(36).slice(2, 10);
 }
 
-// Sohbet başlangıcında karşılayan varsayılan asistan mesajı
+function formatSize(bytes: number) {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(2)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+}
+
 const welcomeMessage: ChatMessage = {
   id: 'welcome',
   role: 'assistant',
   content:
-    'Merhaba! Ben Cenan AI. Fatura analizi, banka mutabakatı, KDV hesaplama ve ihracat süreçlerinizde sana yardımcı olabilirim. Soldaki menüden bir işlem seç veya doğrudan sorunu yaz.',
+    'Merhaba, ben Cenan AI. Fatura analizi, banka mutabakatı, KDV hesaplama ve ihracat mevzuatında yardımcı olabilirim. Soldaki menüden bir modül seç ya da doğrudan sorunu yaz.',
   timestamp: createTimestamp(),
 };
 
+/**
+ * Uygulamanın tüm global durumunu (sayfa, tema, arka plan, sohbet, yükleme, ses)
+ * tek noktada yöneten sağlayıcı.
+ */
 export function AppProvider({ children }: { children: ReactNode }) {
   const [activePage, setActivePage] = useState<PageId>('ana-sayfa');
   const [theme, setTheme] = useState<ThemeMode>('dark');
+  const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [isBackgroundModalOpen, setBackgroundModalOpen] = useState(false);
-  const [activeBackgroundId, setActiveBackgroundId] = useState<string>(backgroundOptions[0].id);
+  const [activeBackgroundId, setActiveBackgroundId] = useState(defaultBackgroundId);
   const [messages, setMessages] = useState<ChatMessage[]>([welcomeMessage]);
   const [model, setModel] = useState<ModelId>('cenan-pro');
   const [activeFeatureId, setActiveFeatureId] = useState<CenanFeatureId | null>(null);
   const [isAssistantTyping, setAssistantTyping] = useState(false);
   const [isVoiceActive, setVoiceActive] = useState(false);
+  const [uploadTask, setUploadTask] = useState<UploadTask | null>(null);
+
+  // Zamanlayıcı referansları — bileşen kaldırıldığında temizlenir
+  const timeoutsRef = useRef<number[]>([]);
+  const uploadIntervalRef = useRef<number | null>(null);
+
+  const track = useCallback((id: number) => {
+    timeoutsRef.current.push(id);
+  }, []);
+
+  useEffect(() => {
+    // Aynı dizi/obje referansları mutasyona uğradığı için mount anında yakalanabilir
+    const timeouts = timeoutsRef.current;
+    const intervalHolder = uploadIntervalRef;
+    return () => {
+      timeouts.forEach(window.clearTimeout);
+      if (intervalHolder.current) window.clearInterval(intervalHolder.current);
+    };
+  }, []);
+
+  // Tema sınıfı <html> üzerinde yönetilir
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.toggle('dark', theme === 'dark');
+    root.classList.toggle('light', theme === 'light');
+  }, [theme]);
 
   const toggleTheme = useCallback(() => {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
   }, []);
 
+  const toggleSidebar = useCallback(() => setSidebarCollapsed((prev) => !prev), []);
   const openBackgroundModal = useCallback(() => setBackgroundModalOpen(true), []);
   const closeBackgroundModal = useCallback(() => setBackgroundModalOpen(false), []);
-
   const openVoiceAssistant = useCallback(() => setVoiceActive(true), []);
   const closeVoiceAssistant = useCallback(() => setVoiceActive(false), []);
 
-  // Asistan yazıyor efekti ile sahte (mock) yanıt üretir
-  const simulateAssistantReply = useCallback((replyContent: string) => {
-    setAssistantTyping(true);
-    window.setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        { id: createId(), role: 'assistant', content: replyContent, timestamp: createTimestamp() },
-      ]);
-      setAssistantTyping(false);
-    }, 1100 + Math.random() * 700);
+  /** Asistan yanıtını "yazıyor" efektiyle birlikte simüle eder (backend yok) */
+  const simulateAssistantReply = useCallback(
+    (content: string, delay = 1100) => {
+      setAssistantTyping(true);
+      const id = window.setTimeout(() => {
+        setMessages((prev) => [
+          ...prev,
+          { id: createId(), role: 'assistant', content, timestamp: createTimestamp() },
+        ]);
+        setAssistantTyping(false);
+      }, delay);
+      track(id);
+    },
+    [track]
+  );
+
+  const resetChat = useCallback(() => {
+    setMessages([{ ...welcomeMessage, timestamp: createTimestamp() }]);
+    setActiveFeatureId(null);
   }, []);
 
+  /** Cenan modülü seçildiğinde sohbete sistem promptunu enjekte eder */
   const triggerCenanFeature = useCallback(
     (featureId: CenanFeatureId) => {
       const feature = cenanFeatures.find((item) => item.id === featureId);
@@ -96,44 +107,94 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
       setActiveFeatureId(featureId);
       setActivePage('cenan');
-
-      const systemMessage: ChatMessage = {
-        id: createId(),
-        role: 'system',
-        content: feature.systemPrompt,
-        timestamp: createTimestamp(),
-      };
-
-      setMessages([systemMessage]);
-      simulateAssistantReply(
-        `${feature.title} modülüne hoş geldin. Devam edebilmem için lütfen ilgili belgeyi (dosya, fotoğraf veya PDF) sohbet kutusundaki + simgesiyle yükle. Yükleme tamamlandığında detaylı analizi seninle paylaşacağım.`
-      );
+      setMessages([
+        { id: createId(), role: 'system', content: feature.systemPrompt, timestamp: createTimestamp() },
+      ]);
+      simulateAssistantReply(feature.greeting, 900);
     },
     [simulateAssistantReply]
   );
 
   const sendUserMessage = useCallback(
     (content: string, attachments?: ChatAttachment[]) => {
-      if (!content.trim() && (!attachments || attachments.length === 0)) return;
+      const hasAttachment = Boolean(attachments?.length);
+      if (!content.trim() && !hasAttachment) return;
 
-      const userMessage: ChatMessage = {
-        id: createId(),
-        role: 'user',
-        content,
-        timestamp: createTimestamp(),
-        attachments,
-      };
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: createId(),
+          role: 'user',
+          content: content.trim(),
+          timestamp: createTimestamp(),
+          attachments,
+        },
+      ]);
 
-      setMessages((prev) => [...prev, userMessage]);
-
-      const hasAttachment = Boolean(attachments && attachments.length > 0);
-      const contextualReply = hasAttachment
-        ? 'Belgeni aldım, analiz ediyorum. Bu bir arayüz demosu olduğundan gerçek bir hesaplama motoruna bağlı değilim, ancak üretim sürümünde burada detaylı KDV/stopaj/mutabakat sonuçları görünecek.'
+      const feature = cenanFeatures.find((item) => item.id === activeFeatureId);
+      const reply = hasAttachment
+        ? `Belgeyi aldım${feature ? ` ve ${feature.title} akışına ekledim` : ''}. Bu sürüm arayüz demosu olduğu için gerçek hesaplama motoruna bağlı değil; üretim sürümünde burada kalem kalem KDV, stopaj ve tevkifat kırılımı görünecek.`
         : 'Not aldım. Bu ekran şu an backend olmadan çalışan bir arayüz demosu — üretim sürümünde burada Cenan modelinin gerçek yanıtı yer alacak.';
 
-      simulateAssistantReply(contextualReply);
+      simulateAssistantReply(reply, 1200);
     },
-    [simulateAssistantReply]
+    [activeFeatureId, simulateAssistantReply]
+  );
+
+  const submitVoiceMessage = useCallback(() => {
+    setVoiceActive(false);
+    sendUserMessage('Geçen ayın KDV özetini sesli olarak anlatır mısın?');
+  }, [sendUserMessage]);
+
+  const cancelUpload = useCallback(() => {
+    if (uploadIntervalRef.current) {
+      window.clearInterval(uploadIntervalRef.current);
+      uploadIntervalRef.current = null;
+    }
+    setUploadTask(null);
+  }, []);
+
+  /** Dosya yükleme akışını simüle eder; tamamlandığında dosyayı sohbete ek olarak düşer */
+  const startUpload = useCallback(
+    (fileName: string, sizeBytes: number) => {
+      if (uploadIntervalRef.current) window.clearInterval(uploadIntervalRef.current);
+
+      setUploadTask({
+        id: createId(),
+        fileName,
+        sizeLabel: formatSize(sizeBytes),
+        progress: 0,
+        status: 'uploading',
+      });
+
+      uploadIntervalRef.current = window.setInterval(() => {
+        setUploadTask((prev) => {
+          if (!prev) return prev;
+          const next = Math.min(100, prev.progress + Math.random() * 14 + 6);
+
+          if (next >= 100) {
+            if (uploadIntervalRef.current) {
+              window.clearInterval(uploadIntervalRef.current);
+              uploadIntervalRef.current = null;
+            }
+
+            // Yükleme bitince modalı kapat ve belgeyi sohbete ekle
+            const closeId = window.setTimeout(() => {
+              setUploadTask(null);
+              sendUserMessage('Belgeyi yükledim, analiz edebilir misin?', [
+                { id: prev.id, name: prev.fileName, sizeLabel: prev.sizeLabel },
+              ]);
+            }, 900);
+            track(closeId);
+
+            return { ...prev, progress: 100, status: 'done' };
+          }
+
+          return { ...prev, progress: next };
+        });
+      }, 260);
+    },
+    [sendUserMessage, track]
   );
 
   const value = useMemo<AppContextValue>(
@@ -142,6 +203,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
       setActivePage,
       theme,
       toggleTheme,
+      isSidebarCollapsed,
+      toggleSidebar,
       isBackgroundModalOpen,
       openBackgroundModal,
       closeBackgroundModal,
@@ -154,15 +217,22 @@ export function AppProvider({ children }: { children: ReactNode }) {
       triggerCenanFeature,
       sendUserMessage,
       isAssistantTyping,
+      resetChat,
       isVoiceActive,
       openVoiceAssistant,
       closeVoiceAssistant,
+      submitVoiceMessage,
+      uploadTask,
+      startUpload,
+      cancelUpload,
       isLoggedIn: false,
     }),
     [
       activePage,
       theme,
       toggleTheme,
+      isSidebarCollapsed,
+      toggleSidebar,
       isBackgroundModalOpen,
       openBackgroundModal,
       closeBackgroundModal,
@@ -173,19 +243,16 @@ export function AppProvider({ children }: { children: ReactNode }) {
       triggerCenanFeature,
       sendUserMessage,
       isAssistantTyping,
+      resetChat,
       isVoiceActive,
       openVoiceAssistant,
       closeVoiceAssistant,
+      submitVoiceMessage,
+      uploadTask,
+      startUpload,
+      cancelUpload,
     ]
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
-}
-
-export function useAppContext() {
-  const ctx = useContext(AppContext);
-  if (!ctx) {
-    throw new Error('useAppContext, AppProvider içinde kullanılmalıdır');
-  }
-  return ctx;
 }

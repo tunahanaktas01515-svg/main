@@ -1,31 +1,25 @@
 import { cn } from '../../lib/cn';
 
-interface SkeletonProps {
-  className?: string;
-}
-
 /**
- * Yumuşak "nefes alan" (pulse) skeleton bloğu — yükleme durumlarında kullanılır.
+ * Yumuşak parlama (shimmer) efektli skeleton bloğu — yükleme durumlarında kullanılır.
  */
-export function Skeleton({ className }: SkeletonProps) {
+export function Skeleton({ className }: { className?: string }) {
   return (
-    <div
-      className={cn(
-        'animate-pulse rounded-xl bg-gradient-to-r from-white/5 via-white/10 to-white/5',
-        className
-      )}
-    />
+    <div className={cn('relative overflow-hidden rounded-xl bg-white/[0.05]', className)}>
+      <div className="absolute inset-0 animate-shimmer streak" />
+    </div>
   );
 }
 
 /**
- * Dönen, glow'lu spinner — buton içi veya küçük yükleme göstergeleri için.
+ * Glow'lu dönen spinner — buton içi ve küçük yükleme göstergeleri için.
  */
-export function GlowSpinner({ className }: SkeletonProps) {
+export function GlowSpinner({ className }: { className?: string }) {
   return (
-    <div
+    <span
       className={cn(
-        'h-4 w-4 animate-spin rounded-full border-2 border-white/20 border-t-indigo-400 shadow-[0_0_10px_rgba(99,102,241,0.6)]',
+        'inline-block h-4 w-4 animate-spin rounded-full border-2 border-white/15 border-t-indigo-300',
+        'shadow-[0_0_12px_-2px_rgba(129,140,248,0.9)]',
         className
       )}
     />

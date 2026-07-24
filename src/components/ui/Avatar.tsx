@@ -4,21 +4,25 @@ import { cn } from '../../lib/cn';
 interface AvatarProps {
   isLoggedIn?: boolean;
   name?: string;
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  /** Etrafında yumuşak indigo halo göster */
+  glow?: boolean;
   className?: string;
 }
 
 const sizeMap = {
   sm: 'h-8 w-8',
   md: 'h-10 w-10',
-  lg: 'h-16 w-16',
+  lg: 'h-12 w-12',
+  xl: 'h-16 w-16',
 };
 
 /**
- * Profil avatarı. Giriş yapılmamışsa gri-beyaz siluet ikon, giriş yapılmışsa
- * kullanıcı adının baş harflerini gösteren gradient bir rozet render eder.
+ * Profil avatarı.
+ * Giriş yapılmamışsa gri-beyaz "bilinmeyen kullanıcı" siluetini,
+ * giriş yapılmışsa kullanıcının baş harflerini gradient zeminde gösterir.
  */
-export function Avatar({ isLoggedIn = false, name, size = 'md', className }: AvatarProps) {
+export function Avatar({ isLoggedIn = false, name, size = 'md', glow = false, className }: AvatarProps) {
   const initials = name
     ?.split(' ')
     .map((part) => part[0])
@@ -27,21 +31,22 @@ export function Avatar({ isLoggedIn = false, name, size = 'md', className }: Ava
     .toUpperCase();
 
   return (
-    <div
+    <span
       className={cn(
-        'flex items-center justify-center overflow-hidden rounded-full border border-white/15 shadow-[0_0_16px_rgba(99,102,241,0.25)]',
+        'relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/15',
         sizeMap[size],
         isLoggedIn
           ? 'bg-gradient-to-br from-indigo-500 to-violet-600 text-white'
-          : 'bg-white/10 text-white/40',
+          : 'bg-gradient-to-br from-white/[0.16] to-white/[0.06] text-white/40',
+        glow && 'shadow-[0_0_24px_-6px_rgba(99,102,241,0.65)]',
         className
       )}
     >
       {isLoggedIn && initials ? (
         <span className="text-sm font-semibold">{initials}</span>
       ) : (
-        <UserRound className="h-[55%] w-[55%]" strokeWidth={1.5} />
+        <UserRound className="h-[58%] w-[58%]" strokeWidth={1.6} />
       )}
-    </div>
+    </span>
   );
 }

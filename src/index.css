@@ -1,17 +1,72 @@
 @import 'tailwindcss';
 
-/* Sınıf tabanlı (class-based) koyu/açık tema yönetimi için özel varyant */
+/* Sınıf tabanlı koyu/açık tema yönetimi için özel varyant */
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --font-sans: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
-  --color-accent-indigo: #6366f1;
-  --color-accent-violet: #8b5cf6;
+  /* Marka renkleri */
+  --color-brand-indigo: #6366f1;
+  --color-brand-violet: #8b5cf6;
+  --color-brand-blue: #3b82f6;
 
+  /* Zemin tonları */
+  --color-void: #050505;
+  --color-void-2: #0a0a0a;
+
+  /* Gölge / glow tokenları */
   --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  --shadow-glow-indigo: 0 0 24px 0 rgba(99, 102, 241, 0.35);
-  --shadow-glow-violet: 0 0 24px 0 rgba(139, 92, 246, 0.35);
+  --shadow-glass-lg: 0 24px 64px -12px rgba(0, 0, 0, 0.6);
+  --shadow-glow-indigo: 0 0 28px -4px rgba(99, 102, 241, 0.45);
+  --shadow-glow-violet: 0 0 28px -4px rgba(139, 92, 246, 0.45);
+
+  /* Animasyonlar */
+  --animate-float-slow: float-slow 14s ease-in-out infinite;
+  --animate-float-slower: float-slow 22s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.4s linear infinite;
+  --animate-pulse-glow: pulse-glow 3s ease-in-out infinite;
+  --animate-orb-spin: orb-spin 18s linear infinite;
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(3%, -4%, 0) scale(1.08);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(220%);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes orb-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @layer base {
@@ -23,16 +78,26 @@
 
   body {
     font-family: var(--font-sans);
-    background-color: #050505;
-    color: rgba(255, 255, 255, 0.9);
+    background-color: var(--color-void);
+    color: rgb(255 255 255 / 0.9);
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
     overflow: hidden;
   }
 
-  /* İnce, premium hissi veren özel kaydırma çubuğu */
+  /* Sadece masaüstü hedefleniyor */
+  #root {
+    min-width: 1280px;
+  }
+
+  ::selection {
+    background: rgb(99 102 241 / 0.35);
+  }
+
+  /* İnce, premium kaydırma çubuğu */
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 7px;
+    height: 7px;
   }
 
   ::-webkit-scrollbar-track {
@@ -40,60 +105,110 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgb(255 255 255 / 0.1);
     border-radius: 999px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgb(255 255 255 / 0.18);
   }
 
-  /* Açık tema — şimdilik minimal seviyede desteklenir */
+  /* Açık tema — altyapı hazır, şu an koyu tema önceliklendirildi */
   .light body {
-    color: rgba(10, 10, 15, 0.9);
+    background-color: #eef0f6;
+    color: rgb(9 9 15 / 0.9);
   }
 }
 
 @layer components {
-  /* Temel glass panel — sidebar, kartlar, modaller için ortak taban */
-  .glass-panel {
-    @apply relative border border-white/10 bg-white/5 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] backdrop-blur-2xl;
+  /*
+   * Temel glass yüzey.
+   * Üst kenardaki inset highlight, gerçek camdaki kenar kırılmasını taklit eder.
+   */
+  .glass {
+    @apply border border-white/10 bg-white/[0.045] backdrop-blur-2xl;
+    box-shadow:
+      0 8px 32px 0 rgba(0, 0, 0, 0.37),
+      inset 0 1px 0 0 rgb(255 255 255 / 0.07);
   }
 
-  .glass-panel-strong {
-    @apply relative border border-white/10 bg-black/40 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] backdrop-blur-2xl;
+  /* Daha koyu glass — modal, chat input, dropdown gibi öne çıkan bloklar */
+  .glass-strong {
+    @apply border border-white/10 bg-black/40 backdrop-blur-2xl;
+    box-shadow:
+      0 8px 32px 0 rgba(0, 0, 0, 0.37),
+      inset 0 1px 0 0 rgb(255 255 255 / 0.06);
   }
 
-  /* Oval, glass stilinde sekme/pill butonu */
-  .pill-button {
-    @apply rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white/60 backdrop-blur-xl transition-all duration-300 hover:bg-white/10 hover:text-white/90;
+  /* Hover'da yumuşak aydınlanma */
+  .glass-hover {
+    @apply transition-all duration-300 ease-out hover:border-white/20 hover:bg-white/[0.075];
   }
 
-  .pill-button-active {
-    @apply bg-white/15 text-white shadow-[0_0_20px_rgba(99,102,241,0.35)];
+  /* Oval sekme/pill butonu */
+  .pill {
+    @apply relative rounded-full px-4 py-1.5 text-[13px] font-medium text-white/55 transition-all duration-300 hover:text-white/90;
   }
 
-  /* İkon butonları için ortak stil */
-  .icon-button {
-    @apply flex items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 backdrop-blur-xl transition-all duration-300 hover:border-white/20 hover:bg-white/10 hover:text-white active:scale-95;
+  .pill-active {
+    @apply text-white;
   }
 
-  /* Menü öğesi hover glow efekti */
-  .menu-item {
-    @apply flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/60 transition-all duration-300 ease-out hover:translate-x-0.5 hover:bg-white/5 hover:text-white/95;
+  /* Yuvarlak ikon butonu */
+  .icon-btn {
+    @apply flex shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-white/65 transition-all duration-300 hover:border-white/20 hover:bg-white/[0.12] hover:text-white active:scale-95;
   }
 
-  .menu-item-active {
-    @apply bg-white/10 text-white shadow-[0_0_20px_rgba(99,102,241,0.25)];
+  /* Sidebar menü öğesi — aktif hâli referanstaki parlak pill görünümü */
+  .nav-item {
+    @apply flex w-full items-center gap-2.5 rounded-full px-3 py-2.5 text-[13px] font-medium text-white/50 transition-all duration-300 ease-out;
+  }
+
+  .nav-item:hover {
+    @apply bg-white/[0.05] text-white/90;
+    box-shadow: inset 0 1px 0 0 rgb(255 255 255 / 0.05);
+  }
+
+  .nav-item-active {
+    @apply bg-white/[0.09] text-white;
+    box-shadow:
+      inset 0 1px 0 0 rgb(255 255 255 / 0.12),
+      0 6px 20px -6px rgba(99, 102, 241, 0.5);
+  }
+
+  /* Klavye erişilebilirliği için ortak focus ring */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/60 focus-visible:ring-offset-0;
   }
 }
 
 @layer utilities {
-  .text-glow {
-    text-shadow: 0 0 18px rgba(139, 92, 246, 0.45);
+  .text-glow-violet {
+    text-shadow: 0 0 20px rgba(139, 92, 246, 0.45);
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
   }
 
   .no-scrollbar::-webkit-scrollbar {
     display: none;
+  }
+
+  /* Cam yüzeyler üzerinde gezinen ince ışık çizgisi (referans chat input'taki streak) */
+  .streak {
+    background-image: linear-gradient(
+      100deg,
+      transparent 20%,
+      rgb(255 255 255 / 0.12) 45%,
+      rgb(255 255 255 / 0.28) 50%,
+      rgb(255 255 255 / 0.12) 55%,
+      transparent 80%
+    );
+  }
+
+  /* İnce film grain dokusu */
+  .noise-layer {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 }

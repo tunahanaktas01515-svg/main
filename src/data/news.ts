@@ -1,79 +1,100 @@
-import type { NewsItem, MarketItem } from '../types';
+import type { NewsItem } from '../types';
 
 /**
- * Örnek (mock) haber verileri. Gerçek görsel yerine gradient kullanılıyor,
- * böylece dış görsel bağımlılığı olmadan glass estetiği korunuyor.
+ * Örnek (mock) haber verileri. Görsel alanları, tema ile uyumlu kalması için
+ * katmanlı gradientlerle temsil edilir.
  */
 export const newsItems: NewsItem[] = [
   {
     id: 'n1',
-    title: 'İhracatçılara Yeni Teşvik Paketi Açıklandı',
+    title: 'İhracatçılara Yeni Dijital Teşvik Paketi Açıklandı',
     summary:
-      'Ticaret Bakanlığı, KOBİ\'lerin dijital ihracat altyapısını güçlendirmek için yeni bir destek paketini devreye aldı.',
+      'Ticaret Bakanlığı, KOBİ\'lerin dijital ihracat altyapısını güçlendirmek için hibe ve faiz desteğini kapsayan yeni bir paketi devreye aldı. Başvurular çevrim içi yapılabilecek.',
     category: 'İhracat',
+    source: 'Ticaret Gündemi',
     readTime: '4 dk',
-    gradient: 'from-indigo-500/40 via-violet-500/30 to-blue-600/40',
+    publishedAt: '2 sa önce',
+    gradient:
+      'bg-[radial-gradient(70%_70%_at_25%_25%,rgba(129,140,248,0.55),transparent_60%),radial-gradient(60%_60%_at_80%_75%,rgba(139,92,246,0.45),transparent_60%),linear-gradient(140deg,#131233,#0a0a18)]',
     featured: true,
   },
   {
     id: 'n2',
-    title: 'Yapay Zeka Destekli Muhasebe Çözümleri Yükselişte',
+    title: 'Yapay Zeka Destekli Muhasebe Çözümleri Hızla Yaygınlaşıyor',
     summary:
-      'Şirketler, KDV ve stopaj hesaplamalarında hata oranını düşürmek için otonom muhasebe asistanlarına yöneliyor.',
+      'Şirketler KDV, stopaj ve tevkifat hesaplamalarındaki hata oranını düşürmek için otonom muhasebe asistanlarına yöneliyor. Denetim süreleri ortalama %40 kısalıyor.',
     category: 'Teknoloji',
+    source: 'Fintek Radar',
     readTime: '6 dk',
-    gradient: 'from-blue-600/40 via-indigo-500/30 to-purple-600/40',
+    publishedAt: '3 sa önce',
+    gradient:
+      'bg-[radial-gradient(65%_65%_at_75%_25%,rgba(56,189,248,0.45),transparent_60%),radial-gradient(60%_60%_at_25%_80%,rgba(99,102,241,0.5),transparent_60%),linear-gradient(140deg,#0b1530,#070a16)]',
     featured: true,
   },
   {
     id: 'n3',
     title: 'Merkez Bankası Faiz Kararını Açıkladı',
-    summary: 'Piyasalar beklenen kararın ardından döviz kurlarında sınırlı hareket gördü.',
+    summary: 'Piyasalar beklentiye paralel kararın ardından döviz kurlarında sınırlı hareket gördü.',
     category: 'Ekonomi',
+    source: 'Piyasa Bülteni',
     readTime: '3 dk',
-    gradient: 'from-slate-600/40 to-indigo-600/30',
+    publishedAt: '5 sa önce',
+    gradient:
+      'bg-[radial-gradient(70%_70%_at_30%_20%,rgba(148,163,184,0.35),transparent_60%),linear-gradient(150deg,#141522,#0a0a12)]',
   },
   {
     id: 'n4',
     title: 'E-Fatura Zorunluluğu Kapsamı Genişliyor',
-    summary: 'Gelir İdaresi, e-fatura mükellefiyet sınırını yeniden belirledi.',
+    summary: 'Gelir İdaresi, e-fatura mükellefiyet ciro sınırını yeniden belirledi; geçiş takvimi netleşti.',
     category: 'Mevzuat',
+    source: 'Resmî Gündem',
     readTime: '5 dk',
-    gradient: 'from-violet-600/40 to-fuchsia-600/20',
+    publishedAt: '7 sa önce',
+    gradient:
+      'bg-[radial-gradient(70%_70%_at_70%_30%,rgba(167,139,250,0.45),transparent_60%),linear-gradient(150deg,#18122b,#0b0912)]',
   },
   {
     id: 'n5',
-    title: 'Kripto Varlıklarda Vergilendirme Tartışması',
-    summary: 'Yeni düzenleme taslağı, kripto varlık işlemlerine ilişkin vergi çerçevesini netleştirmeyi hedefliyor.',
+    title: 'Kripto Varlıklarda Vergilendirme Taslağı Şekilleniyor',
+    summary: 'Yeni düzenleme, kripto varlık işlemlerinde beyan ve stopaj çerçevesini netleştirmeyi hedefliyor.',
     category: 'Finans',
+    source: 'Vergi Analiz',
     readTime: '7 dk',
-    gradient: 'from-blue-500/40 to-cyan-500/20',
+    publishedAt: '9 sa önce',
+    gradient:
+      'bg-[radial-gradient(70%_70%_at_25%_75%,rgba(34,211,238,0.35),transparent_60%),linear-gradient(150deg,#0a1a24,#050c12)]',
   },
   {
     id: 'n6',
     title: 'Küresel Tedarik Zincirinde Yeni Dengeler',
-    summary: 'İhracatçı firmalar, alternatif lojistik rotalarına yönelerek maliyetlerini optimize ediyor.',
+    summary: 'İhracatçı firmalar alternatif lojistik rotalarına yönelerek navlun maliyetlerini optimize ediyor.',
     category: 'İhracat',
+    source: 'Lojistik Haber',
     readTime: '4 dk',
-    gradient: 'from-indigo-600/40 to-slate-700/30',
+    publishedAt: '11 sa önce',
+    gradient:
+      'bg-[radial-gradient(70%_70%_at_50%_25%,rgba(99,102,241,0.42),transparent_60%),linear-gradient(150deg,#101427,#080a14)]',
   },
   {
     id: 'n7',
     title: 'Dijital Dönüşümde KOBİ Desteği Artıyor',
-    summary: 'Yapay zeka tabanlı süreç otomasyonu, küçük işletmelerin verimliliğini artırıyor.',
+    summary: 'Süreç otomasyonu yatırımları, küçük işletmelerde çalışan başına verimliliği belirgin biçimde artırıyor.',
     category: 'Teknoloji',
+    source: 'KOBİ Bülten',
     readTime: '5 dk',
-    gradient: 'from-purple-600/40 to-indigo-700/30',
+    publishedAt: '13 sa önce',
+    gradient:
+      'bg-[radial-gradient(70%_70%_at_75%_70%,rgba(192,132,252,0.4),transparent_60%),linear-gradient(150deg,#191029,#0a0713)]',
   },
-];
-
-/**
- * Örnek piyasa/borsa özeti verileri.
- */
-export const marketItems: MarketItem[] = [
-  { id: 'btc', symbol: 'BTC', name: 'Bitcoin', value: '$67,240', changePercent: 2.4 },
-  { id: 'eth', symbol: 'ETH', name: 'Ethereum', value: '$3,512', changePercent: 1.1 },
-  { id: 'xau', symbol: 'XAU', name: 'Altın (Ons)', value: '$2,384', changePercent: -0.3 },
-  { id: 'usd', symbol: 'USD/TRY', name: 'Dolar', value: '32.86', changePercent: 0.6 },
-  { id: 'eur', symbol: 'EUR/TRY', name: 'Euro', value: '35.41', changePercent: 0.2 },
+  {
+    id: 'n8',
+    title: 'Gümrük İşlemlerinde Tek Pencere Sistemi Genişledi',
+    summary: 'Beyanname süreçleri tek portalda toplanarak ortalama işlem süresi 2 güne indi.',
+    category: 'İhracat',
+    source: 'Gümrük Ajansı',
+    readTime: '6 dk',
+    publishedAt: '1 gün önce',
+    gradient:
+      'bg-[radial-gradient(70%_70%_at_35%_65%,rgba(59,130,246,0.42),transparent_60%),linear-gradient(150deg,#0b1424,#060a12)]',
+  },
 ];

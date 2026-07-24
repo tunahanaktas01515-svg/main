@@ -1,38 +1,51 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { backgroundOptions } from '../../data/backgrounds';
-import { useAppContext } from '../../context/AppContext';
+import { useAppContext } from '../../context/appContextCore';
 import { cn } from '../../lib/cn';
 
 /**
- * Tüm uygulamanın arkasında sabit (fixed) duran gradient/liquid arka plan katmanı.
- * Kullanıcının seçtiği arka plan seçeneğine göre değişir, yumuşak bir fade ile geçiş yapar.
+ * Uygulamanın en arkasında sabit duran arka plan katmanı.
+ * Görsel tabanlı seçeneklerde cover + hafif blur + karartma overlay uygulanır,
+ * gradient seçeneklerinde katmanlı radial/linear gradientler kullanılır.
+ * Üstüne her koşulda aurora blob'ları, vignette ve film grain eklenir.
  */
 export function AppBackground() {
   const { activeBackgroundId } = useAppContext();
   const active = backgroundOptions.find((bg) => bg.id === activeBackgroundId) ?? backgroundOptions[0];
 
   return (
-    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      <AnimatePresence mode="wait">
+    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-void">
+      <AnimatePresence mode="sync">
         <motion.div
           key={active.id}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0, scale: 1.04 }}
+          animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.6, ease: 'easeInOut' }}
-          className={cn('absolute inset-0', active.className)}
-        />
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute inset-0"
+        >
+          {active.kind === 'image' ? (
+            <>
+              <div
+                className="absolute -inset-8 bg-cover bg-center blur-[3px]"
+                style={{ backgroundImage: `url(${active.src})` }}
+              />
+              {/* Cam panellerin okunabilirliği için karartma katmanı */}
+              <div className="absolute inset-0 bg-black" style={{ opacity: active.dim ?? 0.65 }} />
+            </>
+          ) : (
+            <div className={cn('absolute inset-0', active.className)} />
+          )}
+        </motion.div>
       </AnimatePresence>
 
-      {/* İnce noise/vignette overlay — derinlik hissi için */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_40%,rgba(0,0,0,0.55)_100%)]" />
-      <div
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-        }}
-      />
+      {/* Yavaşça süzülen aurora blob'ları */}
+      <div className="absolute -left-40 top-[-10%] h-[420px] w-[420px] animate-float-slow rounded-full bg-[radial-gradient(circle,rgba(99,102,241,0.22),transparent_65%)] blur-2xl" />
+      <div className="absolute -right-32 bottom-[-15%] h-[520px] w-[520px] animate-float-slower rounded-full bg-[radial-gradient(circle,rgba(139,92,246,0.18),transparent_65%)] blur-2xl" />
+
+      {/* Vignette + film grain */}
+      <div className="absolute inset-0 bg-[radial-gradient(120%_100%_at_50%_50%,transparent_35%,rgba(0,0,0,0.55)_100%)]" />
+      <div className="noise-layer absolute inset-0 opacity-[0.035]" />
     </div>
   );
 }

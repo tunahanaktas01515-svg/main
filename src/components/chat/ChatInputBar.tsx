@@ -1,76 +1,43 @@
 import { useRef, useState } from 'react';
-import { ArrowUp, Mic, Plus } from 'lucide-react';
-import { useAppContext } from '../../context/AppContext';
-import { UploadMenu } from './UploadMenu';
-import { GlassProgressBar } from '../ui/GlassProgressBar';
-import { cn } from '../../lib/cn';
+import { motion } from 'framer-motion';
+import { ArrowUp, AtSign, Mic, Plus } from 'lucide-react';
+import { useAppContext } from '../../context/appContextCore';
 import { useClickOutside } from '../../lib/useClickOutside';
-import type { ChatAttachment } from '../../types';
-
-function formatFileSize(bytes: number) {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-}
+import { UploadMenu } from './UploadMenu';
+import { quickPrompts } from '../../data/models';
+import { cn } from '../../lib/cn';
 
 /**
- * "Ask anything" tarzı modern sohbet giriş çubuğu.
- * Sol: dosya yükleme menüsü, orta: otomatik büyüyen textarea, sağ: mikrofon ve gönder.
+ * Referanstaki "Ask anything" barına yakın, iki satırlı modern sohbet girişi.
+ * Üst satır: otomatik büyüyen textarea · Alt satır: + / @ ve mikrofon + gönder aksiyonları.
  */
 export function ChatInputBar() {
-  const { sendUserMessage, openVoiceAssistant } = useAppContext();
+  const { sendUserMessage, openVoiceAssistant, startUpload, messages } = useAppContext();
   const [draft, setDraft] = useState('');
-  const [isUploadMenuOpen, setUploadMenuOpen] = useState(false);
-  const [pendingAttachments, setPendingAttachments] = useState<ChatAttachment[]>([]);
+  const [isMenuOpen, setMenuOpen] = useState(false);
+  const [isFocused, setFocused] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const uploadWrapperRef = useRef<HTMLDivElement>(null);
 
-  // Not: "position: fixed" tabanlı overlay yerine bu hook kullanılır, çünkü chat panelindeki
-  // backdrop-blur ataları fixed elemanlar için yeni bir containing block oluşturarak
-  // tam ekran overlay'in çalışmasını engeller.
-  useClickOutside(uploadWrapperRef, isUploadMenuOpen, () => setUploadMenuOpen(false));
+  useClickOutside(uploadWrapperRef, isMenuOpen, () => setMenuOpen(false));
 
-  const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const canSend = draft.trim().length > 0;
+  // Hızlı öneriler yalnızca sohbet henüz başlamamışken gösterilir
+  const showQuickPrompts = messages.length <= 1;
+
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDraft(event.target.value);
     const el = textareaRef.current;
     if (el) {
       el.style.height = 'auto';
-      el.style.height = `${Math.min(el.scrollHeight, 140)}px`;
+      el.style.height = `${Math.min(el.scrollHeight, 132)}px`;
     }
   };
 
-  const handleFilesSelected = (files: FileList) => {
-    Array.from(files).forEach((file) => {
-      const id = Math.random().toString(36).slice(2, 10);
-      const attachment: ChatAttachment = {
-        id,
-        name: file.name,
-        sizeLabel: formatFileSize(file.size),
-        progress: 0,
-      };
-      setPendingAttachments((prev) => [...prev, attachment]);
-
-      // Sahte (mock) yükleme ilerlemesi — gerçek backend olmadığı için simüle edilir
-      const interval = window.setInterval(() => {
-        setPendingAttachments((prev) =>
-          prev.map((item) =>
-            item.id === id ? { ...item, progress: Math.min(100, item.progress + 18) } : item
-          )
-        );
-      }, 220);
-
-      window.setTimeout(() => window.clearInterval(interval), 1600);
-    });
-  };
-
   const handleSend = () => {
-    const isReady = pendingAttachments.every((item) => item.progress >= 100);
-    if (!draft.trim() && pendingAttachments.length === 0) return;
-    if (!isReady) return;
-
-    sendUserMessage(draft.trim() || 'Belge paylaşıldı', pendingAttachments.length ? pendingAttachments : undefined);
+    if (!canSend) return;
+    sendUserMessage(draft);
     setDraft('');
-    setPendingAttachments([]);
     if (textareaRef.current) textareaRef.current.style.height = 'auto';
   };
 
@@ -82,70 +49,106 @@ export function ChatInputBar() {
   };
 
   return (
-    <div className="p-4 pt-2">
-      {pendingAttachments.length > 0 && (
-        <div className="mb-2 flex flex-col gap-2">
-          {pendingAttachments.map((attachment) => (
-            <div key={attachment.id} className="glass-panel rounded-xl p-2.5">
-              <div className="flex items-center justify-between text-xs text-white/70">
-                <span className="truncate">{attachment.name}</span>
-                <span className="text-white/35">{attachment.sizeLabel}</span>
-              </div>
-              <GlassProgressBar progress={attachment.progress} className="mt-1.5" />
-            </div>
+    <div className="shrink-0 px-4 pb-4 pt-1">
+      {showQuickPrompts && (
+        <div className="mb-2.5 flex flex-wrap gap-1.5">
+          {quickPrompts.map((prompt) => (
+            <button
+              key={prompt}
+              type="button"
+              onClick={() => sendUserMessage(prompt)}
+              className="focus-ring rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1.5 text-[11px] font-medium text-white/55 transition-all duration-300 hover:border-indigo-400/35 hover:bg-indigo-500/15 hover:text-white/90"
+            >
+              {prompt}
+            </button>
           ))}
         </div>
       )}
 
-      <div className="glass-panel-strong flex items-end gap-2 rounded-3xl p-2.5">
-        <div ref={uploadWrapperRef} className="relative">
-          <button
-            type="button"
-            onClick={() => setUploadMenuOpen((prev) => !prev)}
-            className="icon-button h-9 w-9 shrink-0"
-            aria-label="Dosya ekle"
-          >
-            <Plus className="h-4.5 w-4.5" />
-          </button>
-          <UploadMenu
-            isOpen={isUploadMenuOpen}
-            onClose={() => setUploadMenuOpen(false)}
-            onFilesSelected={handleFilesSelected}
-          />
-        </div>
+      <div
+        className={cn(
+          'glass-strong relative overflow-hidden rounded-[26px] px-3 pb-2.5 pt-3 transition-all duration-300',
+          isFocused && 'border-indigo-400/30 shadow-[0_0_34px_-10px_rgba(99,102,241,0.75)]'
+        )}
+      >
+        {/* Cam yüzeyde gezinen ince ışık çizgisi */}
+        <span className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+        <span className="pointer-events-none absolute -left-1/3 top-0 h-full w-1/2 animate-shimmer streak opacity-[0.18]" />
 
         <textarea
           ref={textareaRef}
           value={draft}
-          onChange={handleTextChange}
+          onChange={handleChange}
           onKeyDown={handleKeyDown}
-          placeholder="Bir şey sor..."
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
           rows={1}
-          className="max-h-36 flex-1 resize-none bg-transparent px-1 py-1.5 text-sm text-white/90 placeholder:text-white/35 focus:outline-none"
+          placeholder="Bir şey sor…"
+          className="relative max-h-[132px] w-full resize-none bg-transparent px-1 text-[13px] leading-relaxed text-white/90 placeholder:text-white/35 focus:outline-none"
         />
 
-        <button
-          type="button"
-          onClick={openVoiceAssistant}
-          className="icon-button h-9 w-9 shrink-0"
-          aria-label="Sesli asistanı aç"
-        >
-          <Mic className="h-4 w-4" />
-        </button>
+        <div className="relative mt-1.5 flex items-center gap-1.5">
+          <div ref={uploadWrapperRef} className="relative">
+            <button
+              type="button"
+              onClick={() => setMenuOpen((prev) => !prev)}
+              aria-label="Dosya ekle"
+              className={cn(
+                'focus-ring flex h-8 w-8 items-center justify-center rounded-full text-white/60 transition-all duration-300 hover:bg-white/[0.1] hover:text-white',
+                isMenuOpen && 'bg-white/[0.12] text-white'
+              )}
+            >
+              <Plus className="h-4.5 w-4.5" />
+            </button>
+            <UploadMenu
+              isOpen={isMenuOpen}
+              onClose={() => setMenuOpen(false)}
+              onFileSelected={(file) => startUpload(file.name, file.size)}
+              onScanDemo={() => startUpload('Taranan-Fatura-2024-8871.pdf', 87728)}
+            />
+          </div>
 
-        <button
-          type="button"
-          onClick={handleSend}
-          disabled={!draft.trim() && pendingAttachments.length === 0}
-          className={cn(
-            'icon-button h-9 w-9 shrink-0 border-indigo-400/30 bg-indigo-500/25 text-white hover:bg-indigo-500/40',
-            !draft.trim() && pendingAttachments.length === 0 && 'cursor-not-allowed opacity-40 hover:bg-indigo-500/25'
-          )}
-          aria-label="Gönder"
-        >
-          <ArrowUp className="h-4 w-4" />
-        </button>
+          <button
+            type="button"
+            aria-label="Bağlam ekle"
+            title="Belge veya modül bağlamı ekle"
+            className="focus-ring flex h-8 w-8 items-center justify-center rounded-full text-white/60 transition-all duration-300 hover:bg-white/[0.1] hover:text-white"
+          >
+            <AtSign className="h-4 w-4" />
+          </button>
+
+          <span className="ml-auto flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={openVoiceAssistant}
+              aria-label="Sesli asistanı aç"
+              className="focus-ring flex h-8 w-8 items-center justify-center rounded-full text-white/60 transition-all duration-300 hover:bg-white/[0.1] hover:text-white"
+            >
+              <Mic className="h-4 w-4" />
+            </button>
+
+            <motion.button
+              type="button"
+              onClick={handleSend}
+              disabled={!canSend}
+              aria-label="Gönder"
+              whileTap={canSend ? { scale: 0.92 } : undefined}
+              className={cn(
+                'focus-ring flex h-8 w-8 items-center justify-center rounded-full transition-all duration-300',
+                canSend
+                  ? 'bg-white text-black shadow-[0_0_22px_-6px_rgba(255,255,255,0.8)] hover:bg-white/90'
+                  : 'cursor-not-allowed bg-white/[0.12] text-white/35'
+              )}
+            >
+              <ArrowUp className="h-4 w-4" strokeWidth={2.4} />
+            </motion.button>
+          </span>
+        </div>
       </div>
+
+      <p className="mt-2 px-1 text-center text-[10px] text-white/25">
+        Enter ile gönder · Shift + Enter ile yeni satır
+      </p>
     </div>
   );
 }
