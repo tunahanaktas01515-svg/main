@@ -14,6 +14,26 @@ import { CenanAI } from './pages/CenanAI';
 import { SmartHome } from './pages/SmartHome';
 import { Settings } from './pages/Settings';
 import { PlaceholderPage } from './pages/PlaceholderPage';
+import {
+  FaturalarPage,
+  CariPage,
+  KasaBankaPage,
+  GiderlerPage,
+  StokPage,
+  CekSenetPage,
+  MutabakatPage,
+  OcrPage,
+  MizanPage,
+  GelirGiderPage,
+  BilancoPage,
+  KdvRaporPage,
+  YaslandirmaPage,
+  AiOzetPage,
+  BeyannamePage,
+  VergiTakvimPage,
+  EBelgePage,
+  DestekPage,
+} from './pages/ModulePages';
 import { LanguageProvider, useLang } from './i18n';
 import { findItemLabel } from './menu';
 
@@ -81,6 +101,45 @@ function Shell() {
         return <Settings theme={theme} onTheme={setTheme} />;
       case 'entegrasyon':
         return <Settings key="entg" theme={theme} onTheme={setTheme} initialSection="entegrasyon" />;
+      case 'faturalar':
+      case 'belge':
+        return <FaturalarPage />;
+      case 'cari':
+        return <CariPage />;
+      case 'kasabanka':
+        return <KasaBankaPage />;
+      case 'giderler':
+        return <GiderlerPage />;
+      case 'stok':
+        return <StokPage />;
+      case 'ceksenet':
+        return <CekSenetPage />;
+      case 'mutabakat':
+      case 'bankamut':
+        return <MutabakatPage />;
+      case 'ocr':
+        return <OcrPage />;
+      case 'mizan':
+        return <MizanPage />;
+      case 'gelirgider':
+        return <GelirGiderPage />;
+      case 'bilanco':
+        return <BilancoPage />;
+      case 'kdvrapor':
+        return <KdvRaporPage />;
+      case 'yaslandirma':
+        return <YaslandirmaPage />;
+      case 'aiozet':
+        return <AiOzetPage />;
+      case 'beyanname':
+        return <BeyannamePage />;
+      case 'vergitakvim':
+        return <VergiTakvimPage />;
+      case 'ebelge':
+      case 'ihracat':
+        return <EBelgePage />;
+      case 'destek':
+        return <DestekPage />;
       default:
         return <PlaceholderPage title={findItemLabel(page, lang)} />;
     }

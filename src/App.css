@@ -1444,3 +1444,143 @@
   color: #fff;
 }
 
+
+/* ================= Business module pages ================= */
+.biz__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.biz__actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.biz-btn {
+  padding: 9px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  background: rgba(255,255,255,0.45);
+  border: 1px solid rgba(255,255,255,0.8);
+  color: #1b2233;
+}
+.biz-btn--primary {
+  background: rgba(255,255,255,0.88);
+  box-shadow: 0 8px 20px rgba(40,50,90,0.1);
+}
+.biz-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.biz-stat { padding: 16px 16px 14px; display: flex; flex-direction: column; gap: 4px; }
+.biz-stat__label { font-size: 12px; font-weight: 700; color: var(--ink-dim); }
+.biz-stat__value { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+.biz-stat__hint { font-size: 12px; color: var(--ink-dim); }
+.biz-stat.is-up .biz-stat__value { color: var(--up); }
+.biz-stat.is-down .biz-stat__value { color: var(--down); }
+.biz-stat.is-warn .biz-stat__value { color: #c9851a; }
+.biz-panel { padding: 16px 16px 12px; margin-bottom: 14px; }
+.biz-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.biz-panel__head h3 { margin: 0; font-size: 15px; font-weight: 800; }
+.biz-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.biz-table-wrap { overflow: auto; }
+.biz-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.biz-table th {
+  text-align: left;
+  font-size: 11.5px;
+  font-weight: 750;
+  color: var(--ink-dim);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(120,130,160,0.16);
+  white-space: nowrap;
+}
+.biz-table td {
+  padding: 11px 10px;
+  border-bottom: 1px solid rgba(120,130,160,0.1);
+  color: var(--ink);
+  vertical-align: middle;
+}
+.biz-table tr:hover td { background: rgba(255,255,255,0.28); }
+.biz-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 750;
+  background: rgba(255,255,255,0.55);
+  border: 1px solid rgba(255,255,255,0.8);
+}
+.biz-pill.is-up { color: #177a45; background: rgba(31,157,87,0.12); border-color: rgba(31,157,87,0.25); }
+.biz-pill.is-down { color: #b53a34; background: rgba(224,82,74,0.12); border-color: rgba(224,82,74,0.25); }
+.biz-pill.is-warn { color: #9a6a12; background: rgba(201,133,26,0.14); border-color: rgba(201,133,26,0.28); }
+.biz-pill.is-info { color: #2f5fad; background: rgba(91,141,239,0.14); border-color: rgba(91,141,239,0.28); }
+.biz-bars { display: flex; flex-direction: column; gap: 10px; }
+.biz-bar-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 72px;
+  gap: 10px;
+  align-items: center;
+  font-size: 12.5px;
+}
+.biz-bar-row b { text-align: right; font-size: 12px; }
+.biz-bar-track {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(120,130,160,0.16);
+  overflow: hidden;
+}
+.biz-bar-track i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, rgba(255,255,255,0.95), #5b8def);
+}
+.biz-drop {
+  border: 1.5px dashed rgba(120,130,160,0.35);
+  border-radius: 18px;
+  padding: 36px 20px;
+  text-align: center;
+  background: rgba(255,255,255,0.28);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+.biz-drop p { margin: 0; color: var(--ink-dim); font-size: 13px; }
+.biz-list {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--ink);
+}
+@media (max-width: 980px) {
+  .biz-stats { grid-template-columns: repeat(2, 1fr); }
+  .biz-split { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .biz-stats { grid-template-columns: 1fr; }
+  .biz-bar-row { grid-template-columns: 1fr; gap: 4px; }
+}
