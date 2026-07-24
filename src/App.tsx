@@ -49,6 +49,8 @@ function Shell() {
         return <CenanAI />;
       case 'settings':
         return <Settings theme={theme} onTheme={setTheme} />;
+      case 'entegrasyon':
+        return <Settings key="entg" theme={theme} onTheme={setTheme} initialSection="entegrasyon" />;
       default:
         return <PlaceholderPage title={findItemLabel(page, lang)} />;
     }

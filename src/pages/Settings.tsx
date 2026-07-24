@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useLang } from '../i18n';
 import { Toggle } from '../components/Toggle';
+import { IntegrationsPanel } from '../components/IntegrationsPanel';
 
 type Theme = 'light' | 'dark' | 'system';
 
 type SettingsProps = {
   theme: Theme;
   onTheme: (t: Theme) => void;
+  initialSection?: string;
 };
 
-export function Settings({ theme, onTheme }: SettingsProps) {
+export function Settings({ theme, onTheme, initialSection = 'genel' }: SettingsProps) {
   const { lang, setLang } = useLang();
   const t = (tr: string, en: string) => (lang === 'tr' ? tr : en);
 
@@ -23,7 +25,7 @@ export function Settings({ theme, onTheme }: SettingsProps) {
     { id: 'ajanlar', label: t('Ajanlar', 'Agents') },
     { id: 'gelismis', label: t('Gelişmiş', 'Advanced') },
   ];
-  const [section, setSection] = useState('genel');
+  const [section, setSection] = useState(initialSection);
 
   // interactive states
   const [voice, setVoice] = useState(true);
@@ -151,10 +153,12 @@ export function Settings({ theme, onTheme }: SettingsProps) {
         {section === 'entegrasyon' && (
           <div className="set-group">
             <h3>{t('Entegrasyonlar', 'Integrations')}</h3>
-            <Row title="iyzico" desc={t('Ödeme altyapısı', 'Payment infrastructure')}><span className="set-badge on">{t('Bağlı', 'Connected')}</span></Row>
-            <Row title={t('Banka / ekstre bağlantıları', 'Bank / statement links')} desc={t('Yakında', 'Soon')}><button className="set-btn">{t('Bağlan', 'Connect')}</button></Row>
-            <Row title={t('E-fatura / Logo / Paraşüt', 'E-invoice / Logo / Paraşüt')}><button className="set-btn">{t('Bağlan', 'Connect')}</button></Row>
-            <Row title={t('API anahtarları', 'API keys')}><button className="set-btn">{t('Yönet', 'Manage')}</button></Row>
+            <p className="set-note">{t('Servisleri bağla; anahtarlar güvenle saklanır.', 'Connect services; keys are stored securely.')}</p>
+            <IntegrationsPanel />
+            <div className="set-row">
+              <div className="set-row__info"><span className="set-row__title">iyzico</span><span className="set-row__desc">{t('Ödeme altyapısı', 'Payment infrastructure')}</span></div>
+              <div className="set-row__ctrl"><span className="set-badge on">{t('Bağlı', 'Connected')}</span></div>
+            </div>
           </div>
         )}
 

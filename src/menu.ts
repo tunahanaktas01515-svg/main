@@ -71,7 +71,6 @@ export const MENU: MenuGroup[] = [
     items: [
       { id: 'settings', tr: 'Ayarlar', en: 'Settings' },
       { id: 'entegrasyon', tr: 'Entegrasyonlar', en: 'Integrations' },
-      { id: 'kullanicilar', tr: 'Kullanıcılar & Yetkiler', en: 'Users & Roles' },
       { id: 'destek', tr: 'Destek', en: 'Support' },
     ],
   },

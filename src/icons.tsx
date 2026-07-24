@@ -448,3 +448,81 @@ export function ChevronDownIcon({ className, size = 14 }: IconProps) {
     </svg>
   );
 }
+
+/* ---- Integration brand icons (simplified) ---- */
+
+export function SpotifyIcon({ size = 24 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="12" fill="#1DB954" />
+      <g fill="none" stroke="#0b1a10" strokeWidth="1.7" strokeLinecap="round">
+        <path d="M6 9.2c4-1 8-.6 11.2 1.1" />
+        <path d="M6.7 12.3c3.2-.8 6.6-.4 9.2 1.2" />
+        <path d="M7.3 15.3c2.5-.6 5.1-.3 7.2.9" />
+      </g>
+    </svg>
+  );
+}
+
+export function OpenAIIcon({ size = 24 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#10a37f" strokeWidth="1.5" aria-hidden="true">
+      <ellipse cx="12" cy="12" rx="4.2" ry="9" />
+      <ellipse cx="12" cy="12" rx="4.2" ry="9" transform="rotate(60 12 12)" />
+      <ellipse cx="12" cy="12" rx="4.2" ry="9" transform="rotate(120 12 12)" />
+    </svg>
+  );
+}
+
+export function ClaudeIcon({ size = 24 }: IconProps) {
+  const rays = Array.from({ length: 12 }, (_, i) => i * 30);
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
+      <g stroke="#d97757" strokeWidth="1.7" strokeLinecap="round">
+        {rays.map((a) => (
+          <line key={a} x1="12" y1="12" x2="12" y2="4.5" transform={`rotate(${a} 12 12)`} />
+        ))}
+      </g>
+    </svg>
+  );
+}
+
+export function GeminiIcon({ size = 24 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
+      <defs>
+        <linearGradient id="gemini-g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#4285f4" />
+          <stop offset="50%" stopColor="#9b72cb" />
+          <stop offset="100%" stopColor="#d96570" />
+        </linearGradient>
+      </defs>
+      <path d="M12 2c.4 5.2 4.4 9.6 10 10-5.6.4-9.6 4.8-10 10-.4-5.2-4.4-9.6-10-10C7.6 11.6 11.6 7.2 12 2Z" fill="url(#gemini-g)" />
+    </svg>
+  );
+}
+
+export function HomeAssistantIcon({ size = 24 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 3 3 11v9a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-9z" fill="#41bdf5" />
+      <g fill="#fff">
+        <circle cx="12" cy="17" r="1.3" />
+        <circle cx="9" cy="13.5" r="1.1" />
+        <circle cx="15" cy="13.5" r="1.1" />
+        <circle cx="12" cy="11" r="1.1" />
+        <path d="M11.6 16.6 9.2 13.9M12.4 16.6l2.4-2.7M12 15.6v-3.4" stroke="#fff" strokeWidth="0.9" fill="none" />
+      </g>
+    </svg>
+  );
+}
+
+export function GrokIcon({ size = 24 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#111" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+      <path d="M6 19 16 5" />
+      <path d="M10 19 18 8" />
+      <path d="M6 9 10 5" />
+    </svg>
+  );
+}

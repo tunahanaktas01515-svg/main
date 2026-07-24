@@ -50,9 +50,15 @@ export function Sidebar({ active, open, onNavigate, onToggle }: SidebarProps) {
           {MENU.map((g) => {
             const Ico = GROUP_ICONS[g.icon];
             return (
-              <button key={g.id} type="button" className="rail-ico" aria-label={g[lang]} onClick={() => openGroup(g.id)}>
-                <Ico size={20} />
-              </button>
+              // Icon stays fixed; label slides out to the right on hover and is clickable.
+              <div key={g.id} className="rail-item">
+                <button type="button" className="rail-ico" aria-label={g[lang]} onClick={() => openGroup(g.id)}>
+                  <Ico size={20} />
+                </button>
+                <button type="button" className="rail-flyout" onClick={() => openGroup(g.id)}>
+                  {g[lang]}
+                </button>
+              </div>
             );
           })}
         </div>
