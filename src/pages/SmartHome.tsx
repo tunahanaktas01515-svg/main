@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useLang } from '../i18n';
 import { Toggle } from '../components/Toggle';
+import { PlusIcon } from '../icons';
 
 const ROOMS = {
   tr: ['Oturma Odası', 'Yatak Odası', 'Mutfak', 'Banyo'],
@@ -30,7 +31,12 @@ export function SmartHome() {
             {r}
           </button>
         ))}
-        <button type="button" className="room-add">+</button>
+        <div className="room-add-wrap">
+          <button type="button" className="room-add" aria-label={t('Oda Ekle', 'Add Room')}>
+            <PlusIcon size={18} />
+          </button>
+          <span className="room-add-label">{t('Oda Ekle', 'Add Room')}</span>
+        </div>
       </div>
 
       <div className="home2__grid">

@@ -36,11 +36,11 @@
 .topnav-link:hover { background: rgba(255, 255, 255, 0.72); color: var(--ink); }
 .topnav-link.is-active { background: linear-gradient(135deg, #ff74b0, #5b8def); color: #fff; border-color: transparent; }
 .panel-toggle { flex: 0 0 auto; }
-.quick { position: relative; }
+.quick { position: relative; padding-bottom: 8px; margin-bottom: -8px; }
 .quick__menu {
   position: absolute;
   left: 0;
-  top: 44px;
+  top: 42px;
   min-width: 240px;
   padding: 6px;
   background: rgba(255, 255, 255, 0.95);
@@ -225,7 +225,7 @@
 .mitem.is-active .mitem__dot { background: linear-gradient(135deg, #ff74b0, #5b8def); }
 
 /* ================= Header actions ================= */
-.header-actions { display: flex; align-items: center; gap: 10px; }
+.header-actions { display: flex; align-items: center; gap: 10px; margin-left: auto; }
 .icon-chip {
   width: 44px;
   height: 44px;
@@ -776,7 +776,26 @@
 .home2__rooms { display: flex; align-items: center; gap: 8px; }
 .room-tab { padding: 9px 16px; border-radius: 999px; font-weight: 700; font-size: 14px; color: #6b7286; background: rgba(255,255,255,0.4); border: 1px solid var(--line); }
 .room-tab.is-active { background: linear-gradient(135deg, #ff74b0, #5b8def); color: #fff; border-color: transparent; }
-.room-add { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.5); border: 1px solid var(--line); font-size: 18px; color: #45506a; }
+.room-add-wrap { position: relative; padding-bottom: 34px; margin-bottom: -34px; display: inline-flex; }
+.room-add { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,0.5); border: 1px solid var(--line); color: #45506a; transition: box-shadow 0.25s ease, background 0.2s ease; }
+.room-add:hover { background: rgba(255,255,255,0.82); }
+.room-add-wrap:hover .room-add { box-shadow: 0 0 0 3px rgba(255,255,255,0.7), 0 0 18px 5px rgba(255,255,255,0.9); }
+.room-add-label {
+  position: absolute;
+  top: 46px;
+  left: 50%;
+  margin-left: -44px;
+  width: 88px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #45506a;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.18s ease, visibility 0.18s ease;
+}
+.room-add-wrap:hover .room-add-label { opacity: 1; visibility: visible; }
 .home2__grid { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 16px; align-items: start; }
 .home2__col { display: flex; flex-direction: column; gap: 16px; }
 .sh-members__head { display: flex; justify-content: space-between; align-items: center; font-weight: 700; }
