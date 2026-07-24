@@ -8,13 +8,15 @@ import {
   ReportIcon,
   TaxIcon,
   GearIcon,
+  GridToggleIcon,
   ChevronDownIcon,
 } from '../icons';
 
 type SidebarProps = {
   active: string;
-  collapsed: boolean;
+  open: boolean;
   onNavigate: (id: string) => void;
+  onToggle: () => void;
 };
 
 const GROUP_ICONS = {
@@ -25,10 +27,21 @@ const GROUP_ICONS = {
   gear: GearIcon,
 } as const;
 
-export function Sidebar({ active, collapsed, onNavigate }: SidebarProps) {
-  const { lang } = useLang();
+export function Sidebar({ active, open, onNavigate, onToggle }: SidebarProps) {
+  const { lang, L } = useLang();
   const [hover, setHover] = useState<string | null>(null);
   const [pinned, setPinned] = useState<Set<string>>(new Set(['ana']));
+
+  // Collapsed: only a floating round "open" button, independent from edges.
+  if (!open) {
+    return (
+      <div className="menu-rail">
+        <button type="button" className="menu-open glow-chip" aria-label={L.toggleMenu} onClick={onToggle}>
+          <GridToggleIcon size={22} />
+        </button>
+      </div>
+    );
+  }
 
   const isOpen = (id: string) => pinned.has(id) || hover === id;
   const togglePin = (id: string) =>
@@ -40,7 +53,7 @@ export function Sidebar({ active, collapsed, onNavigate }: SidebarProps) {
     });
 
   return (
-    <aside className={`sidebar ${collapsed ? 'is-collapsed' : ''}`}>
+    <aside className="sidebar">
       <div className="sidebar__brand">
         <span className="sidebar__logo">
           <SquircleIcon size={22} />
@@ -49,16 +62,17 @@ export function Sidebar({ active, collapsed, onNavigate }: SidebarProps) {
           <span className="sidebar__brandname">Cenan</span>
           <span className="sidebar__brandsub">Muhasebe & İhracat</span>
         </div>
+        <button type="button" className="sidebar__close" aria-label={L.close} onClick={onToggle}>×</button>
       </div>
 
       <nav className="sidebar__nav">
         {MENU.map((g) => {
           const Ico = GROUP_ICONS[g.icon];
-          const open = isOpen(g.id);
+          const grpOpen = isOpen(g.id);
           return (
             <div
               key={g.id}
-              className={`mgroup ${open ? 'is-open' : ''}`}
+              className={`mgroup ${grpOpen ? 'is-open' : ''}`}
               onMouseEnter={() => setHover(g.id)}
               onMouseLeave={() => setHover((h) => (h === g.id ? null : h))}
             >

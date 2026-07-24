@@ -56,14 +56,18 @@ function Shell() {
 
   return (
     <div className={`app-shell ${theme === 'dark' ? 'theme-dark' : ''}`} style={{ background: bg.bg }}>
-      <Sidebar active={mode === 'home' ? '' : page} collapsed={!sidebarOpen} onNavigate={navigate} />
+      <Sidebar
+        active={mode === 'home' ? '' : page}
+        open={sidebarOpen}
+        onToggle={() => setSidebarOpen((o) => !o)}
+        onNavigate={navigate}
+      />
       <div className="app-main">
         <TopBar
           active={page}
           mode={mode}
           user={user}
           onNavigate={navigate}
-          onToggleSidebar={() => setSidebarOpen((o) => !o)}
           onToggleMode={() => setMode((m) => (m === 'work' ? 'home' : 'work'))}
           onOpenBg={() => setBgOpen(true)}
           onOpenSettings={() => { setMode('work'); setPage('settings'); setSidebarOpen(false); }}

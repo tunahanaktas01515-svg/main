@@ -18,7 +18,6 @@ type TopBarProps = {
   mode: 'work' | 'home';
   user: User | null;
   onNavigate: (id: string) => void;
-  onToggleSidebar: () => void;
   onToggleMode: () => void;
   onOpenBg: () => void;
   onOpenSettings: () => void;
@@ -32,7 +31,6 @@ export function TopBar({
   mode,
   user,
   onNavigate,
-  onToggleSidebar,
   onToggleMode,
   onOpenBg,
   onOpenSettings,
@@ -45,9 +43,6 @@ export function TopBar({
   return (
     <div className="topbar">
       <div className="topbar__left">
-        <button type="button" className="icon-chip glow-chip panel-toggle" aria-label={L.toggleMenu} onClick={onToggleSidebar}>
-          <GridToggleIcon size={20} />
-        </button>
         <button
           type="button"
           className={`topnav-link ${active === 'dashboard' && mode === 'work' ? 'is-active' : ''}`}

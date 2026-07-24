@@ -111,6 +111,7 @@ const tr = {
   fieldPassword: 'Şifre',
 
   toggleMenu: 'Menü',
+  close: 'Kapat',
   homeLink: 'Ana Sayfa',
   quickActions: 'Hızlı İşlemler',
   smartHome: 'Akıllı Ev',
@@ -240,6 +241,7 @@ const en: typeof tr = {
   fieldPassword: 'Password',
 
   toggleMenu: 'Menu',
+  close: 'Close',
   homeLink: 'Home',
   quickActions: 'Quick Actions',
   smartHome: 'Smart Home',
