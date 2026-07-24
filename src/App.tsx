@@ -3,9 +3,10 @@ import './App.css';
 import { Sidebar } from './components/Sidebar';
 import { TopBar } from './components/TopBar';
 import { LoginModal } from './components/LoginModal';
+import { ProfileModal } from './components/ProfileModal';
 import { BgPicker, BACKGROUNDS } from './components/BgPicker';
 import { StyleModal, type HomeStyle } from './components/StyleModal';
-import { DesignBlocksPanel, type DesignBlockId } from './components/DesignBlocksPanel';
+import { DesignBlocksPanel, type DesignBlockId, type SectionColorId } from './components/DesignBlocksPanel';
 import { Dashboard } from './pages/Dashboard';
 import { Borsa } from './pages/Borsa';
 import { Ajanlar } from './pages/Ajanlar';
@@ -16,7 +17,7 @@ import { PlaceholderPage } from './pages/PlaceholderPage';
 import { LanguageProvider, useLang } from './i18n';
 import { findItemLabel } from './menu';
 
-export type User = { name: string; email: string };
+export type User = { name: string; surname?: string; email: string; phone?: string };
 type Theme = 'light' | 'dark' | 'system';
 
 function Shell() {
@@ -25,8 +26,9 @@ function Shell() {
   const [mode, setMode] = useState<'work' | 'home'>('work');
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [theme, setTheme] = useState<Theme>('light');
-  const [user, setUser] = useState<User | null>({ name: 'Ayşe', email: 'ayse@cenan.io' });
+  const [user, setUser] = useState<User | null>({ name: 'Ayşe', surname: 'Kenter', email: 'ayse@cenan.io', phone: '' });
   const [loginOpen, setLoginOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [bgOpen, setBgOpen] = useState(false);
   const [bgId, setBgId] = useState(BACKGROUNDS[0]?.id ?? 'bg-01-skyline');
   const [homeEdit, setHomeEdit] = useState(false);
@@ -34,6 +36,7 @@ function Shell() {
   const [styleOpen, setStyleOpen] = useState(false);
   const [blocksOpen, setBlocksOpen] = useState(false);
   const [extraBlocks, setExtraBlocks] = useState<DesignBlockId[]>([]);
+  const [sectionColor, setSectionColor] = useState<SectionColorId>('white');
 
   const displayName = user?.name ?? 'Misafir';
   const bg = BACKGROUNDS.find((b) => b.id === bgId) ?? BACKGROUNDS[0];
@@ -58,6 +61,7 @@ function Shell() {
         <SmartHome
           editMode={homeEdit}
           homeStyle={homeStyle}
+          sectionColor={sectionColor}
           extraBlocks={extraBlocks}
           onRemoveBlock={removeBlock}
           onExitEdit={() => setHomeEdit(false)}
@@ -83,7 +87,7 @@ function Shell() {
   };
 
   return (
-    <div className={`app-shell ${theme === 'dark' ? 'theme-dark' : ''}`} style={{ background: bg.bg }}>
+    <div className={`app-shell ui-glass ${theme === 'dark' ? 'theme-dark' : ''}`} style={{ background: bg.bg }}>
       {mode === 'work' && (
         <Sidebar
           active={page}
@@ -114,7 +118,7 @@ function Shell() {
           onOpenSettings={() => { setMode('work'); setPage('settings'); setSidebarOpen(false); }}
           onLogin={() => setLoginOpen(true)}
           onLogout={() => setUser(null)}
-          onProfile={() => navigate('cenanai')}
+          onProfile={() => setProfileOpen(true)}
         />
         <main className="app-content">{renderContent()}</main>
       </div>
@@ -125,15 +129,24 @@ function Shell() {
           onSubmit={(u) => { setUser(u); setLoginOpen(false); }}
         />
       )}
+      {profileOpen && (
+        <ProfileModal
+          user={user}
+          onClose={() => setProfileOpen(false)}
+          onSave={(u) => { setUser(u); setProfileOpen(false); }}
+        />
+      )}
       {bgOpen && (
         <BgPicker current={bgId} onSelect={(id) => setBgId(id)} onClose={() => setBgOpen(false)} />
       )}
-      {styleOpen && (
+      {styleOpen && mode === 'home' && (
         <StyleModal current={homeStyle} onSelect={setHomeStyle} onClose={() => setStyleOpen(false)} />
       )}
-      {blocksOpen && (
+      {blocksOpen && mode === 'home' && (
         <DesignBlocksPanel
           placed={extraBlocks}
+          sectionColor={sectionColor}
+          onSectionColor={setSectionColor}
           onAdd={addBlock}
           onClose={() => setBlocksOpen(false)}
         />

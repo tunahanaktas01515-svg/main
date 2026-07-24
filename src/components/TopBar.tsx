@@ -48,8 +48,8 @@ export function TopBar({
   onProfile,
 }: TopBarProps) {
   const { lang, setLang, L } = useLang();
-
   const isHome = mode === 'home';
+
   return (
     <div className="topbar">
       {!isHome && (
@@ -91,19 +91,18 @@ export function TopBar({
           {isHome ? <GridToggleIcon size={20} /> : <HomeOutlineIcon size={20} />}
         </button>
 
-        {/* Brush: Stil + Arka Plan only. Home: bare + next to brush (no pill/circle). */}
-        <div className="brush-cluster">
-          <div className="brushmenu">
-            <button type="button" className="icon-chip brush-btn" aria-label={L.editBg}>
-              <BrushIcon size={20} />
-            </button>
-            <div className="brushmenu__list">
-              <button type="button" onClick={onOpenStyle}>{L.bgStil}</button>
-              <button type="button" onClick={onOpenBg}>{L.bgArkaPlan}</button>
+        {/* Work: Arka Plan only. Home: Stil + Arka Plan + bare + (edit/blocks). */}
+        {isHome ? (
+          <div className="brush-cluster">
+            <div className="brushmenu">
+              <button type="button" className="icon-chip brush-btn" aria-label={L.editBg}>
+                <BrushIcon size={20} />
+              </button>
+              <div className="brushmenu__list">
+                <button type="button" onClick={onOpenStyle}>{L.bgStil}</button>
+                <button type="button" onClick={onOpenBg}>{L.bgArkaPlan}</button>
+              </div>
             </div>
-          </div>
-
-          {isHome && (
             <button
               type="button"
               className="layout-plus"
@@ -123,8 +122,12 @@ export function TopBar({
             >
               <PlusIcon size={22} />
             </button>
-          )}
-        </div>
+          </div>
+        ) : (
+          <button type="button" className="icon-chip brush-btn" aria-label={L.bgArkaPlan} onClick={onOpenBg}>
+            <BrushIcon size={20} />
+          </button>
+        )}
 
         {!isHome && (
           <>
@@ -143,7 +146,7 @@ export function TopBar({
               </button>
               <div className="profile__menu" role="menu">
                 <div className="profile__head">
-                  <span className="profile__name">{user ? user.name : L.guest}</span>
+                  <span className="profile__name">{user ? `${user.name}${user.surname ? ` ${user.surname}` : ''}` : L.guest}</span>
                   <span className="profile__mail">{user ? user.email : '—'}</span>
                 </div>
                 <button type="button" className="profile__item" role="menuitem" onClick={onProfile}>{L.profileInfo}</button>

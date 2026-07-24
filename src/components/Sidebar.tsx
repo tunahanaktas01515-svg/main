@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { MENU } from '../menu';
 import { useLang } from '../i18n';
 import {
-  SquircleIcon,
   GridIcon,
   SwapIcon,
   ReportIcon,
@@ -31,10 +30,10 @@ export function Sidebar({ active, open, onNavigate, onToggle }: SidebarProps) {
   const { lang, L } = useLang();
   const [hover, setHover] = useState<string | null>(null);
   const [pinned, setPinned] = useState<Set<string>>(new Set(['ana']));
+  const [query, setQuery] = useState('');
 
   const isOpen = (id: string) => pinned.has(id) || hover === id;
 
-  // Collapsed: floating icon rail; open via the top hamburger, or tap a group icon.
   if (!open) {
     const openGroup = (id: string) => {
       setPinned((prev) => new Set(prev).add(id));
@@ -50,7 +49,6 @@ export function Sidebar({ active, open, onNavigate, onToggle }: SidebarProps) {
           {MENU.map((g) => {
             const Ico = GROUP_ICONS[g.icon];
             return (
-              // Icon stays fixed; label slides out to the right on hover and is clickable.
               <div key={g.id} className="rail-item">
                 <button type="button" className="rail-ico" aria-label={g[lang]} onClick={() => openGroup(g.id)}>
                   <Ico size={20} />
@@ -74,23 +72,43 @@ export function Sidebar({ active, open, onNavigate, onToggle }: SidebarProps) {
       return next;
     });
 
+  const q = query.trim().toLowerCase();
+  const filteredMenu = MENU.map((g) => ({
+    ...g,
+    items: q
+      ? g.items.filter((it) => it.tr.toLowerCase().includes(q) || it.en.toLowerCase().includes(q))
+      : g.items,
+  })).filter((g) => !q || g.items.length > 0);
+
   return (
     <aside className="sidebar">
       <div className="sidebar__brand">
-        <span className="sidebar__logo">
-          <SquircleIcon size={22} />
-        </span>
-        <div>
-          <span className="sidebar__brandname">Cenan</span>
-          <span className="sidebar__brandsub">Muhasebe & İhracat</span>
-        </div>
+        <form
+          className="side-search"
+          onSubmit={(e) => {
+            e.preventDefault();
+            const first = filteredMenu[0]?.items[0];
+            if (first) onNavigate(first.id);
+          }}
+        >
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={L.searchPlaceholder}
+            aria-label={L.searchPlaceholder}
+          />
+          <button type="submit" className="side-search__btn" aria-label={L.searchPlaceholder}>
+            <SearchGlyph />
+          </button>
+        </form>
         <button type="button" className="sidebar__close" aria-label={L.close} onClick={onToggle}>×</button>
       </div>
 
       <nav className="sidebar__nav">
-        {MENU.map((g) => {
+        {filteredMenu.map((g) => {
           const Ico = GROUP_ICONS[g.icon];
-          const grpOpen = isOpen(g.id);
+          const grpOpen = isOpen(g.id) || !!q;
           return (
             <div
               key={g.id}
@@ -125,5 +143,14 @@ export function Sidebar({ active, open, onNavigate, onToggle }: SidebarProps) {
         })}
       </nav>
     </aside>
+  );
+}
+
+function SearchGlyph() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
+      <circle cx="11" cy="11" r="7" />
+      <path d="M20 20l-3.5-3.5" />
+    </svg>
   );
 }

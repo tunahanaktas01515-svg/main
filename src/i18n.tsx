@@ -109,6 +109,7 @@ const tr = {
   fieldName: 'Ad Soyad',
   fieldEmail: 'E-posta',
   fieldPassword: 'Şifre',
+  searchPlaceholder: 'Ara…',
 
   toggleMenu: 'Menü',
   close: 'Kapat',
@@ -243,6 +244,7 @@ const en: typeof tr = {
   fieldName: 'Full Name',
   fieldEmail: 'Email',
   fieldPassword: 'Password',
+  searchPlaceholder: 'Search…',
 
   toggleMenu: 'Menu',
   close: 'Close',
