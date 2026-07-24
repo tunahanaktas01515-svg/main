@@ -1016,3 +1016,76 @@
   .intg-card { grid-template-columns: auto 1fr; }
   .intg-right { grid-column: 1 / -1; justify-content: flex-end; }
 }
+
+/* ================= Smart-home brush menu (Arka Plan / Stil / Düzen) ================= */
+.brushmenu { position: relative; padding-bottom: 8px; margin-bottom: -8px; }
+.brushmenu__list {
+  position: absolute;
+  right: 0;
+  top: 46px;
+  min-width: 168px;
+  padding: 6px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  box-shadow: 0 16px 40px rgba(40, 50, 90, 0.2);
+  z-index: 40;
+}
+.brushmenu:hover .brushmenu__list { display: flex; }
+.brushmenu__list button {
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #384056;
+}
+.brushmenu__list button:hover { background: rgba(120, 130, 160, 0.12); }
+.app-shell.theme-dark .brushmenu__list { background: rgba(28, 32, 42, 0.97); }
+.app-shell.theme-dark .brushmenu__list button { color: #d8dce1; }
+
+/* ================= Smart-home edit mode ================= */
+.sh-edit-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 16px;
+  background: linear-gradient(90deg, rgba(255,116,176,0.16), rgba(91,141,239,0.16));
+  border: 1px solid var(--line);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.sh-edit-bar__actions { display: flex; gap: 8px; }
+.sh-edit-bar__actions button { padding: 8px 14px; border-radius: 10px; font-weight: 700; font-size: 13px; background: rgba(255,255,255,0.7); border: 1px solid var(--line); color: #384056; }
+.sh-edit-bar__actions .is-primary { background: linear-gradient(135deg, #ff74b0, #5b8def); color: #fff; border-color: transparent; }
+.sh-dev, .sh-door { position: relative; }
+.sh-remove {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  line-height: 1;
+  color: #fff;
+  background: #e0524a;
+  box-shadow: 0 4px 10px rgba(224,82,74,0.4);
+  z-index: 3;
+}
+.home2.is-editing .glass-card { outline: 1.5px dashed rgba(91,141,239,0.5); outline-offset: 2px; }
+
+/* Smart-home style variants */
+.home2--soft .glass-card { background: #ffffff; backdrop-filter: none; box-shadow: 0 10px 26px rgba(40,50,90,0.08); }
+.home2--vivid .glass-card { border-color: rgba(91,141,239,0.4); box-shadow: 0 14px 30px rgba(91,141,239,0.16); }
+.home2--vivid .room-tab.is-active,
+.home2--vivid .sh-act.is-on { background: linear-gradient(135deg, #ff5ba3, #4f7ff0); }

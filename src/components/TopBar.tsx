@@ -20,6 +20,8 @@ type TopBarProps = {
   onNavigate: (id: string) => void;
   onToggleMode: () => void;
   onOpenBg: () => void;
+  onOpenStyle: () => void;
+  onToggleEdit: () => void;
   onOpenSettings: () => void;
   onLogin: () => void;
   onLogout: () => void;
@@ -33,6 +35,8 @@ export function TopBar({
   onNavigate,
   onToggleMode,
   onOpenBg,
+  onOpenStyle,
+  onToggleEdit,
   onOpenSettings,
   onLogin,
   onLogout,
@@ -84,9 +88,23 @@ export function TopBar({
         </button>
 
         {/* Interface editing (brush) — far right */}
-        <button type="button" className="icon-chip brush-btn" aria-label={L.editBg} onClick={onOpenBg}>
-          <BrushIcon size={20} />
-        </button>
+        {isHome ? (
+          // Smart-home only: brush opens Arka Plan / Stil / Düzen menu on hover.
+          <div className="brushmenu">
+            <button type="button" className="icon-chip brush-btn" aria-label={L.editBg}>
+              <BrushIcon size={20} />
+            </button>
+            <div className="brushmenu__list">
+              <button type="button" onClick={onOpenBg}>{L.bgArkaPlan}</button>
+              <button type="button" onClick={onOpenStyle}>{L.bgStil}</button>
+              <button type="button" onClick={onToggleEdit}>{L.bgDuzen}</button>
+            </div>
+          </div>
+        ) : (
+          <button type="button" className="icon-chip brush-btn" aria-label={L.editBg} onClick={onOpenBg}>
+            <BrushIcon size={20} />
+          </button>
+        )}
 
         {!isHome && (
           <>

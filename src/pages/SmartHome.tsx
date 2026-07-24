@@ -8,13 +8,28 @@ const ROOMS = {
   en: ['Living Room', 'Bed Room', 'Kitchen', 'Bathroom'],
 };
 
-export function SmartHome() {
+type SmartHomeProps = {
+  editMode?: boolean;
+  homeStyle?: 'glass' | 'soft' | 'vivid';
+  onExitEdit?: () => void;
+};
+
+export function SmartHome({ editMode = false, homeStyle = 'glass', onExitEdit }: SmartHomeProps) {
   const { lang } = useLang();
   const t = (tr: string, en: string) => (lang === 'tr' ? tr : en);
   const [room, setRoom] = useState(0);
   const [temp, setTemp] = useState(23);
   const [devices, setDevices] = useState({ light: true, stereo: true, monitor: false, tv: false });
   const toggle = (k: keyof typeof devices) => setDevices((d) => ({ ...d, [k]: !d[k] }));
+
+  // Editable blocks: user can hide blocks (Işık, Ön Kapı, etc.) in edit mode.
+  const [hidden, setHidden] = useState<Set<string>>(new Set());
+  const hide = (id: string) => setHidden((s) => new Set(s).add(id));
+  const shown = (id: string) => !hidden.has(id);
+  const RemoveBtn = ({ id }: { id: string }) =>
+    editMode ? (
+      <button type="button" className="sh-remove" aria-label={t('Gizle', 'Hide')} onClick={() => hide(id)}>×</button>
+    ) : null;
 
   const forecast = ['24°', '25°', '27°', '28°', '26°'];
   const hours = ['10:00', '11:00', '12:00', '13:00', '14:00'];
@@ -23,7 +38,16 @@ export function SmartHome() {
   const maxE = Math.max(...energy);
 
   return (
-    <div className="home2">
+    <div className={`home2 home2--${homeStyle} ${editMode ? 'is-editing' : ''}`}>
+      {editMode && (
+        <div className="sh-edit-bar">
+          <span className="sh-edit-bar__title">{t('Düzenleme Modu — blokları gizleyip düzenleyin', 'Edit mode — hide & arrange blocks')}</span>
+          <div className="sh-edit-bar__actions">
+            <button type="button" onClick={() => setHidden(new Set())}>{t('Sıfırla', 'Reset')}</button>
+            <button type="button" className="is-primary" onClick={onExitEdit}>{t('Bitti', 'Done')}</button>
+          </div>
+        </div>
+      )}
       {/* Rooms header */}
       <div className="home2__rooms">
         {ROOMS[lang].map((r, i) => (
@@ -99,10 +123,14 @@ export function SmartHome() {
             </div>
           </div>
           <div className="sh-doors">
-            {[t('Ön Kapı', 'Front Door'), t('Arka Kapı', 'Back Door')].map((d, i) => (
-              <div key={i} className="glass-card sh-door">
+            {[
+              { id: 'front', label: t('Ön Kapı', 'Front Door') },
+              { id: 'back', label: t('Arka Kapı', 'Back Door') },
+            ].filter((d) => shown(d.id)).map((d) => (
+              <div key={d.id} className="glass-card sh-door">
+                <RemoveBtn id={d.id} />
                 <span className="sh-door__state">{t('Kapalı', 'Closed')}</span>
-                <span className="sh-door__name">{d}</span>
+                <span className="sh-door__name">{d.label}</span>
                 <span className="sh-door__lock">🔒 › › 🔓</span>
               </div>
             ))}
@@ -128,8 +156,9 @@ export function SmartHome() {
               ['stereo', t('Stereo', 'Stereo')],
               ['monitor', t('İzleme', 'Monitoring')],
               ['tv', t('Televizyon', 'Television')],
-            ] as const).map(([k, label]) => (
+            ] as const).filter(([k]) => shown(k)).map(([k, label]) => (
               <div key={k} className={`glass-card sh-dev ${devices[k] ? 'is-on' : ''}`}>
+                <RemoveBtn id={k} />
                 <div className="sh-dev__top">
                   <span className="sh-dev__ico">◐</span>
                   <Toggle on={devices[k]} onChange={() => toggle(k)} />

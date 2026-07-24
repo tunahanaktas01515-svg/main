@@ -4,6 +4,7 @@ import { Sidebar } from './components/Sidebar';
 import { TopBar } from './components/TopBar';
 import { LoginModal } from './components/LoginModal';
 import { BgPicker, BACKGROUNDS } from './components/BgPicker';
+import { StyleModal, type HomeStyle } from './components/StyleModal';
 import { Dashboard } from './pages/Dashboard';
 import { Borsa } from './pages/Borsa';
 import { Ajanlar } from './pages/Ajanlar';
@@ -27,6 +28,9 @@ function Shell() {
   const [loginOpen, setLoginOpen] = useState(false);
   const [bgOpen, setBgOpen] = useState(false);
   const [bgId, setBgId] = useState('glass');
+  const [homeEdit, setHomeEdit] = useState(false);
+  const [homeStyle, setHomeStyle] = useState<HomeStyle>('glass');
+  const [styleOpen, setStyleOpen] = useState(false);
 
   const displayName = user?.name ?? 'Misafir';
   const bg = BACKGROUNDS.find((b) => b.id === bgId) ?? BACKGROUNDS[0];
@@ -37,7 +41,7 @@ function Shell() {
   };
 
   const renderContent = () => {
-    if (mode === 'home') return <SmartHome />;
+    if (mode === 'home') return <SmartHome editMode={homeEdit} homeStyle={homeStyle} onExitEdit={() => setHomeEdit(false)} />;
     switch (page) {
       case 'dashboard':
         return <Dashboard userName={displayName} onNavigate={navigate} />;
@@ -74,6 +78,8 @@ function Shell() {
           onNavigate={navigate}
           onToggleMode={() => setMode((m) => (m === 'work' ? 'home' : 'work'))}
           onOpenBg={() => setBgOpen(true)}
+          onOpenStyle={() => setStyleOpen(true)}
+          onToggleEdit={() => setHomeEdit((e) => !e)}
           onOpenSettings={() => { setMode('work'); setPage('settings'); setSidebarOpen(false); }}
           onLogin={() => setLoginOpen(true)}
           onLogout={() => setUser(null)}
@@ -90,6 +96,9 @@ function Shell() {
       )}
       {bgOpen && (
         <BgPicker current={bgId} onSelect={(id) => setBgId(id)} onClose={() => setBgOpen(false)} />
+      )}
+      {styleOpen && (
+        <StyleModal current={homeStyle} onSelect={setHomeStyle} onClose={() => setStyleOpen(false)} />
       )}
     </div>
   );
