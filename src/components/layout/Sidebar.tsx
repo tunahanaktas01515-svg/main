@@ -72,7 +72,7 @@ export function Sidebar() {
           {!isSidebarCollapsed && (
             <span className="min-w-0 flex-1">
               <span className="block truncate text-[13px] font-semibold text-white/90">
-                {isLoggedIn ? 'Deniz Yılmaz' : 'Bilinmeyen Kullanıcı'}
+                {isLoggedIn ? 'Deniz Yılmaz' : 'Misafir Kullanıcı'}
               </span>
               <span className="mt-0.5 block truncate text-[11px] text-white/35">
                 {isLoggedIn ? 'deniz@cenan.ai' : 'Giriş yapılmadı'}

@@ -67,13 +67,19 @@ export function ChatInputBar() {
 
       <div
         className={cn(
-          'glass-strong relative overflow-hidden rounded-[26px] px-3 pb-2.5 pt-3 transition-all duration-300',
+          'glass-strong relative rounded-[26px] px-3 pb-2.5 pt-3 transition-all duration-300',
           isFocused && 'border-indigo-400/30 shadow-[0_0_34px_-10px_rgba(99,102,241,0.75)]'
         )}
       >
-        {/* Cam yüzeyde gezinen ince ışık çizgisi */}
-        <span className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-        <span className="pointer-events-none absolute -left-1/3 top-0 h-full w-1/2 animate-shimmer streak opacity-[0.18]" />
+        {/*
+         * Işık efektleri kendi kırpılmış katmanında durur.
+         * Bu sarmalayıcıya overflow-hidden verilir; ana kapsayıcıda verilmez,
+         * aksi hâlde yukarı doğru açılan yükleme menüsü kırpılır.
+         */}
+        <span className="pointer-events-none absolute inset-0 overflow-hidden rounded-[26px]">
+          <span className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+          <span className="absolute -left-1/3 top-0 h-full w-1/2 animate-shimmer streak opacity-[0.18]" />
+        </span>
 
         <textarea
           ref={textareaRef}

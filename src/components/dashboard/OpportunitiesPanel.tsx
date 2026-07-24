@@ -29,7 +29,7 @@ export function OpportunitiesPanel({ className }: { className?: string }) {
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <p className="truncate text-[12.5px] font-semibold text-white/90">{item.title}</p>
-                <p className="mt-0.5 truncate text-[11px] text-white/40">{item.subtitle}</p>
+                <p className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-white/40">{item.subtitle}</p>
               </div>
               <span className="shrink-0 text-[13px] font-semibold tabular-nums text-white/85">{item.score}%</span>
             </div>

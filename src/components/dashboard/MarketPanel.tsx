@@ -36,20 +36,16 @@ export function MarketPanel({ title = 'Borsa Özeti', className }: MarketPanelPr
               initial={{ opacity: 0, x: 10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.05, duration: 0.3 }}
-              className="focus-ring group flex items-center gap-3 rounded-2xl border border-white/[0.06] bg-white/[0.025] px-3 py-2.5 text-left transition-all duration-300 hover:border-white/15 hover:bg-white/[0.06]"
+              className="focus-ring group flex items-center gap-2 rounded-2xl border border-white/[0.06] bg-white/[0.025] px-2.5 py-2.5 text-left transition-all duration-300 hover:border-white/15 hover:bg-white/[0.06]"
             >
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-[10px] font-bold text-white/70">
-                {asset.symbol.slice(0, 3)}
-              </span>
-
               <span className="min-w-0 flex-1">
                 <span className="block truncate text-[12px] font-semibold text-white/85">{asset.symbol}</span>
                 <span className="block truncate text-[10px] text-white/35">{asset.name}</span>
               </span>
 
-              <Sparkline data={asset.series} positive={isPositive} className="shrink-0 opacity-80" />
+              <Sparkline data={asset.series} positive={isPositive} width={44} height={22} className="shrink-0 opacity-80" />
 
-              <span className="w-[68px] shrink-0 text-right">
+              <span className="w-[64px] shrink-0 text-right">
                 <span className="block text-[12px] font-semibold tabular-nums text-white/90">{asset.value}</span>
                 <span
                   className={cn(
