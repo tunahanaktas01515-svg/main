@@ -4,7 +4,7 @@ import { useAppContext } from './context/appContextCore';
 import { AppBackground } from './components/layout/AppBackground';
 import { TopBar } from './components/layout/TopBar';
 import { Sidebar } from './components/layout/Sidebar';
-import { ChatPanel } from './components/chat/ChatPanel';
+import { FloatingMenu } from './components/layout/FloatingMenu';
 import { VoiceOverlay } from './components/chat/VoiceOverlay';
 import { UploadModal } from './components/chat/UploadModal';
 import { BackgroundSelector } from './components/background/BackgroundSelector';
@@ -18,7 +18,7 @@ function PageRouter() {
   const { activePage } = useAppContext();
 
   return (
-    <main className="relative z-10 min-w-0 flex-1">
+    <main className="relative z-10 min-h-0 min-w-0 flex-1">
       <AnimatePresence mode="wait">
         <motion.div
           key={activePage}
@@ -47,10 +47,12 @@ function AppShell() {
       <div className="flex min-h-0 flex-1">
         <Sidebar />
         <PageRouter />
-        <ChatPanel />
+        {/* Sağdaki yüzen menünün içeriği örtmemesi için ayrılan boşluk */}
+        <div className="w-[84px] shrink-0" aria-hidden />
       </div>
 
       {/* Katman üstü bileşenler */}
+      <FloatingMenu />
       <VoiceOverlay />
       <UploadModal />
       <BackgroundSelector />

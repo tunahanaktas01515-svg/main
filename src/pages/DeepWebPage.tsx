@@ -1,7 +1,11 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Eye, Fingerprint, Radar, ShieldAlert, ShieldCheck } from 'lucide-react';
 import { Badge } from '../components/ui/Badge';
 import { GlassProgressBar } from '../components/ui/GlassProgressBar';
+import { DeepSearchBar } from '../components/deepweb/DeepSearchBar';
+import { SearchModeChips } from '../components/deepweb/SearchModeChips';
+import { MarketTracker } from '../components/deepweb/MarketTracker';
 import { cn } from '../lib/cn';
 
 /** İzlenen anahtar kelimeler (mock) */
@@ -44,31 +48,63 @@ const riskTone = {
 };
 
 /**
- * Deep Web sayfası — ihracat ve marka güvenliği için karanlık ağ istihbarat paneli.
+ * Deep Web sayfası.
+ * Üst orta bölümde arama motoru ve tür eklentileri, altında borsa takip bloğu,
+ * en altta karanlık ağ istihbarat panelleri yer alır.
  */
 export function DeepWebPage() {
+  const [activeModes, setActiveModes] = useState<string[]>(['web', 'bilgi']);
+  const [lastQuery, setLastQuery] = useState<string | null>(null);
+
+  const toggleMode = (id: string) => {
+    setActiveModes((prev) => (prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]));
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: 'easeOut' }}
-      className="h-full overflow-y-auto px-5 py-5"
+      className="h-full overflow-y-auto px-6 pb-8"
     >
-      <header className="mb-5 flex items-end justify-between">
-        <div>
-          <h1 className="flex items-center gap-2 text-[22px] font-semibold tracking-tight text-white/95">
-            <Radar className="h-5 w-5 text-indigo-300" />
-            Deep Web İstihbarat
+      {/* --- Arama motoru: sayfanın tam üstü değil, üst-orta bölge --- */}
+      <section className="mx-auto w-full max-w-[820px] pt-[9vh]">
+        <div className="mb-6 text-center">
+          <h1 className="flex items-center justify-center gap-2.5 text-[30px] font-semibold tracking-tight text-white/95">
+            <Radar className="h-6 w-6 text-indigo-300" />
+            Deep Web Araştırma
           </h1>
-          <p className="mt-1 text-[12.5px] text-white/45">
-            Marka, evrak ve kurumsal kimlik sızıntıları için kapalı ağ taraması
+          <p className="mt-1.5 text-[13px] text-white/45">
+            Kapalı ağ kaynakları, sızıntı arşivleri ve pazar yerlerinde derin arama
           </p>
         </div>
-        <Badge tone="warning">Beta</Badge>
-      </header>
 
-      <div className="grid grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] gap-4">
-        {/* Sol: aktif tarama + bulgular */}
+        <DeepSearchBar onSearch={setLastQuery} />
+
+        <div className="mt-4">
+          <SearchModeChips activeIds={activeModes} onToggle={toggleMode} />
+        </div>
+
+        {lastQuery && (
+          <motion.p
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-4 text-center text-[12px] text-white/40"
+          >
+            <span className="font-semibold text-white/70">“{lastQuery}”</span> için{' '}
+            {activeModes.length || 1} kaynak türünde tarama kuyruğa alındı — sonuçlar hazır olduğunda İzleme
+            Listesi'ne düşecek.
+          </motion.p>
+        )}
+      </section>
+
+      {/* --- Borsa takip bloğu: aramadan belirgin bir boşlukla ayrılır --- */}
+      <section className="mx-auto mt-[7vh] w-full max-w-[1180px]">
+        <MarketTracker />
+      </section>
+
+      {/* --- Karanlık ağ istihbarat panelleri --- */}
+      <div className="mx-auto mt-5 grid w-full max-w-[1180px] grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] gap-4">
         <div className="flex flex-col gap-4">
           <section className="glass relative overflow-hidden rounded-3xl p-5">
             <span className="pointer-events-none absolute -right-16 -top-20 h-52 w-52 rounded-full bg-indigo-500/20 blur-3xl" />
@@ -104,7 +140,7 @@ export function DeepWebPage() {
           </section>
 
           <section className="glass rounded-3xl p-5">
-            <h2 className="mb-3.5 text-[14px] font-semibold text-white/92">Tespit Edilen Bulgular</h2>
+            <h2 className="mb-3.5 text-[14px] font-semibold text-white/92">Kaynaklar / Sonuçlar</h2>
             <div className="flex flex-col gap-2">
               {findings.map((finding, index) => (
                 <motion.div
@@ -139,7 +175,6 @@ export function DeepWebPage() {
           </section>
         </div>
 
-        {/* Sağ: izleme listesi + koruma durumu */}
         <div className="flex flex-col gap-4">
           <section className="glass rounded-3xl p-5">
             <div className="mb-3.5 flex items-center gap-2">
@@ -185,8 +220,8 @@ export function DeepWebPage() {
               <div>
                 <h2 className="text-[14px] font-semibold text-white/92">Koruma Durumu</h2>
                 <p className="mt-1 text-[12px] leading-relaxed text-white/45">
-                  Kimlik ve evrak izleme aktif. Yeni bulgular anlık olarak sohbet paneline uyarı düşer;
-                  kritik bulgular ayrıca e-posta ile bildirilir.
+                  Kimlik ve evrak izleme aktif. Yeni bulgular anlık olarak bildirim düşer; kritik bulgular
+                  ayrıca e-posta ile iletilir.
                 </p>
               </div>
             </div>

@@ -54,7 +54,7 @@ export function HomePage() {
         </div>
 
         {/* Sağ ray: piyasa, fırsatlar, uyarılar */}
-        <div className="flex w-[248px] shrink-0 flex-col gap-3.5 2xl:w-[280px]">
+        <div className="flex w-[296px] shrink-0 flex-col gap-3.5 2xl:w-[324px]">
           <MarketPanel />
           <OpportunitiesPanel />
           <AlertsPanel />

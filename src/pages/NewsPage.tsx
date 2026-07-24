@@ -61,7 +61,7 @@ export function NewsPage() {
 
           {hero && <FeaturedNewsCard news={hero} />}
 
-          <div className="grid grid-cols-2 gap-3.5 2xl:grid-cols-3">
+          <div className="grid grid-cols-3 gap-3.5">
             {rest.map((news) => (
               <NewsCard key={news.id} news={news} />
             ))}
@@ -74,7 +74,7 @@ export function NewsPage() {
           )}
         </div>
 
-        <div className="flex w-[248px] shrink-0 flex-col gap-3.5 2xl:w-[280px]">
+        <div className="flex w-[296px] shrink-0 flex-col gap-3.5 2xl:w-[324px]">
           <MarketPanel title="Piyasa Nabzı" />
           <AlertsPanel />
         </div>

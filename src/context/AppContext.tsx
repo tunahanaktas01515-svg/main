@@ -18,14 +18,6 @@ function formatSize(bytes: number) {
   return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
 }
 
-const welcomeMessage: ChatMessage = {
-  id: 'welcome',
-  role: 'assistant',
-  content:
-    'Merhaba, ben Cenan AI. Fatura analizi, banka mutabakatı, KDV hesaplama ve ihracat mevzuatında yardımcı olabilirim. Soldaki menüden bir modül seç ya da doğrudan sorunu yaz.',
-  timestamp: createTimestamp(),
-};
-
 /**
  * Uygulamanın tüm global durumunu (sayfa, tema, arka plan, sohbet, yükleme, ses)
  * tek noktada yöneten sağlayıcı.
@@ -36,7 +28,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [isBackgroundModalOpen, setBackgroundModalOpen] = useState(false);
   const [activeBackgroundId, setActiveBackgroundId] = useState(defaultBackgroundId);
-  const [messages, setMessages] = useState<ChatMessage[]>([welcomeMessage]);
+  // Boş dizi ile başlar; Cenan sayfası bu durumda karşılama (orb) düzenini gösterir
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [model, setModel] = useState<ModelId>('cenan-pro');
   const [activeFeatureId, setActiveFeatureId] = useState<CenanFeatureId | null>(null);
   const [isAssistantTyping, setAssistantTyping] = useState(false);
@@ -95,7 +88,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   );
 
   const resetChat = useCallback(() => {
-    setMessages([{ ...welcomeMessage, timestamp: createTimestamp() }]);
+    setMessages([]);
     setActiveFeatureId(null);
   }, []);
 
