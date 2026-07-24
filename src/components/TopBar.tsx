@@ -8,6 +8,7 @@ import {
   GearIcon,
   StarManIcon,
   ChevronDownIcon,
+  PlusIcon,
 } from '../icons';
 import { useLang } from '../i18n';
 import { QUICK_ACTIONS } from '../menu';
@@ -17,11 +18,13 @@ type TopBarProps = {
   active: string;
   mode: 'work' | 'home';
   user: User | null;
+  editMode?: boolean;
   onNavigate: (id: string) => void;
   onToggleMode: () => void;
   onOpenBg: () => void;
   onOpenStyle: () => void;
   onToggleEdit: () => void;
+  onOpenBlocks?: () => void;
   onOpenSettings: () => void;
   onLogin: () => void;
   onLogout: () => void;
@@ -32,11 +35,13 @@ export function TopBar({
   active,
   mode,
   user,
+  editMode = false,
   onNavigate,
   onToggleMode,
   onOpenBg,
   onOpenStyle,
   onToggleEdit,
+  onOpenBlocks,
   onOpenSettings,
   onLogin,
   onLogout,
@@ -77,7 +82,6 @@ export function TopBar({
       )}
 
       <div className="header-actions">
-        {/* Smart-home / back-to-work mode toggle */}
         <button
           type="button"
           className="icon-chip mode-btn"
@@ -87,24 +91,43 @@ export function TopBar({
           {isHome ? <GridToggleIcon size={20} /> : <HomeOutlineIcon size={20} />}
         </button>
 
-        {/* Interface editing (brush) — far right */}
-        {isHome ? (
-          // Smart-home only: brush opens Arka Plan / Stil / Düzen menu on hover.
+        {/* Brush: Stil + Arka Plan only (no Düzenle). Work + home. */}
+        <div className="brush-cluster">
           <div className="brushmenu">
             <button type="button" className="icon-chip brush-btn" aria-label={L.editBg}>
               <BrushIcon size={20} />
             </button>
             <div className="brushmenu__list">
-              <button type="button" onClick={onOpenBg}>{L.bgArkaPlan}</button>
               <button type="button" onClick={onOpenStyle}>{L.bgStil}</button>
-              <button type="button" onClick={onToggleEdit}>{L.bgDuzen}</button>
+              <button type="button" onClick={onOpenBg}>{L.bgArkaPlan}</button>
             </div>
           </div>
-        ) : (
-          <button type="button" className="icon-chip brush-btn" aria-label={L.editBg} onClick={onOpenBg}>
-            <BrushIcon size={20} />
-          </button>
-        )}
+
+          {/* Home: Düzen toggle reveals bare + for design blocks */}
+          {isHome && (
+            <button
+              type="button"
+              className={`layout-duzen ${editMode ? 'is-on' : ''}`}
+              onClick={onToggleEdit}
+            >
+              {L.bgDuzen}
+            </button>
+          )}
+
+          {/* After Düzen: bare + (no circle) — hover/click opens oval block sheet */}
+          {isHome && editMode && (
+            <button
+              type="button"
+              className="layout-plus"
+              aria-label={L.addBlock}
+              onMouseEnter={onOpenBlocks}
+              onFocus={onOpenBlocks}
+              onClick={onOpenBlocks}
+            >
+              <PlusIcon size={22} />
+            </button>
+          )}
+        </div>
 
         {!isHome && (
           <>

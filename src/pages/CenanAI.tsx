@@ -1,19 +1,49 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MicIcon, SendUpIcon, PlusIcon, ChevronDownIcon } from '../icons';
 import { useLang } from '../i18n';
+import { getConnectedLlmModels, type ConnectedModel } from '../lib/integrations';
 
-type ModelId = 'auto' | 'pro' | 'ultra';
+type BuiltinModel = 'auto' | 'pro' | 'ultra';
+type ModelId = BuiltinModel | string;
 
 export function CenanAI() {
   const { L } = useLang();
   const [text, setText] = useState('');
   const [model, setModel] = useState<ModelId>('auto');
   const [modelOpen, setModelOpen] = useState(false);
+  const [connected, setConnected] = useState<ConnectedModel[]>([]);
 
-  const modelLabels: Record<ModelId, string> = {
+  // Refresh connected APIs when menu opens (or on mount) so Gemini/ChatGPT appear above Cenan.
+  useEffect(() => {
+    setConnected(getConnectedLlmModels());
+  }, [modelOpen]);
+
+  useEffect(() => {
+    const onStorage = () => setConnected(getConnectedLlmModels());
+    window.addEventListener('storage', onStorage);
+    window.addEventListener('cenan-integrations', onStorage);
+    return () => {
+      window.removeEventListener('storage', onStorage);
+      window.removeEventListener('cenan-integrations', onStorage);
+    };
+  }, []);
+
+  const builtinLabels: Record<BuiltinModel, string> = {
     auto: L.modelAuto,
     pro: L.modelPro,
     ultra: L.modelUltra,
+  };
+
+  const modelLabel = (id: ModelId) => {
+    const api = connected.find((c) => c.id === id);
+    if (api) return api.label;
+    if (id in builtinLabels) return builtinLabels[id as BuiltinModel];
+    return String(id);
+  };
+
+  const pick = (id: ModelId) => {
+    setModel(id);
+    setModelOpen(false);
   };
 
   const suggestions = [L.aiSuggest1, L.aiSuggest2, L.aiSuggest3];
@@ -36,7 +66,6 @@ export function CenanAI() {
 
         <div className="ai-box__bar">
           <div className="ai-box__left">
-            {/* Attach (+) — rotates 45° on hover and reveals options */}
             <div className="ai-attach">
               <button type="button" className="ai-icon-btn ai-plus" aria-label={L.attachFile}>
                 <PlusIcon size={18} />
@@ -48,7 +77,6 @@ export function CenanAI() {
               </div>
             </div>
 
-            {/* Model selector */}
             <div className="ai-model">
               <button
                 type="button"
@@ -56,20 +84,21 @@ export function CenanAI() {
                 onClick={() => setModelOpen((o) => !o)}
                 aria-expanded={modelOpen}
               >
-                {modelLabels[model]}
+                {modelLabel(model)}
                 <ChevronDownIcon size={13} />
               </button>
               {modelOpen && (
                 <div className="ai-model__menu">
-                  <button type="button" onClick={() => { setModel('ultra'); setModelOpen(false); }}>
-                    {L.modelUltra}
-                  </button>
-                  <button type="button" onClick={() => { setModel('pro'); setModelOpen(false); }}>
-                    {L.modelPro}
-                  </button>
-                  <button type="button" onClick={() => { setModel('auto'); setModelOpen(false); }}>
-                    {L.modelAuto}
-                  </button>
+                  {/* Connected APIs first (Gemini, ChatGPT, …) above Cenan Ultra / Pro */}
+                  {connected.map((c) => (
+                    <button key={c.id} type="button" className="ai-model__api" onClick={() => pick(c.id)}>
+                      {c.label}
+                      <span className="ai-model__badge">API</span>
+                    </button>
+                  ))}
+                  <button type="button" onClick={() => pick('ultra')}>{L.modelUltra}</button>
+                  <button type="button" onClick={() => pick('pro')}>{L.modelPro}</button>
+                  <button type="button" onClick={() => pick('auto')}>{L.modelAuto}</button>
                 </div>
               )}
             </div>

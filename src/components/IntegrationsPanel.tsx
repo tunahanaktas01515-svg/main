@@ -60,6 +60,8 @@ export function IntegrationsPanel() {
     setState((prev) => {
       const next = { ...prev, [id]: { ...prev[id], ...patch } };
       save(next);
+      // Notify Cenan AI model picker to refresh connected APIs.
+      window.dispatchEvent(new Event('cenan-integrations'));
       return next;
     });
   };
