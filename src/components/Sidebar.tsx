@@ -8,7 +8,7 @@ import {
   ReportIcon,
   TaxIcon,
   GearIcon,
-  GridToggleIcon,
+  MenuLinesIcon,
   ChevronDownIcon,
 } from '../icons';
 
@@ -32,18 +32,34 @@ export function Sidebar({ active, open, onNavigate, onToggle }: SidebarProps) {
   const [hover, setHover] = useState<string | null>(null);
   const [pinned, setPinned] = useState<Set<string>>(new Set(['ana']));
 
-  // Collapsed: only a floating round "open" button, independent from edges.
+  const isOpen = (id: string) => pinned.has(id) || hover === id;
+
+  // Collapsed: floating icon rail; open via the top hamburger, or tap a group icon.
   if (!open) {
+    const openGroup = (id: string) => {
+      setPinned((prev) => new Set(prev).add(id));
+      onToggle();
+    };
     return (
       <div className="menu-rail">
-        <button type="button" className="menu-open glow-chip" aria-label={L.toggleMenu} onClick={onToggle}>
-          <GridToggleIcon size={22} />
+        <button type="button" className="rail-open" aria-label={L.toggleMenu} onClick={onToggle}>
+          <MenuLinesIcon size={20} />
         </button>
+        <span className="rail-sep" />
+        <div className="rail-icons">
+          {MENU.map((g) => {
+            const Ico = GROUP_ICONS[g.icon];
+            return (
+              <button key={g.id} type="button" className="rail-ico" aria-label={g[lang]} onClick={() => openGroup(g.id)}>
+                <Ico size={20} />
+              </button>
+            );
+          })}
+        </div>
       </div>
     );
   }
 
-  const isOpen = (id: string) => pinned.has(id) || hover === id;
   const togglePin = (id: string) =>
     setPinned((prev) => {
       const next = new Set(prev);

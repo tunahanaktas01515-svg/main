@@ -363,6 +363,17 @@ export function TaxIcon({ className, size = 20 }: IconProps) {
   );
 }
 
+// Menu lines (hamburger) — opens the collapsed rail.
+export function MenuLinesIcon({ className, size = 20 }: IconProps) {
+  return (
+    <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+      <path d="M4 7h16" />
+      <path d="M4 12h11" />
+      <path d="M4 17h7" />
+    </svg>
+  );
+}
+
 // Grid / app-launcher toggle (sidebar + back-to-work).
 export function GridToggleIcon({ className, size = 22 }: IconProps) {
   return (

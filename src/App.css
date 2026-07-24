@@ -108,24 +108,40 @@
 }
 .sidebar__close:hover { background: #fff; color: var(--ink); }
 
-/* Collapsed: independent floating round open button */
-.menu-rail { flex: 0 0 auto; padding: 20px 0 0 20px; }
-.menu-open {
+/* Collapsed: independent floating icon rail */
+.menu-rail {
+  flex: 0 0 auto;
   position: sticky;
   top: 20px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+  align-self: flex-start;
+  margin: 20px 0 20px 20px;
+  width: 62px;
+  padding: 12px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(24px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 30px;
+  box-shadow: 0 24px 50px rgba(40, 50, 90, 0.22);
+}
+.rail-open,
+.rail-ico {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
   display: grid;
   place-items: center;
-  color: #384056;
-  background: rgba(255, 255, 255, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(16px);
-  box-shadow: 0 10px 26px rgba(40, 50, 90, 0.16);
-  transition: box-shadow 0.25s ease, background 0.2s ease;
+  color: #56607a;
+  transition: background 0.18s ease, color 0.18s ease;
 }
-.menu-open:hover { background: rgba(255, 255, 255, 0.85); }
+.rail-open { color: var(--ink); }
+.rail-open:hover,
+.rail-ico:hover { background: rgba(255, 255, 255, 0.7); color: var(--ink); }
+.rail-sep { width: 30px; height: 1px; background: var(--line-soft); margin: 2px 0; }
+.rail-icons { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .sidebar__brand {
   display: flex;
   align-items: center;
@@ -864,7 +880,8 @@
   z-index: 0;
 }
 .app-shell.theme-dark > * { position: relative; z-index: 1; }
-.app-shell.theme-dark .sidebar { background: rgba(22, 25, 34, 0.6); border-right-color: rgba(255,255,255,0.08); }
+.app-shell.theme-dark .sidebar,
+.app-shell.theme-dark .menu-rail { background: rgba(22, 25, 34, 0.6); border-color: rgba(255,255,255,0.12); }
 .app-shell.theme-dark .icon-chip,
 .app-shell.theme-dark .topnav-link,
 .app-shell.theme-dark .lang-switch,
