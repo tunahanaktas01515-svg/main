@@ -91,7 +91,7 @@ export function TopBar({
           {isHome ? <GridToggleIcon size={20} /> : <HomeOutlineIcon size={20} />}
         </button>
 
-        {/* Brush: Stil + Arka Plan only (no Düzenle). Work + home. */}
+        {/* Brush: Stil + Arka Plan only. Home: bare + next to brush (no pill/circle). */}
         <div className="brush-cluster">
           <div className="brushmenu">
             <button type="button" className="icon-chip brush-btn" aria-label={L.editBg}>
@@ -103,26 +103,23 @@ export function TopBar({
             </div>
           </div>
 
-          {/* Home: Düzen toggle reveals bare + for design blocks */}
           {isHome && (
-            <button
-              type="button"
-              className={`layout-duzen ${editMode ? 'is-on' : ''}`}
-              onClick={onToggleEdit}
-            >
-              {L.bgDuzen}
-            </button>
-          )}
-
-          {/* After Düzen: bare + (no circle) — hover/click opens oval block sheet */}
-          {isHome && editMode && (
             <button
               type="button"
               className="layout-plus"
               aria-label={L.addBlock}
-              onMouseEnter={onOpenBlocks}
-              onFocus={onOpenBlocks}
-              onClick={onOpenBlocks}
+              onMouseEnter={() => {
+                if (!editMode) onToggleEdit();
+                onOpenBlocks?.();
+              }}
+              onFocus={() => {
+                if (!editMode) onToggleEdit();
+                onOpenBlocks?.();
+              }}
+              onClick={() => {
+                if (!editMode) onToggleEdit();
+                onOpenBlocks?.();
+              }}
             >
               <PlusIcon size={22} />
             </button>

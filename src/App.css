@@ -1095,40 +1095,35 @@
 .home2.is-editing .glass-card { outline: 1.5px dashed rgba(91,141,239,0.5); outline-offset: 2px; }
 
 /* ================= Brush cluster + bare layout plus ================= */
-.brush-cluster { display: inline-flex; align-items: center; gap: 6px; }
-.layout-duzen {
-  padding: 8px 12px;
-  border-radius: 999px;
-  font-size: 12.5px;
-  font-weight: 700;
-  color: var(--ink);
-  background: rgba(255, 255, 255, 0.45);
-  border: 1px solid var(--line);
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
-}
-.layout-duzen:hover { background: rgba(255, 255, 255, 0.75); }
-.layout-duzen.is-on {
-  background: linear-gradient(135deg, rgba(255,116,176,0.25), rgba(91,141,239,0.25));
-  border-color: rgba(91, 141, 239, 0.45);
-  color: #3a4560;
-}
+.brush-cluster { display: inline-flex; align-items: center; gap: 8px; }
 .layout-plus {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: auto;
+  height: auto;
   padding: 0;
+  margin: 0;
   border: none;
+  border-radius: 0;
   background: transparent;
+  box-shadow: none;
   color: var(--ink);
   cursor: pointer;
-  opacity: 0.75;
+  opacity: 0.85;
+  line-height: 1;
   transition: opacity 0.2s, transform 0.2s, color 0.2s;
 }
 .layout-plus:hover {
   opacity: 1;
-  transform: scale(1.12);
+  transform: scale(1.15);
+  color: #5b8def;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+.layout-plus:focus-visible {
+  outline: none;
   color: #5b8def;
 }
 
