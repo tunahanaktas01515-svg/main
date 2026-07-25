@@ -76,7 +76,8 @@ export function PromptComposer({ value, onChange, onSubmit, variant = 'hero', cl
                   isHero ? 'text-[17px]' : 'text-[14px]'
                 )}
               >
-                {typed || 'Bugün ne yapmak istersin?'}
+                {/* Duraklatma anı iki öneri arasına denk gelirse ilk öneri gösterilir */}
+                {typed || composerSuggestions[0]}
                 <span className="ml-0.5 inline-block animate-caret text-indigo-300">|</span>
               </p>
             )}
