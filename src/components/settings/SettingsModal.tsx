@@ -144,7 +144,7 @@ export function SettingsModal() {
                     type="button"
                     onClick={() => setSurfaceTheme(item.id)}
                     className={cn(
-                      'focus-ring group flex flex-col items-center gap-2 rounded-2xl border p-2.5 text-center transition-all duration-300',
+                      'focus-ring group relative flex flex-col items-center gap-2 rounded-2xl border p-2.5 text-center transition-all duration-300',
                       isActive
                         ? 'border-indigo-400/50 bg-indigo-500/12 shadow-[0_0_24px_-10px_rgba(99,102,241,0.9)]'
                         : 'border-white/[0.08] bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.06]'
@@ -153,7 +153,11 @@ export function SettingsModal() {
                     <span className={cn('h-12 w-full rounded-xl border', item.preview)} />
                     <span className="text-[11.5px] font-semibold text-white/85">{t(item.nameKey)}</span>
                     <span className="text-[9.5px] leading-tight text-white/35">{t(item.descriptionKey)}</span>
-                    {isActive && <Check className="h-3 w-3 text-indigo-300" />}
+                    {isActive && (
+                      <span className="absolute right-1.5 top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-indigo-500 on-accent">
+                        <Check className="h-2.5 w-2.5" strokeWidth={3} />
+                      </span>
+                    )}
                   </button>
                 );
               })}
