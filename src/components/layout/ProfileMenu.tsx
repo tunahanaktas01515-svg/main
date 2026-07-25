@@ -113,6 +113,7 @@ export function ProfileMenu() {
             <MenuItem
               icon={<LifeBuoy className="h-4 w-4" />}
               label={t('profile.support')}
+              soonLabel={t('common.soon')}
               onClick={close}
             />
             {isLoggedIn ? (
@@ -146,11 +147,14 @@ function MenuItem({
   icon,
   label,
   danger,
+  soonLabel,
   onClick,
 }: {
   icon: ReactNode;
   label: string;
   danger?: boolean;
+  /** Dolu geldiğinde satırın sağına "yakında" rozeti eklenir */
+  soonLabel?: string;
   onClick: () => void;
 }) {
   return (
@@ -165,7 +169,12 @@ function MenuItem({
       )}
     >
       {icon}
-      {label}
+      <span className="flex-1 text-left">{label}</span>
+      {soonLabel && (
+        <span className="rounded-full border border-white/12 bg-white/[0.07] px-1.5 py-0.5 text-[8.5px] font-semibold uppercase tracking-wider text-white/40">
+          {soonLabel}
+        </span>
+      )}
     </button>
   );
 }

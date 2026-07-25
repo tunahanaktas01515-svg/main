@@ -40,7 +40,8 @@ export function BarChart({ data, color = '#38bdf8', height = 120, showAxis = tru
       <div className="min-w-0 flex-1">
         <div className="flex items-end gap-1.5" style={{ height }}>
           {data.map((item, index) => (
-            <div key={item.label} className="flex min-w-0 flex-1 flex-col justify-end">
+            /* Sütunun yüzde yüksekliğinin çözümlenebilmesi için sarmalayıcı tam boy olmalı */
+            <div key={item.label} className="flex h-full min-w-0 flex-1 flex-col justify-end">
               <motion.div
                 initial={{ height: 0 }}
                 animate={{ height: `${(item.value / max) * 100}%` }}
