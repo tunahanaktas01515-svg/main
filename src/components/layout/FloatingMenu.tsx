@@ -6,8 +6,8 @@ import { cn } from '../../lib/cn';
 
 /** Şimdilik yer tutucu bölümler — işlevleri sonraki adımda eklenecek */
 const placeholderSections = [
-  { id: 'arayuz', label: 'Arayüz Düzenleme', icon: SlidersHorizontal },
-  { id: 'eklenti', label: 'Eklenti Kurma', icon: Puzzle },
+  { id: 'arayuz', label: 'Arayüz Düzeni', icon: SlidersHorizontal },
+  { id: 'eklenti', label: 'Eklentiler', icon: Puzzle },
   { id: 'tema', label: 'Tema & Renkler', icon: Palette },
 ];
 
@@ -29,7 +29,7 @@ export function FloatingMenu() {
     >
       {/* Marka satırı */}
       <div className={cn('flex shrink-0 items-center gap-2.5', isOpen ? 'px-1.5 pt-1' : 'justify-center pt-0.5')}>
-        <OrbIcon size={30} />
+        <OrbIcon size={34} />
 
         <AnimatePresence>
           {isOpen && (
@@ -95,10 +95,17 @@ export function FloatingMenu() {
         ))}
       </div>
 
-      {isOpen && (
+      {isOpen ? (
         <p className="mt-2.5 shrink-0 px-1.5 text-[10.5px] leading-relaxed text-white/25">
           Bu panel arayüz düzenleme ve eklenti kurulumu için ayrıldı — içerik sonraki adımda eklenecek.
         </p>
+      ) : (
+        /* Kapalı rail'in orta boşluğunu dolduran dikey marka yazısı */
+        <div className="flex flex-1 items-center justify-center overflow-hidden py-3">
+          <span className="rotate-180 select-none text-[9px] font-semibold uppercase tracking-[0.42em] text-white/15 [writing-mode:vertical-rl]">
+            Cenan AI
+          </span>
+        </div>
       )}
 
       {/* Alt kısım: kredi kullanım halkası */}

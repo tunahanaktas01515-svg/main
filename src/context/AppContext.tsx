@@ -163,7 +163,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       uploadIntervalRef.current = window.setInterval(() => {
         setUploadTask((prev) => {
           if (!prev) return prev;
-          const next = Math.min(100, prev.progress + Math.random() * 14 + 6);
+          const next = Math.min(100, prev.progress + Math.random() * 8 + 5);
 
           if (next >= 100) {
             if (uploadIntervalRef.current) {
@@ -185,7 +185,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
           return { ...prev, progress: next };
         });
-      }, 260);
+      }, 300);
     },
     [sendUserMessage, track]
   );
