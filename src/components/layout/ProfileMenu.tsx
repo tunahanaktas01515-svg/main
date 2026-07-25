@@ -44,7 +44,7 @@ export function ProfileMenu() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.97 }}
             transition={{ duration: 0.18, ease: 'easeOut' }}
-            className="glass-strong absolute right-0 top-[calc(100%+10px)] z-50 w-[268px] origin-top-right rounded-3xl p-2"
+            className="glass-popover absolute right-0 top-[calc(100%+10px)] z-50 w-[268px] origin-top-right rounded-3xl p-2"
           >
             {/* Profil bilgileri */}
             <div className="flex items-center gap-3 rounded-2xl px-2.5 py-2.5">

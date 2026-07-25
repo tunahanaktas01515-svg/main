@@ -133,7 +133,7 @@ export function Sidebar() {
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, x: -8, scale: 0.96 }}
               transition={{ duration: 0.2, ease: 'easeOut' }}
-              className="glass-strong absolute left-full top-0 z-40 ml-3 w-56 origin-top-left rounded-2xl p-1.5"
+              className="glass-popover absolute left-full top-0 z-40 ml-3 w-56 origin-top-left rounded-2xl p-1.5"
             >
               {isLoggedIn && (
                 <div className="mb-1 flex items-center justify-between gap-2 rounded-xl px-3 py-2">

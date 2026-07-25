@@ -22,6 +22,9 @@ const pageTabs: { id: PageId; labelKey: TranslationKey }[] = [
  * 64px yüksekliğinde, tam genişlikte glass üst bar.
  * Sol: marka + tema butonu · Orta: oval sayfa sekmeleri ·
  * Sağ: uygulama içi arama motoru, kredi rozeti, arka plan ayarı ve profil menüsü.
+ *
+ * Üst bar kendi yığın bağlamını oluşturduğu için z-index'i sağdaki yüzen
+ * panelden (z-40) yüksek tutulur; aksi hâlde açılır menüler panelin altında kalır.
  */
 export function TopBar() {
   const { t, theme, toggleTheme, activePage, setActivePage, openOverlay, isLoggedIn, profile } =
@@ -30,7 +33,7 @@ export function TopBar() {
   const plan = findPlan(profile.plan);
 
   return (
-    <header className="relative z-30 flex h-16 shrink-0 items-center gap-4 border-b border-white/10 bg-black/30 px-5 backdrop-blur-2xl">
+    <header className="relative z-50 flex h-16 shrink-0 items-center gap-4 border-b border-white/10 bg-black/30 px-5 backdrop-blur-2xl">
       {/* Sol: tema butonu + marka */}
       <div className="flex w-[248px] items-center gap-3">
         <IconButton

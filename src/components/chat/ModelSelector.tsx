@@ -43,7 +43,7 @@ export function ModelSelector() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -6, scale: 0.97 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="glass-strong absolute right-0 top-full z-40 mt-2 w-[266px] origin-top-right rounded-2xl p-1.5"
+            className="glass-popover absolute right-0 top-full z-40 mt-2 w-[266px] origin-top-right rounded-2xl p-1.5"
           >
             {modelOptions.map((option) => {
               const isActive = option.id === model;

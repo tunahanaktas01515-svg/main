@@ -22,6 +22,8 @@ export function NewsCard({ news }: { news: NewsItem }) {
         <span className="absolute inset-0 bg-[radial-gradient(80%_80%_at_25%_20%,rgba(255,255,255,0.16),transparent_60%)]" />
         <span className="noise-layer absolute inset-0 opacity-[0.06]" />
         <span className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-black/45 to-transparent" />
+        {/* Görsel alanı koyu gradientlerden oluştuğu için açık temada yumuşatılır */}
+        <span className="absolute inset-0 hidden bg-[#fff]/60 light:block" />
       </div>
 
       <div className="flex flex-1 flex-col p-3.5">

@@ -50,6 +50,12 @@ html {
   --surface-glass-bg: rgb(255 255 255 / 0.045);
   --surface-glass-border: rgb(255 255 255 / 0.1);
   --surface-glass-strong-bg: rgb(0 0 0 / 0.4);
+  /*
+   * Açılır menü zemini neredeyse tamamen opaktır: üst bar ve cam paneller
+   * kendi backdrop-filter'larını uyguladığı için iç içe bulanıklaştırma
+   * çalışmaz ve saydam bırakılan menülerde alttaki metin okunur kalır.
+   */
+  --surface-popover-bg: rgb(14 15 23 / 0.985);
   --surface-shadow: 0 8px 32px 0 rgb(0 0 0 / 0.37);
   --surface-inset: inset 0 1px 0 0 rgb(255 255 255 / 0.07);
   --surface-blur: 24px;
@@ -93,6 +99,7 @@ html.light {
   --surface-glass-bg: rgb(255 255 255 / 0.66);
   --surface-glass-border: rgb(15 23 42 / 0.09);
   --surface-glass-strong-bg: rgb(255 255 255 / 0.86);
+  --surface-popover-bg: rgb(252 253 255 / 0.985);
   --surface-shadow: 0 12px 34px -16px rgb(15 23 42 / 0.4);
   --surface-inset: inset 0 1px 0 0 rgb(255 255 255 / 0.9);
   --page-tint: rgb(242 244 250 / 0.78);
@@ -286,10 +293,23 @@ html.light[data-surface='transparent'] {
     box-shadow: var(--surface-shadow), var(--surface-inset);
   }
 
-  /* Daha yoğun glass — modal, chat input, dropdown gibi öne çıkan bloklar */
+  /* Daha yoğun glass — modal, chat input gibi öne çıkan bloklar */
   .glass-strong {
     border: 1px solid var(--surface-glass-border);
     background: var(--surface-glass-strong-bg);
+    backdrop-filter: blur(var(--surface-blur));
+    -webkit-backdrop-filter: blur(var(--surface-blur));
+    box-shadow: var(--surface-shadow), var(--surface-inset);
+  }
+
+  /*
+   * Açılır menü yüzeyi.
+   * Üst barın kendi backdrop-filter'ı iç içe bulanıklaştırmayı etkisiz bıraktığı
+   * için menüler saydamlığa değil, yüksek opaklığa dayanır.
+   */
+  .glass-popover {
+    border: 1px solid var(--surface-glass-border);
+    background: var(--surface-popover-bg);
     backdrop-filter: blur(var(--surface-blur));
     -webkit-backdrop-filter: blur(var(--surface-blur));
     box-shadow: var(--surface-shadow), var(--surface-inset);

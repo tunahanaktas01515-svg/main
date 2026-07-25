@@ -24,6 +24,8 @@ export function FeaturedNewsCard({ news }: { news: NewsItem }) {
       <div className={cn('relative w-[38%] shrink-0 overflow-hidden', news.gradient)}>
         <span className="absolute inset-0 bg-[radial-gradient(70%_70%_at_30%_25%,rgba(255,255,255,0.18),transparent_60%)]" />
         <span className="noise-layer absolute inset-0 opacity-[0.07]" />
+        {/* Görsel alanı koyu gradientlerden oluştuğu için açık temada yumuşatılır */}
+        <span className="absolute inset-0 hidden bg-[#fff]/55 light:block" />
         <span className="absolute left-3 top-3">
           <Badge tone="indigo">{tl(news.category)}</Badge>
         </span>

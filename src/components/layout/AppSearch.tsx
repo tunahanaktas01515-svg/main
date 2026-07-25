@@ -279,7 +279,7 @@ export function AppSearch() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -6, scale: 0.98 }}
             transition={{ duration: 0.18, ease: 'easeOut' }}
-            className="glass-strong absolute right-0 top-[calc(100%+10px)] z-50 max-h-[440px] w-[380px] origin-top-right overflow-y-auto rounded-3xl p-2"
+            className="glass-popover absolute right-0 top-[calc(100%+10px)] z-50 max-h-[440px] w-[380px] origin-top-right overflow-y-auto rounded-3xl p-2"
           >
             <p className="px-3 pb-1.5 pt-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-white/35">
               {query ? `“${query}”` : t('search.hint')}

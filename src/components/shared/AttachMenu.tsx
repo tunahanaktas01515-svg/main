@@ -75,7 +75,7 @@ export function AttachMenu({ placement = 'top', className }: AttachMenuProps) {
             exit={{ opacity: 0, y: placement === 'top' ? 8 : -8, scale: 0.96 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
             className={cn(
-              'glass-strong absolute left-0 z-50 w-[228px] rounded-2xl p-1.5',
+              'glass-popover absolute left-0 z-50 w-[228px] rounded-2xl p-1.5',
               placement === 'top' ? 'bottom-full mb-2.5 origin-bottom-left' : 'top-full mt-2.5 origin-top-left'
             )}
           >
