@@ -1,25 +1,41 @@
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { newsItems } from '../data/news';
+import { useAppContext } from '../context/appContextCore';
 import { FeaturedNewsCard } from '../components/news/FeaturedNewsCard';
 import { NewsCard } from '../components/news/NewsCard';
 import { MarketPanel } from '../components/dashboard/MarketPanel';
 import { AlertsPanel } from '../components/dashboard/AlertsPanel';
 import { cn } from '../lib/cn';
 
+const ALL = '__all__';
+
 /**
  * Haberler sayfası — kategori filtreli tam liste görünümü.
+ * Filtre kimliği olarak kategorinin Türkçe karşılığı kullanılır; etiketler
+ * aktif dile göre çevrilir, böylece dil değişince seçim korunur.
  */
 export function NewsPage() {
-  const categories = useMemo(() => ['Tümü', ...new Set(newsItems.map((item) => item.category))], []);
-  const [activeCategory, setActiveCategory] = useState('Tümü');
+  const { t, tl } = useAppContext();
+  const [activeCategory, setActiveCategory] = useState<string>(ALL);
+
+  const categories = useMemo(
+    () => [ALL, ...new Set(newsItems.map((item) => item.category.tr))],
+    []
+  );
 
   const filtered = useMemo(
-    () => (activeCategory === 'Tümü' ? newsItems : newsItems.filter((item) => item.category === activeCategory)),
+    () => (activeCategory === ALL ? newsItems : newsItems.filter((item) => item.category.tr === activeCategory)),
     [activeCategory]
   );
 
   const [hero, ...rest] = filtered;
+
+  const categoryLabel = (key: string) => {
+    if (key === ALL) return t('common.all');
+    const match = newsItems.find((item) => item.category.tr === key);
+    return match ? tl(match.category) : key;
+  };
 
   return (
     <motion.div
@@ -31,9 +47,9 @@ export function NewsPage() {
       <div className="flex gap-4">
         <div className="flex min-w-0 flex-1 flex-col gap-4">
           <header>
-            <h1 className="text-[22px] font-semibold tracking-tight text-white/95">Önemli Haberler</h1>
+            <h1 className="text-[22px] font-semibold tracking-tight text-white/95">{t('news.title')}</h1>
             <p className="mt-1 text-[12.5px] text-white/45">
-              {filtered.length} haber · muhasebe, ihracat ve piyasa gündemi
+              {filtered.length} {t('news.count')} · {t('news.subtitle')}
             </p>
           </header>
 
@@ -53,7 +69,7 @@ export function NewsPage() {
                       : 'border-white/10 bg-white/[0.04] text-white/50 hover:border-white/20 hover:bg-white/[0.08] hover:text-white/85'
                   )}
                 >
-                  {category}
+                  {categoryLabel(category)}
                 </button>
               );
             })}
@@ -68,14 +84,12 @@ export function NewsPage() {
           </div>
 
           {rest.length === 0 && !hero && (
-            <p className="glass rounded-2xl p-6 text-center text-[13px] text-white/45">
-              Bu kategoride şu an haber bulunmuyor.
-            </p>
+            <p className="glass rounded-2xl p-6 text-center text-[13px] text-white/45">{t('news.empty')}</p>
           )}
         </div>
 
         <div className="flex w-[296px] shrink-0 flex-col gap-3.5 2xl:w-[324px]">
-          <MarketPanel title="Piyasa Nabzı" />
+          <MarketPanel titleKey="panel.marketPulse" />
           <AlertsPanel />
         </div>
       </div>

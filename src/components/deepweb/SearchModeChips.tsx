@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { searchModes } from '../../data/deepweb';
+import { useAppContext } from '../../context/appContextCore';
 import { DynamicIcon } from '../ui/DynamicIcon';
 import { cn } from '../../lib/cn';
 
@@ -13,6 +14,8 @@ interface SearchModeChipsProps {
  * Çoklu seçim yapılabilir; aktif olanlar indigo vurgu ve glow alır.
  */
 export function SearchModeChips({ activeIds, onToggle }: SearchModeChipsProps) {
+  const { tl } = useAppContext();
+
   return (
     <div className="flex flex-wrap items-center justify-center gap-2">
       {searchModes.map((mode, index) => {
@@ -27,7 +30,7 @@ export function SearchModeChips({ activeIds, onToggle }: SearchModeChipsProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.08 + index * 0.04, duration: 0.3 }}
             whileHover={{ y: -2 }}
-            title={mode.hint}
+            title={tl(mode.hint)}
             className={cn(
               'focus-ring group flex items-center gap-2 rounded-full border py-1.5 pl-2.5 pr-3 backdrop-blur-xl transition-all duration-300',
               isActive
@@ -40,14 +43,14 @@ export function SearchModeChips({ activeIds, onToggle }: SearchModeChipsProps) {
               className={cn('h-3.5 w-3.5', isActive ? 'text-indigo-200' : 'text-white/45')}
               strokeWidth={1.9}
             />
-            <span className="text-[12.5px] font-medium">{mode.label}</span>
+            <span className="text-[12.5px] font-medium">{tl(mode.label)}</span>
             <span
               className={cn(
                 'hidden text-[10.5px] font-normal 2xl:inline',
                 isActive ? 'text-indigo-100/60' : 'text-white/25'
               )}
             >
-              {mode.hint}
+              {tl(mode.hint)}
             </span>
           </motion.button>
         );

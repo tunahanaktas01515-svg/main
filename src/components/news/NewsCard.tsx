@@ -1,12 +1,15 @@
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import type { NewsItem } from '../../types';
+import { useAppContext } from '../../context/appContextCore';
 import { cn } from '../../lib/cn';
 
 /**
  * Grid içinde yer alan standart haber kartı.
  */
 export function NewsCard({ news }: { news: NewsItem }) {
+  const { tl } = useAppContext();
+
   return (
     <motion.article
       whileHover={{ y: -3 }}
@@ -23,14 +26,14 @@ export function NewsCard({ news }: { news: NewsItem }) {
 
       <div className="flex flex-1 flex-col p-3.5">
         <span className="text-[10px] font-semibold uppercase tracking-wider text-indigo-300/80">
-          {news.category}
+          {tl(news.category)}
         </span>
-        <h4 className="mt-1.5 line-clamp-2 text-[13px] font-semibold leading-snug text-white/90">{news.title}</h4>
-        <p className="mt-1.5 line-clamp-2 text-[11.5px] leading-relaxed text-white/40">{news.summary}</p>
+        <h4 className="mt-1.5 line-clamp-2 text-[13px] font-semibold leading-snug text-white/90">{tl(news.title)}</h4>
+        <p className="mt-1.5 line-clamp-2 text-[11.5px] leading-relaxed text-white/40">{tl(news.summary)}</p>
 
         <div className="mt-3 flex items-center justify-between border-t border-white/[0.06] pt-2.5">
           <span className="text-[10px] text-white/30">
-            {news.publishedAt} · {news.readTime}
+            {tl(news.publishedAt)} · {tl(news.readTime)}
           </span>
           <ArrowUpRight className="h-3.5 w-3.5 text-white/25 transition-colors duration-300 group-hover:text-indigo-300" />
         </div>

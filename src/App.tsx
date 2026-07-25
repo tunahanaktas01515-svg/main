@@ -4,14 +4,17 @@ import { useAppContext } from './context/appContextCore';
 import { AppBackground } from './components/layout/AppBackground';
 import { TopBar } from './components/layout/TopBar';
 import { Sidebar } from './components/layout/Sidebar';
-import { FloatingMenu } from './components/layout/FloatingMenu';
+import { CenanRail } from './components/layout/CenanRail';
 import { VoiceOverlay } from './components/chat/VoiceOverlay';
 import { UploadModal } from './components/chat/UploadModal';
 import { BackgroundSelector } from './components/background/BackgroundSelector';
+import { SettingsModal } from './components/settings/SettingsModal';
+import { AccountModal } from './components/settings/AccountModal';
 import { HomePage } from './pages/HomePage';
 import { NewsPage } from './pages/NewsPage';
 import { CenanPage } from './pages/CenanPage';
 import { DeepWebPage } from './pages/DeepWebPage';
+import { AgentsPage } from './pages/AgentsPage';
 
 /** Aktif sayfaya göre orta içerik alanını değiştiren basit yönlendirici */
 function PageRouter() {
@@ -32,6 +35,7 @@ function PageRouter() {
           {activePage === 'haberler' && <NewsPage />}
           {activePage === 'cenan' && <CenanPage />}
           {activePage === 'deep-web' && <DeepWebPage />}
+          {activePage === 'ajanlar' && <AgentsPage />}
         </motion.div>
       </AnimatePresence>
     </main>
@@ -47,15 +51,17 @@ function AppShell() {
       <div className="flex min-h-0 flex-1">
         <Sidebar />
         <PageRouter />
-        {/* Sağdaki yüzen menünün içeriği örtmemesi için ayrılan boşluk */}
+        {/* Sağdaki kapalı rail'in içeriği örtmemesi için ayrılan boşluk */}
         <div className="w-[84px] shrink-0" aria-hidden />
       </div>
 
       {/* Katman üstü bileşenler */}
-      <FloatingMenu />
+      <CenanRail />
       <VoiceOverlay />
       <UploadModal />
       <BackgroundSelector />
+      <SettingsModal />
+      <AccountModal />
     </div>
   );
 }

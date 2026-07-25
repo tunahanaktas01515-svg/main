@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mic, Paperclip, Sparkles } from 'lucide-react';
 import { useAppContext } from '../../context/appContextCore';
@@ -23,13 +23,14 @@ interface PromptComposerProps {
  * geldiğinde animasyon durur ve metin sabit kalır.
  */
 export function PromptComposer({ value, onChange, onSubmit, variant = 'hero', className }: PromptComposerProps) {
-  const { openVoiceAssistant } = useAppContext();
+  const { t, tl, openVoiceAssistant } = useAppContext();
   const [isHovered, setHovered] = useState(false);
   const [isFocused, setFocused] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const isHero = variant === 'hero';
-  const typed = useTypewriter(composerSuggestions, isHovered || isFocused || value.length > 0);
+  const suggestions = useMemo(() => composerSuggestions.map(tl), [tl]);
+  const typed = useTypewriter(suggestions, isHovered || isFocused || value.length > 0);
   const canSend = value.trim().length > 0;
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -77,7 +78,7 @@ export function PromptComposer({ value, onChange, onSubmit, variant = 'hero', cl
                 )}
               >
                 {/* Duraklatma anı iki öneri arasına denk gelirse ilk öneri gösterilir */}
-                {typed || composerSuggestions[0]}
+                {typed || suggestions[0]}
                 <span className="ml-0.5 inline-block animate-caret text-indigo-300">|</span>
               </p>
             )}
@@ -89,7 +90,7 @@ export function PromptComposer({ value, onChange, onSubmit, variant = 'hero', cl
               onFocus={() => setFocused(true)}
               onBlur={() => setFocused(false)}
               rows={1}
-              aria-label="Cenan AI'a mesaj yaz"
+              aria-label={t('chat.title')}
               className={cn(
                 'w-full resize-none bg-transparent text-white/92 placeholder:text-transparent focus:outline-none',
                 isHero ? 'max-h-[168px] text-[17px] leading-relaxed' : 'max-h-[132px] text-[14px] leading-relaxed'
@@ -100,9 +101,7 @@ export function PromptComposer({ value, onChange, onSubmit, variant = 'hero', cl
           {/* Bilgi şeridi */}
           <div className="mt-2 flex items-center gap-2 rounded-2xl border border-white/[0.07] bg-white/[0.03] px-3 py-2">
             <Paperclip className="h-3.5 w-3.5 shrink-0 text-white/40" />
-            <span className="min-w-0 flex-1 truncate text-[11.5px] text-white/40">
-              Belgen mi var? Fatura, ekstre veya fotoğraf yükle — Cenan analiz etsin.
-            </span>
+            <span className="min-w-0 flex-1 truncate text-[11.5px] text-white/40">{t('chat.attachHint')}</span>
             <ModelSelector />
           </div>
 
@@ -113,16 +112,14 @@ export function PromptComposer({ value, onChange, onSubmit, variant = 'hero', cl
             <button
               type="button"
               onClick={openVoiceAssistant}
-              aria-label="Sesli konuşmayı başlat"
-              title="Sesli konuşmayı başlat"
+              aria-label={t('chat.voice')}
+              title={t('chat.voice')}
               className="focus-ring flex h-9 w-9 items-center justify-center rounded-full border border-white/12 bg-white/[0.06] text-white/70 transition-all duration-300 hover:border-sky-400/40 hover:bg-sky-500/20 hover:text-white"
             >
               <Mic className="h-4 w-4" />
             </button>
 
-            <span className="ml-auto text-[10.5px] text-white/25">
-              Enter ile gönder · Shift + Enter yeni satır
-            </span>
+            <span className="ml-auto text-[10.5px] text-white/25">Enter · Shift + Enter</span>
           </div>
         </div>
 
@@ -131,13 +128,13 @@ export function PromptComposer({ value, onChange, onSubmit, variant = 'hero', cl
           type="button"
           onClick={onSubmit}
           disabled={!canSend}
-          aria-label="Gönder"
+          aria-label={t('chat.send')}
           whileTap={canSend ? { scale: 0.95 } : undefined}
           className={cn(
             'focus-ring flex shrink-0 items-center justify-center rounded-[22px] transition-all duration-300',
             isHero ? 'w-[92px]' : 'w-[68px]',
             canSend
-              ? 'bg-white text-black shadow-[0_0_44px_-12px_rgba(255,255,255,0.85)] hover:bg-white/92'
+              ? 'bg-gradient-to-br from-indigo-500 to-violet-600 on-accent shadow-[0_0_44px_-12px_rgba(99,102,241,0.95)] hover:from-indigo-400 hover:to-violet-500'
               : 'cursor-not-allowed border border-white/10 bg-white/[0.06] text-white/30'
           )}
         >

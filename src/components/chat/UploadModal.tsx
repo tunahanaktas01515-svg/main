@@ -10,7 +10,7 @@ import { GlowSpinner } from '../ui/Skeleton';
  * glow'lu progress bar ve yüzde göstergesi.
  */
 export function UploadModal() {
-  const { uploadTask, cancelUpload } = useAppContext();
+  const { t, uploadTask, cancelUpload } = useAppContext();
   const isDone = uploadTask?.status === 'done';
 
   return (
@@ -37,7 +37,7 @@ export function UploadModal() {
               <button
                 type="button"
                 onClick={cancelUpload}
-                aria-label="Yüklemeyi kapat"
+                aria-label={t('upload.close')}
                 className="icon-btn focus-ring absolute right-4 top-4 h-7 w-7"
               >
                 <X className="h-3.5 w-3.5" />
@@ -65,7 +65,7 @@ export function UploadModal() {
                     <GlowSpinner />
                   )}
                   <span className="text-[13px] font-medium text-white/80">
-                    {isDone ? 'Yükleme tamamlandı' : 'AI yükleniyor…'}
+                    {isDone ? t('upload.done') : t('upload.uploading')}
                   </span>
                   <span className="ml-auto text-[13px] font-semibold tabular-nums text-white/55">
                     {Math.round(uploadTask.progress)}%
@@ -75,9 +75,7 @@ export function UploadModal() {
               </div>
 
               <p className="mt-3 text-center text-[11px] text-white/30">
-                {isDone
-                  ? 'Belge sohbete eklendi, analiz başlıyor.'
-                  : 'Belge şifrelenerek yükleniyor · Cenan güvenli depolama'}
+                {isDone ? t('upload.doneNote') : t('upload.secureNote')}
               </p>
             </div>
           </motion.div>

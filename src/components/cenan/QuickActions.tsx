@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { quickActions } from '../../data/quickActions';
+import { useAppContext } from '../../context/appContextCore';
 import { DynamicIcon } from '../ui/DynamicIcon';
 import { cn } from '../../lib/cn';
 
@@ -13,6 +14,8 @@ interface QuickActionsProps {
  * Her biri renkli ikonuyla birlikte hazır bir istemi composer'a yazar.
  */
 export function QuickActions({ onSelect, className }: QuickActionsProps) {
+  const { tl } = useAppContext();
+
   return (
     <div className={cn('flex flex-wrap items-center justify-center gap-2', className)}>
       {quickActions.map((action, index) => (
@@ -30,7 +33,7 @@ export function QuickActions({ onSelect, className }: QuickActionsProps) {
             <DynamicIcon name={action.icon} className="h-3.5 w-3.5" strokeWidth={1.9} />
           </span>
           <span className="text-[12.5px] font-medium text-white/75 transition-colors group-hover:text-white">
-            {action.label}
+            {tl(action.label)}
           </span>
         </motion.button>
       ))}

@@ -24,6 +24,8 @@ export function Orb({ size = 132, floating = true, className }: OrbProps) {
         className="absolute inset-0 animate-pulse-glow rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.5),rgba(99,102,241,0.22)_55%,transparent_72%)] blur-2xl"
         aria-hidden
       />
+      {/* Açık temada "screen" karışımının çalışabilmesi için koyu taşıyıcı disk */}
+      <span className="orb-disc absolute inset-0 hidden rounded-full light:block" aria-hidden />
       {/* Yavaşça dönen orb görseli */}
       <img
         src="/orb/orb.webp"
@@ -48,6 +50,7 @@ export function OrbIcon({ size = 30, className }: { size?: number; className?: s
   return (
     <span className={cn('relative inline-block shrink-0', className)} style={{ width: size, height: size }}>
       <span className="absolute inset-0 rounded-full bg-sky-500/35 blur-md" aria-hidden />
+      <span className="orb-disc absolute inset-0 hidden rounded-full light:block" aria-hidden />
       <img
         src="/orb/orb_icon.webp"
         alt=""

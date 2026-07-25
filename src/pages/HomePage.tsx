@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import { CalendarDays, RefreshCw } from 'lucide-react';
 import { newsItems } from '../data/news';
+import { useAppContext } from '../context/appContextCore';
+import { localeCodes } from '../i18n';
 import { NewsGrid } from '../components/news/NewsGrid';
 import { KpiRow } from '../components/dashboard/KpiRow';
 import { AiSummaryPanel } from '../components/dashboard/AiSummaryPanel';
@@ -13,7 +15,12 @@ import { AlertsPanel } from '../components/dashboard/AlertsPanel';
  * borsa özeti / fırsatlar / uyarılar panellerini içeren ana dashboard.
  */
 export function HomePage() {
-  const today = new Date().toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+  const { t, language } = useAppContext();
+  const today = new Date().toLocaleDateString(localeCodes[language], {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
 
   return (
     <motion.div
@@ -27,10 +34,8 @@ export function HomePage() {
         <div className="flex min-w-0 flex-1 flex-col gap-4">
           <header className="flex items-end justify-between">
             <div>
-              <h1 className="text-[22px] font-semibold tracking-tight text-white/95">Günlük Haberler</h1>
-              <p className="mt-1 text-[12.5px] text-white/45">
-                Ekonomi, ihracat ve mevzuat gündeminden Cenan tarafından derlenmiş özet
-              </p>
+              <h1 className="text-[22px] font-semibold tracking-tight text-white/95">{t('home.title')}</h1>
+              <p className="mt-1 text-[12.5px] text-white/45">{t('home.subtitle')}</p>
             </div>
             <div className="flex items-center gap-2">
               <span className="flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[11px] font-medium text-white/50">
@@ -39,9 +44,9 @@ export function HomePage() {
               </span>
               <button
                 type="button"
-                aria-label="Yenile"
+                aria-label={t('common.refresh')}
                 className="icon-btn focus-ring h-8 w-8"
-                title="Haberleri yenile"
+                title={t('home.refreshNews')}
               >
                 <RefreshCw className="h-3.5 w-3.5" />
               </button>

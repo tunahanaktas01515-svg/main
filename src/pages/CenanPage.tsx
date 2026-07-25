@@ -12,11 +12,13 @@ import { DynamicIcon } from '../components/ui/DynamicIcon';
 
 /**
  * Cenan sayfası — yapay zeka konuşma motoru.
- * Sohbet boşken: mavi orb + "Bugün, ne yapalım?" başlığı + composer + 7 hızlı aksiyon.
- * Sohbet başlayınca: üstte kompakt başlık, ortada konuşma akışı, altta composer.
+ * Sohbet boşken: mavi orb + karşılama başlığı + composer + 7 hızlı aksiyon.
+ * Sohbet başlayınca: üstte kompakt başlık, ortada konuşma akışı ve hemen
+ * altında composer. Composer sayfanın en altına inmez; ortanın biraz altında
+ * sabit kalır, en son mesajlar her zaman onun üzerinde görünür.
  */
 export function CenanPage() {
-  const { messages, sendUserMessage, triggerCenanFeature, resetChat, activeFeatureId } = useAppContext();
+  const { t, tl, messages, sendUserMessage, triggerCenanFeature, resetChat, activeFeatureId } = useAppContext();
   const [draft, setDraft] = useState('');
 
   const hasConversation = messages.length > 0;
@@ -38,7 +40,7 @@ export function CenanPage() {
       setDraft('');
       return;
     }
-    setDraft(action.prompt);
+    setDraft(tl(action.prompt));
   };
 
   return (
@@ -57,11 +59,9 @@ export function CenanPage() {
             <Orb size={148} />
 
             <h1 className="mt-7 text-center text-[34px] font-semibold tracking-tight text-white/95">
-              Bugün, ne yapalım?
+              {t('chat.heroTitle')}
             </h1>
-            <p className="mt-2 text-center text-[13px] text-white/45">
-              Muhasebe, e-fatura, stok ve ihracat işlerinde Cenan yanında
-            </p>
+            <p className="mt-2 text-center text-[13px] text-white/45">{t('chat.heroSubtitle')}</p>
 
             <div className="mt-7 w-full max-w-[780px]">
               <PromptComposer value={draft} onChange={setDraft} onSubmit={handleSubmit} variant="hero" />
@@ -80,21 +80,21 @@ export function CenanPage() {
             <header className="flex shrink-0 items-center gap-3 border-b border-white/[0.07] px-6 py-3">
               <OrbIcon size={30} />
               <div className="min-w-0 flex-1">
-                <p className="text-[13.5px] font-semibold text-white/92">Cenan AI</p>
+                <p className="text-[13.5px] font-semibold text-white/92">{t('chat.title')}</p>
                 <p className="flex items-center gap-1.5 text-[10.5px] text-white/35">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_1px_rgba(52,211,153,0.8)]" />
-                  Çevrimiçi · yanıtlar demo amaçlıdır
+                  {t('chat.online')}
                 </p>
               </div>
 
               {activeFeature && (
                 <span className="flex items-center gap-2 rounded-full border border-indigo-400/25 bg-indigo-500/12 py-1.5 pl-2.5 pr-1.5 text-[11.5px] font-semibold text-indigo-100">
                   <DynamicIcon name={activeFeature.icon} className="h-3.5 w-3.5" strokeWidth={1.9} />
-                  {activeFeature.title}
+                  {tl(activeFeature.title)}
                   <button
                     type="button"
                     onClick={resetChat}
-                    aria-label="Modül bağlamını kapat"
+                    aria-label={t('chat.closeContext')}
                     className="focus-ring flex h-5 w-5 items-center justify-center rounded-full text-indigo-100/70 transition-colors hover:bg-white/15 hover:text-white"
                   >
                     <X className="h-3 w-3" />
@@ -105,22 +105,33 @@ export function CenanPage() {
               <button
                 type="button"
                 onClick={resetChat}
-                title="Yeni sohbet"
-                aria-label="Yeni sohbet"
+                title={t('chat.newChat')}
+                aria-label={t('chat.newChat')}
                 className="icon-btn focus-ring h-8 w-8"
               >
                 <RotateCcw className="h-3.5 w-3.5" />
               </button>
             </header>
 
-            <div className="min-h-0 flex-1 overflow-y-auto px-6 py-5">
-              <ConversationThread />
-            </div>
-
-            <div className="shrink-0 px-6 pb-5">
-              <div className="mx-auto w-full max-w-[760px]">
-                <PromptComposer value={draft} onChange={setDraft} onSubmit={handleSubmit} variant="thread" />
+            {/*
+              Akış ve composer birlikte üst bölgede kalır: mesaj alanı esnek
+              payın 1.5 katını, altındaki boşluk 1 katını alır. Böylece yazma
+              motoru en alta inmez, ortanın biraz altında durur.
+            */}
+            <div className="flex min-h-0 flex-1 flex-col px-6">
+              <div className="min-h-0 flex-[1.5] overflow-y-auto py-5">
+                <ConversationThread />
               </div>
+
+              <div className="shrink-0">
+                <div className="mx-auto w-full max-w-[760px]">
+                  <PromptComposer value={draft} onChange={setDraft} onSubmit={handleSubmit} variant="thread" />
+                  <QuickActions onSelect={handleQuickAction} className="mt-3.5" />
+                </div>
+              </div>
+
+              {/* Composer'ı ortanın biraz altında tutan esnek boşluk */}
+              <div className="min-h-0 flex-1" aria-hidden />
             </div>
           </motion.div>
         )}

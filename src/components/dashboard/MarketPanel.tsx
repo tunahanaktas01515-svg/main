@@ -1,12 +1,14 @@
 import { motion } from 'framer-motion';
 import { TrendingDown, TrendingUp } from 'lucide-react';
 import { marketAssets } from '../../data/market';
+import { useAppContext } from '../../context/appContextCore';
 import { Sparkline } from '../ui/Sparkline';
 import { cn } from '../../lib/cn';
+import type { TranslationKey } from '../../i18n/dictionary';
 
 interface MarketPanelProps {
   /** Panel başlığı; sayfaya göre değiştirilebilir */
-  title?: string;
+  titleKey?: TranslationKey;
   className?: string;
 }
 
@@ -14,14 +16,16 @@ interface MarketPanelProps {
  * "Borsa Özeti" paneli — BTC, ETH, altın ve döviz satırları,
  * her satırda mini sparkline ve değişim yüzdesi ile.
  */
-export function MarketPanel({ title = 'Borsa Özeti', className }: MarketPanelProps) {
+export function MarketPanel({ titleKey = 'panel.market', className }: MarketPanelProps) {
+  const { t, tl } = useAppContext();
+
   return (
     <section className={cn('glass flex flex-col rounded-3xl p-4', className)}>
       <header className="mb-3 flex items-center justify-between px-1">
-        <h2 className="text-sm font-semibold text-white/90">{title}</h2>
+        <h2 className="text-sm font-semibold text-white/90">{t(titleKey)}</h2>
         <span className="flex items-center gap-1.5 text-[10px] font-medium text-white/35">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_1px_rgba(52,211,153,0.8)]" />
-          Canlı
+          {t('market.live')}
         </span>
       </header>
 
@@ -40,7 +44,7 @@ export function MarketPanel({ title = 'Borsa Özeti', className }: MarketPanelPr
             >
               <span className="min-w-0 flex-1">
                 <span className="block truncate text-[12px] font-semibold text-white/85">{asset.symbol}</span>
-                <span className="block truncate text-[10px] text-white/35">{asset.name}</span>
+                <span className="block truncate text-[10px] text-white/35">{tl(asset.name)}</span>
               </span>
 
               <Sparkline data={asset.series} positive={isPositive} width={44} height={22} className="shrink-0 opacity-80" />

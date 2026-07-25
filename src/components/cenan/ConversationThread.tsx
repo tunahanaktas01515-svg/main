@@ -9,7 +9,7 @@ import { ChatMessageBubble } from '../chat/ChatMessageBubble';
  * Yeni mesajda otomatik olarak en alta kayar.
  */
 export function ConversationThread() {
-  const { messages, isAssistantTyping } = useAppContext();
+  const { t, messages, isAssistantTyping } = useAppContext();
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export function ConversationThread() {
         <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-1">
           <span className="mb-0.5 flex items-center gap-1.5 px-1 text-[10px] font-semibold uppercase tracking-wider text-white/30">
             <Sparkles className="h-3 w-3 text-sky-300/70" />
-            Cenan AI
+            {t('chat.typing')}
           </span>
           <div className="glass flex w-fit items-center gap-1.5 rounded-[18px] rounded-bl-md px-4 py-3">
             <TypingDot delay={0} />

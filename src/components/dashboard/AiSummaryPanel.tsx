@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { aiSummary } from '../../data/market';
+import { useAppContext } from '../../context/appContextCore';
 import { Badge } from '../ui/Badge';
 
 /**
@@ -8,6 +9,8 @@ import { Badge } from '../ui/Badge';
  * Sol üstte canlı gradient orb, altta tespit sayacı ve aksiyon linki bulunur.
  */
 export function AiSummaryPanel() {
+  const { t, tl } = useAppContext();
+
   return (
     <motion.section
       initial={{ opacity: 0, y: 10 }}
@@ -21,24 +24,24 @@ export function AiSummaryPanel() {
 
       <header className="relative flex items-center gap-3">
         <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-indigo-400 via-violet-500 to-blue-500 shadow-[0_0_22px_-4px_rgba(139,92,246,0.9)]">
-          <Sparkles className="h-4 w-4 text-white" />
+          <Sparkles className="h-4 w-4 on-accent" />
         </span>
         <div className="flex-1">
-          <h2 className="text-sm font-semibold text-white/95">AI Özeti</h2>
-          <p className="text-[11px] text-white/35">{aiSummary.updatedAt}</p>
+          <h2 className="text-sm font-semibold text-white/95">{t('panel.aiSummary')}</h2>
+          <p className="text-[11px] text-white/35">{tl(aiSummary.updatedAt)}</p>
         </div>
         <Badge tone="indigo">Cenan Ultra</Badge>
       </header>
 
-      <p className="relative mt-4 text-[13px] leading-relaxed text-white/65">{aiSummary.text}</p>
+      <p className="relative mt-4 text-[13px] leading-relaxed text-white/65">{tl(aiSummary.text)}</p>
 
       <footer className="relative mt-4 flex items-center justify-between border-t border-white/[0.07] pt-3.5">
-        <span className="text-[11px] font-medium text-white/45">{aiSummary.detections}</span>
+        <span className="text-[11px] font-medium text-white/45">{tl(aiSummary.detections)}</span>
         <button
           type="button"
           className="focus-ring flex items-center gap-1 text-[12px] font-semibold text-indigo-300 transition-colors hover:text-indigo-200"
         >
-          Detaylı rapor
+          {t('panel.fullReport')}
           <ArrowRight className="h-3.5 w-3.5" />
         </button>
       </footer>

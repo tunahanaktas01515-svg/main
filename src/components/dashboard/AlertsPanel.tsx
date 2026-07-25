@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { AlertTriangle, BellRing, Info, ShieldAlert } from 'lucide-react';
 import { alerts } from '../../data/market';
+import { useAppContext } from '../../context/appContextCore';
 import { cn } from '../../lib/cn';
 
 const severityStyles = {
@@ -13,16 +14,18 @@ const severityStyles = {
  * "Son Uyarılar" akışı — analiz motorunun ürettiği risk ve bilgi bildirimleri.
  */
 export function AlertsPanel({ className }: { className?: string }) {
+  const { t, tl } = useAppContext();
+
   return (
     <section className={cn('glass rounded-3xl p-4', className)}>
       <header className="mb-3 flex items-center gap-2 px-1">
         <BellRing className="h-3.5 w-3.5 text-white/50" />
-        <h2 className="text-sm font-semibold text-white/90">Son Uyarılar</h2>
+        <h2 className="text-sm font-semibold text-white/90">{t('panel.alerts')}</h2>
         <button
           type="button"
           className="focus-ring ml-auto text-[11px] font-medium text-indigo-300 transition-colors hover:text-indigo-200"
         >
-          Tümü
+          {t('panel.viewAll')}
         </button>
       </header>
 
@@ -48,8 +51,8 @@ export function AlertsPanel({ className }: { className?: string }) {
                 <Icon className={cn('h-3 w-3', meta.color)} />
               </span>
               <span className="min-w-0">
-                <span className="block text-[12px] font-medium leading-snug text-white/85">{alert.title}</span>
-                <span className="mt-0.5 block text-[10.5px] text-white/35">{alert.meta}</span>
+                <span className="block text-[12px] font-medium leading-snug text-white/85">{tl(alert.title)}</span>
+                <span className="mt-0.5 block text-[10.5px] text-white/35">{tl(alert.meta)}</span>
               </span>
             </motion.div>
           );

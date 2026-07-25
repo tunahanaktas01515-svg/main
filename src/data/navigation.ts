@@ -1,87 +1,92 @@
 import type { PageId } from '../types';
+import type { TranslationKey } from '../i18n/dictionary';
 
 export interface NavItem {
   id: string;
-  label: string;
+  labelKey: TranslationKey;
   icon: string;
   /** Tıklanınca gidilecek sayfa (yoksa yalnızca seçim durumu değişir) */
   page?: PageId;
   badge?: string;
   /** Henüz hazır olmayan bölümler için */
   soon?: boolean;
+  /** Sayfa açıldığında odaklanılacak bölüm — Deep Web ve Ajanlar sekmelerinde kullanılır */
+  section?: string;
+  /** Tıklanınca açılacak katman üstü pencere */
+  overlay?: 'settings' | 'account' | 'background';
 }
 
 export interface NavGroup {
   id: string;
-  title: string;
+  titleKey: TranslationKey;
   icon: string;
   items: NavItem[];
 }
 
 /**
  * Sol menünün grup + alt öğe hiyerarşisi.
- * Sayfası olan öğeler doğrudan yönlendirir, diğerleri seçim durumunu günceller.
+ * Sayfası olan öğeler doğrudan yönlendirir, `overlay` taşıyanlar ilgili
+ * pencereyi açar, diğerleri yalnızca seçim durumunu günceller.
  */
 export const navGroups: NavGroup[] = [
   {
     id: 'ana-sayfa',
-    title: 'Ana Sayfa',
+    titleKey: 'group.home',
     icon: 'House',
     items: [
-      { id: 'dashboard', label: 'Dashboard', icon: 'LayoutDashboard', page: 'ana-sayfa' },
-      { id: 'borsa-takibi', label: 'Borsa Takibi', icon: 'CandlestickChart', page: 'deep-web' },
+      { id: 'dashboard', labelKey: 'item.dashboard', icon: 'LayoutDashboard', page: 'ana-sayfa' },
+      { id: 'borsa-takibi', labelKey: 'item.marketWatch', icon: 'CandlestickChart', page: 'deep-web', section: 'market' },
     ],
   },
   {
     id: 'ajanlar',
-    title: 'Ajanlar',
+    titleKey: 'group.agents',
     icon: 'Bot',
     items: [
-      { id: 'aktif-ajanlar', label: 'Aktif Ajanlar', icon: 'Activity', badge: '3', soon: true },
-      { id: 'yeni-ajan', label: 'Yeni Ajan Oluştur', icon: 'Plus', soon: true },
-      { id: 'ajan-gecmisi', label: 'Ajan Geçmişi', icon: 'History', soon: true },
+      { id: 'aktif-ajanlar', labelKey: 'item.activeAgents', icon: 'Activity', badge: '3', page: 'ajanlar', section: 'active' },
+      { id: 'yeni-ajan', labelKey: 'item.newAgent', icon: 'Plus', page: 'ajanlar', section: 'new' },
+      { id: 'ajan-gecmisi', labelKey: 'item.agentHistory', icon: 'History', soon: true },
     ],
   },
   {
     id: 'cenan-ai',
-    title: 'Cenan AI',
+    titleKey: 'group.cenanAi',
     icon: 'Sparkles',
     items: [
-      { id: 'sohbet', label: 'Sohbet', icon: 'MessageSquare', page: 'cenan' },
-      { id: 'ozel-promptlar', label: 'Özel Promptlar', icon: 'FileCode2', soon: true },
-      { id: 'model-secimi', label: 'Model Seçimi', icon: 'Cpu', soon: true },
+      { id: 'sohbet', labelKey: 'item.chat', icon: 'MessageSquare', page: 'cenan' },
+      { id: 'api-ai', labelKey: 'item.apiAi', icon: 'Plug2', soon: true },
     ],
   },
   {
     id: 'deep-web',
-    title: 'Deep Web',
+    titleKey: 'group.deepweb',
     icon: 'Radar',
     items: [
-      { id: 'arama', label: 'Arama', icon: 'Search', page: 'deep-web' },
-      { id: 'kaynaklar', label: 'Kaynaklar / Sonuçlar', icon: 'ListTree', page: 'deep-web' },
-      { id: 'izleme-listesi', label: 'İzleme Listesi', icon: 'Eye', page: 'deep-web' },
+      { id: 'arama', labelKey: 'item.search', icon: 'Search', page: 'deep-web', section: 'search' },
+      { id: 'kaynaklar', labelKey: 'item.sources', icon: 'ListTree', page: 'deep-web', section: 'sources' },
+      { id: 'izleme-listesi', labelKey: 'item.watchlist', icon: 'Eye', page: 'deep-web', section: 'watchlist' },
     ],
   },
   {
     id: 'araclar',
-    title: 'Araçlar',
+    titleKey: 'group.tools',
     icon: 'Wrench',
     items: [
-      { id: 'hesap-makinesi', label: 'Hesap Makinesi (KDV’li)', icon: 'Calculator', soon: true },
-      { id: 'kdv-hesaplayici', label: 'KDV Hesaplayıcı', icon: 'Percent', soon: true },
-      { id: 'doviz-cevirici', label: 'Döviz Çevirici', icon: 'ArrowLeftRight', soon: true },
-      { id: 'net-brut', label: 'Net / Brüt Hesaplayıcı', icon: 'Scale', soon: true },
-      { id: 'stopaj', label: 'Stopaj Hesaplayıcı', icon: 'Receipt', soon: true },
-      { id: 'vade-tarih', label: 'Vade / Tarih Hesaplayıcı', icon: 'CalendarClock', soon: true },
+      { id: 'hesap-makinesi', labelKey: 'item.calculator', icon: 'Calculator', soon: true },
+      { id: 'kdv-hesaplayici', labelKey: 'item.vatCalculator', icon: 'Percent', soon: true },
+      { id: 'doviz-cevirici', labelKey: 'item.currencyConverter', icon: 'ArrowLeftRight', soon: true },
+      { id: 'net-brut', labelKey: 'item.netGross', icon: 'Scale', soon: true },
+      { id: 'stopaj', labelKey: 'item.withholding', icon: 'Receipt', soon: true },
+      { id: 'vade-tarih', labelKey: 'item.dueDate', icon: 'CalendarClock', soon: true },
     ],
   },
   {
     id: 'ayarlar',
-    title: 'Ayarlar',
+    titleKey: 'group.settings',
     icon: 'Settings',
     items: [
-      { id: 'hesap', label: 'Hesap', icon: 'UserCog', soon: true },
-      { id: 'api', label: 'API / Entegrasyonlar', icon: 'Plug', soon: true },
+      { id: 'hesap', labelKey: 'item.account', icon: 'UserCog', overlay: 'account' },
+      { id: 'api', labelKey: 'item.integrations', icon: 'Plug', soon: true },
     ],
   },
 ];

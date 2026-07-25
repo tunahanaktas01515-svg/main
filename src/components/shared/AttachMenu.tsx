@@ -17,7 +17,7 @@ interface AttachMenuProps {
  * tıklanınca ilgili dosya seçici çalışır ve yükleme akışı başlar.
  */
 export function AttachMenu({ placement = 'top', className }: AttachMenuProps) {
-  const { startUpload } = useAppContext();
+  const { t, startUpload } = useAppContext();
   const [isOpen, setOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
@@ -35,12 +35,12 @@ export function AttachMenu({ placement = 'top', className }: AttachMenuProps) {
   };
 
   const options = [
-    { id: 'photo', label: 'Fotoğraf', hint: 'JPG, PNG, HEIC', icon: ImageIcon, onClick: () => imageInputRef.current?.click() },
-    { id: 'file', label: 'Dosya', hint: 'Tüm dosya türleri', icon: FolderOpen, onClick: () => anyInputRef.current?.click() },
-    { id: 'doc', label: 'Belge', hint: 'PDF, e-fatura XML', icon: FileText, onClick: () => docInputRef.current?.click() },
-    { id: 'sheet', label: 'Tablo', hint: 'CSV, XLSX', icon: Table2, onClick: () => sheetInputRef.current?.click() },
-    { id: 'scan', label: 'Tara', hint: 'Örnek fatura ile dene', icon: ScanLine, onClick: () => startUpload('Taranan-Fatura-2024-8871.pdf', 87728) },
-    { id: 'camera', label: 'Kamera', hint: 'Anlık çekim', icon: Camera, onClick: () => imageInputRef.current?.click() },
+    { id: 'photo', label: t('attach.photo'), hint: t('attach.photoHint'), icon: ImageIcon, onClick: () => imageInputRef.current?.click() },
+    { id: 'file', label: t('attach.file'), hint: t('attach.fileHint'), icon: FolderOpen, onClick: () => anyInputRef.current?.click() },
+    { id: 'doc', label: t('attach.doc'), hint: t('attach.docHint'), icon: FileText, onClick: () => docInputRef.current?.click() },
+    { id: 'sheet', label: t('attach.sheet'), hint: t('attach.sheetHint'), icon: Table2, onClick: () => sheetInputRef.current?.click() },
+    { id: 'scan', label: t('attach.scan'), hint: t('attach.scanHint'), icon: ScanLine, onClick: () => startUpload('Taranan-Fatura-2024-8871.pdf', 87728) },
+    { id: 'camera', label: t('attach.camera'), hint: t('attach.cameraHint'), icon: Camera, onClick: () => imageInputRef.current?.click() },
   ];
 
   return (
@@ -58,7 +58,7 @@ export function AttachMenu({ placement = 'top', className }: AttachMenuProps) {
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        aria-label="Dosya ekle"
+        aria-label={t('attach.button')}
         className={cn(
           'focus-ring flex h-9 w-9 items-center justify-center rounded-full border border-white/12 bg-white/[0.06] text-white/70 transition-all duration-300 hover:border-indigo-400/40 hover:bg-indigo-500/20 hover:text-white',
           isOpen && 'border-indigo-400/40 bg-indigo-500/20 text-white'
@@ -80,7 +80,7 @@ export function AttachMenu({ placement = 'top', className }: AttachMenuProps) {
             )}
           >
             <p className="px-2.5 pb-1 pt-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/30">
-              Ekle
+              {t('attach.title')}
             </p>
             {options.map((option) => (
               <button

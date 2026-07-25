@@ -4,7 +4,7 @@ import { cn } from '../../lib/cn';
 interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   size?: 'xs' | 'sm' | 'md' | 'lg';
-  /** 'glass' varsayılan, 'accent' indigo vurgulu, 'solid' beyaz (gönder butonu) */
+  /** 'glass' varsayılan, 'accent' indigo vurgulu, 'solid' dolu gradient (gönder butonu) */
   tone?: 'glass' | 'accent' | 'solid' | 'ghost';
   active?: boolean;
 }
@@ -20,7 +20,7 @@ const toneMap = {
   glass: '',
   accent:
     'border-indigo-400/35 bg-indigo-500/25 text-white hover:border-indigo-300/50 hover:bg-indigo-500/40',
-  solid: 'border-white/0 bg-white text-black hover:bg-white/90 hover:text-black',
+  solid: 'on-accent border-transparent bg-gradient-to-br from-indigo-500 to-violet-600 hover:from-indigo-400 hover:to-violet-500',
   ghost: 'border-transparent bg-transparent hover:bg-white/[0.08]',
 };
 

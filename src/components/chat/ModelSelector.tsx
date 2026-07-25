@@ -11,7 +11,7 @@ import { cn } from '../../lib/cn';
  * Ultra (72B) seçeneğinin altında kredi tüketimi notu gösterilir.
  */
 export function ModelSelector() {
-  const { model, setModel } = useAppContext();
+  const { model, setModel, tl } = useAppContext();
   const [isOpen, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -78,10 +78,12 @@ export function ModelSelector() {
                         {option.paramSize}
                       </span>
                     </span>
-                    <span className="mt-0.5 block text-[11px] leading-snug text-white/40">{option.description}</span>
+                    <span className="mt-0.5 block text-[11px] leading-snug text-white/40">
+                      {tl(option.description)}
+                    </span>
                     {option.note && (
                       <span className="mt-1 block text-[10px] font-medium leading-snug text-amber-300/70">
-                        {option.note}
+                        {tl(option.note)}
                       </span>
                     )}
                   </span>

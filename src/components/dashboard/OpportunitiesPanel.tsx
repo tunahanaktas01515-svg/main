@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Target } from 'lucide-react';
 import { opportunities } from '../../data/market';
+import { useAppContext } from '../../context/appContextCore';
 import { cn } from '../../lib/cn';
 
 /**
@@ -8,12 +9,14 @@ import { cn } from '../../lib/cn';
  * ve her biri için güven skoru göstergesi.
  */
 export function OpportunitiesPanel({ className }: { className?: string }) {
+  const { t, tl } = useAppContext();
+
   return (
     <section className={cn('glass rounded-3xl p-4', className)}>
       <header className="mb-3 flex items-center gap-2 px-1">
         <Target className="h-3.5 w-3.5 text-indigo-300" />
-        <h2 className="text-sm font-semibold text-white/90">AI Fırsatları</h2>
-        <span className="ml-auto text-[10px] font-medium text-white/30">{opportunities.length} tespit</span>
+        <h2 className="text-sm font-semibold text-white/90">{t('panel.opportunities')}</h2>
+        <span className="ml-auto text-[10px] font-medium text-white/30">{opportunities.length}</span>
       </header>
 
       <div className="flex flex-col gap-2">
@@ -28,8 +31,8 @@ export function OpportunitiesPanel({ className }: { className?: string }) {
           >
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
-                <p className="truncate text-[12.5px] font-semibold text-white/90">{item.title}</p>
-                <p className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-white/40">{item.subtitle}</p>
+                <p className="truncate text-[12.5px] font-semibold text-white/90">{tl(item.title)}</p>
+                <p className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-white/40">{tl(item.subtitle)}</p>
               </div>
               <span className="shrink-0 text-[13px] font-semibold tabular-nums text-white/85">{item.score}%</span>
             </div>

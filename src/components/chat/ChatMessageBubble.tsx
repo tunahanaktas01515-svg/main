@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown, FileText, Sparkles, Terminal } from 'lucide-react';
 import type { ChatMessage } from '../../types';
+import { useAppContext } from '../../context/appContextCore';
 import { cn } from '../../lib/cn';
 
 /**
@@ -9,6 +10,7 @@ import { cn } from '../../lib/cn';
  * system: katlanabilir sistem promptu kartı · user: indigo gradient balon · assistant: glass balon.
  */
 export function ChatMessageBubble({ message }: { message: ChatMessage }) {
+  const { t } = useAppContext();
   const [isSystemOpen, setSystemOpen] = useState(false);
 
   if (message.role === 'system') {
@@ -26,7 +28,7 @@ export function ChatMessageBubble({ message }: { message: ChatMessage }) {
         >
           <Terminal className="h-3.5 w-3.5 shrink-0 text-indigo-300/80" />
           <span className="flex-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-indigo-200/80">
-            Sistem promptu ayarlandı
+            {t('chat.systemPrompt')}
           </span>
           <ChevronDown
             className={cn('h-3.5 w-3.5 text-indigo-200/60 transition-transform duration-300', isSystemOpen && 'rotate-180')}
@@ -60,7 +62,7 @@ export function ChatMessageBubble({ message }: { message: ChatMessage }) {
       {!isUser && (
         <span className="mb-0.5 flex items-center gap-1.5 px-1 text-[10px] font-semibold uppercase tracking-wider text-white/30">
           <Sparkles className="h-3 w-3 text-indigo-300/70" />
-          Cenan AI
+          {t('chat.title')}
         </span>
       )}
 
@@ -68,7 +70,7 @@ export function ChatMessageBubble({ message }: { message: ChatMessage }) {
         className={cn(
           'max-w-[88%] px-3.5 py-2.5 text-[12.5px] leading-relaxed',
           isUser
-            ? 'rounded-[18px] rounded-br-md bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-[0_10px_28px_-10px_rgba(99,102,241,0.9)]'
+            ? 'on-accent rounded-[18px] rounded-br-md bg-gradient-to-br from-indigo-500 to-violet-600 shadow-[0_10px_28px_-10px_rgba(99,102,241,0.9)]'
             : 'glass rounded-[18px] rounded-bl-md text-white/85'
         )}
       >
@@ -87,7 +89,7 @@ export function ChatMessageBubble({ message }: { message: ChatMessage }) {
             </span>
             <span className="min-w-0 flex-1">
               <span className="block truncate text-[11.5px] font-medium">{attachment.name}</span>
-              <span className="block text-[10px] opacity-60">{attachment.sizeLabel} · yüklendi</span>
+              <span className="block text-[10px] opacity-60">{attachment.sizeLabel}</span>
             </span>
           </div>
         ))}

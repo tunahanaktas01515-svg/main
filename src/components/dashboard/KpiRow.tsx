@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { ArrowDownRight, ArrowUpRight, Minus } from 'lucide-react';
 import { kpiCards } from '../../data/market';
+import { useAppContext } from '../../context/appContextCore';
 import { DynamicIcon } from '../ui/DynamicIcon';
 import { cn } from '../../lib/cn';
 
@@ -14,6 +15,8 @@ const trendStyles = {
  * Dashboard üstündeki dört sütunlu KPI kart sırası.
  */
 export function KpiRow() {
+  const { tl } = useAppContext();
+
   return (
     <div className="grid grid-cols-4 gap-3">
       {kpiCards.map((kpi, index) => {
@@ -36,11 +39,11 @@ export function KpiRow() {
               </div>
               <span className={cn('flex items-center gap-0.5 text-[11px] font-semibold', trendStyles[kpi.trend])}>
                 <TrendIcon className="h-3 w-3" />
-                {kpi.changeLabel}
+                {tl(kpi.changeLabel)}
               </span>
             </div>
 
-            <p className="mt-3.5 text-[11px] font-medium uppercase tracking-wider text-white/35">{kpi.label}</p>
+            <p className="mt-3.5 text-[11px] font-medium uppercase tracking-wider text-white/35">{tl(kpi.label)}</p>
             <p className="mt-1 text-xl font-semibold tracking-tight text-white/95 tabular-nums">{kpi.value}</p>
           </motion.div>
         );

@@ -15,7 +15,7 @@ const bars = Array.from({ length: 26 }, (_, index) => ({
  * Referanstaki mavi-mor gradient orb + waveform + "Dinliyorum…" düzenini takip eder.
  */
 export function VoiceOverlay() {
-  const { isVoiceActive, closeVoiceAssistant, submitVoiceMessage } = useAppContext();
+  const { t, isVoiceActive, closeVoiceAssistant, submitVoiceMessage } = useAppContext();
 
   return (
     <AnimatePresence>
@@ -43,15 +43,15 @@ export function VoiceOverlay() {
             </motion.div>
           </div>
 
-          <p className="mt-5 text-center text-[13.5px] font-medium text-white/85">Dinliyorum…</p>
-          <p className="mt-1 text-center text-[11px] text-white/35">Konuşmanı bitirince gönder simgesine dokun</p>
+          <p className="mt-5 text-center text-[13.5px] font-medium text-white/85">{t('voice.title')}</p>
+          <p className="mt-1 text-center text-[11px] text-white/35">{t('voice.hint')}</p>
 
           {/* Waveform + aksiyonlar */}
           <div className="mt-5 flex items-center gap-2.5 rounded-full border border-white/10 bg-black/35 p-2">
             <button
               type="button"
               onClick={closeVoiceAssistant}
-              aria-label="İptal"
+              aria-label={t('voice.cancel')}
               className="icon-btn focus-ring h-8 w-8 border-white/10 hover:bg-red-500/20 hover:text-red-200"
             >
               <X className="h-3.5 w-3.5" />
@@ -71,8 +71,8 @@ export function VoiceOverlay() {
             <button
               type="button"
               onClick={submitVoiceMessage}
-              aria-label="Sesli mesajı gönder"
-              className="focus-ring flex h-8 w-8 items-center justify-center rounded-full bg-white text-black shadow-[0_0_20px_-6px_rgba(255,255,255,0.9)] transition-transform duration-300 hover:scale-105"
+              aria-label={t('voice.send')}
+              className="focus-ring flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 on-accent shadow-[0_0_20px_-6px_rgba(99,102,241,0.95)] transition-transform duration-300 hover:scale-105"
             >
               <ArrowUp className="h-4 w-4" strokeWidth={2.4} />
             </button>
