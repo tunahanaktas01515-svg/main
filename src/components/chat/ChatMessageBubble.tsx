@@ -10,8 +10,9 @@ import { cn } from '../../lib/cn';
  * system: katlanabilir sistem promptu kartı · user: indigo gradient balon · assistant: glass balon.
  */
 export function ChatMessageBubble({ message }: { message: ChatMessage }) {
-  const { t } = useAppContext();
+  const { t, bubbleSize } = useAppContext();
   const [isSystemOpen, setSystemOpen] = useState(false);
+  const isSmall = bubbleSize === 'small';
 
   if (message.role === 'system') {
     return (
@@ -57,9 +58,9 @@ export function ChatMessageBubble({ message }: { message: ChatMessage }) {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-      className={cn('flex flex-col gap-1', isUser ? 'items-end' : 'items-start')}
+      className={cn('flex flex-col', isSmall ? 'gap-0.5' : 'gap-1', isUser ? 'items-end' : 'items-start')}
     >
-      {!isUser && (
+      {!isUser && !isSmall && (
         <span className="mb-0.5 flex items-center gap-1.5 px-1 text-[10px] font-semibold uppercase tracking-wider text-white/30">
           <Sparkles className="h-3 w-3 text-indigo-300/70" />
           {t('chat.title')}
@@ -68,7 +69,8 @@ export function ChatMessageBubble({ message }: { message: ChatMessage }) {
 
       <div
         className={cn(
-          'max-w-[88%] px-3.5 py-2.5 text-[12.5px] leading-relaxed',
+          'max-w-[88%] leading-relaxed',
+          isSmall ? 'px-2.5 py-1.5 text-[11.5px]' : 'px-3.5 py-2.5 text-[12.5px]',
           isUser
             ? 'on-accent rounded-[18px] rounded-br-md bg-gradient-to-br from-indigo-500 to-violet-600 shadow-[0_10px_28px_-10px_rgba(99,102,241,0.9)]'
             : 'glass rounded-[18px] rounded-bl-md text-white/85'
@@ -95,7 +97,7 @@ export function ChatMessageBubble({ message }: { message: ChatMessage }) {
         ))}
       </div>
 
-      <span className="px-1 text-[10px] tabular-nums text-white/25">{message.timestamp}</span>
+      {!isSmall && <span className="px-1 text-[10px] tabular-nums text-white/25">{message.timestamp}</span>}
     </motion.div>
   );
 }

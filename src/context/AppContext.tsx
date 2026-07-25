@@ -13,6 +13,7 @@ import type {
   ResearchRecord,
   SurfaceThemeId,
   ThemeMode,
+  UiSize,
   UserProfile,
   WatchTerm,
 } from '../types';
@@ -52,6 +53,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>('tr');
   const [theme, setTheme] = useState<ThemeMode>('dark');
   const [surfaceTheme, setSurfaceTheme] = useState<SurfaceThemeId>('glass');
+  const [composerSize, setComposerSize] = useState<UiSize>('large');
+  const [bubbleSize, setBubbleSize] = useState<UiSize>('large');
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [isRailOpen, setRailOpen] = useState(false);
   const [activeOverlay, setActiveOverlay] = useState<OverlayId>(null);
@@ -429,6 +432,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
       setTheme,
       surfaceTheme,
       setSurfaceTheme,
+      composerSize,
+      setComposerSize,
+      bubbleSize,
+      setBubbleSize,
       isSidebarCollapsed,
       toggleSidebar,
       isRailOpen,
@@ -483,6 +490,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
       theme,
       toggleTheme,
       surfaceTheme,
+      composerSize,
+      bubbleSize,
       isSidebarCollapsed,
       toggleSidebar,
       isRailOpen,

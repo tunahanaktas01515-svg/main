@@ -86,8 +86,9 @@ export function AppSearch() {
       { id: 'page-home', group: 'pages', label: t('nav.home'), icon: 'LayoutDashboard', run: goto('ana-sayfa', 'dashboard') },
       { id: 'page-cenan', group: 'pages', label: t('nav.cenan'), icon: 'MessageSquare', run: goto('cenan', 'sohbet') },
       { id: 'page-news', group: 'pages', label: t('nav.news'), icon: 'Newspaper', run: goto('haberler', 'dashboard') },
-      { id: 'page-deepweb', group: 'pages', label: t('nav.deepweb'), icon: 'Radar', run: goto('deep-web', 'arama') },
+      { id: 'page-deepweb', group: 'pages', label: t('nav.deepweb'), icon: 'Radar', run: goto('deep-web', 'deep-web') },
       { id: 'page-agents', group: 'pages', label: t('nav.agents'), icon: 'Bot', run: goto('ajanlar', 'aktif-ajanlar') },
+      { id: 'page-market', group: 'pages', label: t('nav.market'), icon: 'CandlestickChart', run: goto('borsa', 'borsa-takibi') },
 
       /* İşlemler */
       { id: 'act-theme', group: 'actions', label: t('action.toggleTheme'), icon: 'SunMoon', run: toggleTheme },
@@ -125,14 +126,14 @@ export function AppSearch() {
         group: 'actions',
         label: t('action.addWatchTerm'),
         icon: 'Fingerprint',
-        run: goto('deep-web', 'izleme-listesi'),
+        run: goto('deep-web', 'deep-web'),
       },
       {
         id: 'act-allmarkets',
         group: 'actions',
         label: t('action.allMarkets'),
         icon: 'CandlestickChart',
-        run: goto('deep-web', 'borsa-takibi'),
+        run: goto('borsa', 'borsa-takibi'),
       },
       {
         id: 'act-location',

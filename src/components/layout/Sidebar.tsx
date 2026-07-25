@@ -173,6 +173,39 @@ export function Sidebar() {
         {navGroups.map((group) => {
           const isGroupCollapsed = collapsedGroups.includes(group.id);
 
+          /* Alt öğesi olmayan gruplar (Deep Web) tek satırlık bağlantı olarak çizilir */
+          if (group.page && group.items.length === 0) {
+            const isActive = activeMenuItemId === group.id;
+
+            return (
+              <motion.button
+                key={group.id}
+                type="button"
+                whileHover={{ scale: isSidebarCollapsed ? 1 : 1.012 }}
+                whileTap={{ scale: 0.988 }}
+                title={t(group.titleKey)}
+                onClick={() => {
+                  setActiveMenuItemId(group.id);
+                  if (group.page) setActivePage(group.page);
+                }}
+                className={cn(
+                  'nav-item focus-ring',
+                  isSidebarCollapsed && 'justify-center px-0',
+                  isActive && 'nav-item-active'
+                )}
+              >
+                <DynamicIcon
+                  name={group.icon}
+                  className={cn('h-4 w-4 shrink-0', isActive ? 'text-white' : 'text-white/45')}
+                  strokeWidth={1.8}
+                />
+                {!isSidebarCollapsed && (
+                  <span className="flex-1 truncate text-left">{t(group.titleKey)}</span>
+                )}
+              </motion.button>
+            );
+          }
+
           return (
             <div key={group.id}>
               {isSidebarCollapsed ? (
@@ -300,7 +333,9 @@ export function Sidebar() {
                 ? 'HBR'
                 : activePage === 'ajanlar'
                   ? 'AJN'
-                  : 'DW'}
+                  : activePage === 'borsa'
+                    ? 'BRS'
+                    : 'DW'}
         </span>
       )}
     </motion.aside>

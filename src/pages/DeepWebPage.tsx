@@ -19,7 +19,6 @@ import { Badge } from '../components/ui/Badge';
 import { GlassProgressBar } from '../components/ui/GlassProgressBar';
 import { DeepSearchBar } from '../components/deepweb/DeepSearchBar';
 import { SearchModeChips } from '../components/deepweb/SearchModeChips';
-import { MarketTracker } from '../components/deepweb/MarketTracker';
 import { cn } from '../lib/cn';
 
 const riskTone = {
@@ -108,13 +107,8 @@ export function DeepWebPage() {
         </AnimatePresence>
       </section>
 
-      {/* --- Borsa takip bloğu: aramadan belirgin bir boşlukla ayrılır --- */}
-      <section className="mx-auto mt-[7vh] w-full max-w-[1180px]">
-        <MarketTracker />
-      </section>
-
       {/* --- Karanlık ağ istihbarat panelleri --- */}
-      <div className="mx-auto mt-5 grid w-full max-w-[1180px] grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] gap-4">
+      <div className="mx-auto mt-[7vh] grid w-full max-w-[1180px] grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] gap-4">
         <div className="flex flex-col gap-4">
           <section className="glass relative overflow-hidden rounded-3xl p-5">
             <span className="pointer-events-none absolute -right-16 -top-20 h-52 w-52 rounded-full bg-indigo-500/20 blur-3xl" />

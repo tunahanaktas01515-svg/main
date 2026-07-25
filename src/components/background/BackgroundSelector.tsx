@@ -1,8 +1,10 @@
 import { useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Check, Image as ImageIcon, Moon, Plus, Sun, Trash2, X } from 'lucide-react';
+import { Check, Image as ImageIcon, MessageSquare, Moon, Plus, Ruler, Sun, Trash2, X } from 'lucide-react';
 import { useAppContext } from '../../context/appContextCore';
+import { OrbIcon } from '../ui/Orb';
 import { cn } from '../../lib/cn';
+import type { UiSize } from '../../types';
 
 /**
  * Kalem ikonuna tıklandığında açılan arka plan seçici modal.
@@ -21,6 +23,10 @@ export function BackgroundSelector() {
     removeCustomBackground,
     theme,
     toggleTheme,
+    composerSize,
+    setComposerSize,
+    bubbleSize,
+    setBubbleSize,
   } = useAppContext();
 
   const fileRef = useRef<HTMLInputElement>(null);
@@ -168,10 +174,149 @@ export function BackgroundSelector() {
                 <span className="text-[11px] font-semibold">{t('settings.addBackground')}</span>
               </button>
             </div>
+
+            {/* --- Boyut ayarı --- */}
+            <div className="mt-6 border-t border-white/10 pt-5">
+              <div className="mb-3 flex items-center gap-2">
+                <Ruler className="h-3.5 w-3.5 text-white/45" />
+                <h3 className="text-[13.5px] font-semibold text-white/90">{t('size.title')}</h3>
+                <span className="ml-auto text-[11px] text-white/35">{t('size.subtitle')}</span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <SizeGroup
+                  icon={<OrbIcon size={20} />}
+                  title={t('size.composer')}
+                  hint={t('size.composerHint')}
+                  value={composerSize}
+                  onChange={setComposerSize}
+                  smallLabel={t('size.small')}
+                  largeLabel={t('size.large')}
+                  smallHint={t('size.smallComposerHint')}
+                  largeHint={t('size.largeComposerHint')}
+                  preview="composer"
+                />
+                <SizeGroup
+                  icon={<MessageSquare className="h-4 w-4 text-white/60" />}
+                  title={t('size.bubble')}
+                  hint={t('size.bubbleHint')}
+                  value={bubbleSize}
+                  onChange={setBubbleSize}
+                  smallLabel={t('size.small')}
+                  largeLabel={t('size.large')}
+                  smallHint={t('size.smallBubbleHint')}
+                  largeHint={t('size.largeBubbleHint')}
+                  preview="bubble"
+                />
+              </div>
+            </div>
           </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
+  );
+}
+
+/**
+ * Tek bir boyut tercihi (konuşma motoru ya da mesaj balonu).
+ * Küçük ve büyük seçenekleri, o boyutun nasıl görüneceğini anlatan
+ * minik bir önizleme ile birlikte sunulur.
+ */
+function SizeGroup({
+  icon,
+  title,
+  hint,
+  value,
+  onChange,
+  smallLabel,
+  largeLabel,
+  smallHint,
+  largeHint,
+  preview,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  hint: string;
+  value: UiSize;
+  onChange: (size: UiSize) => void;
+  smallLabel: string;
+  largeLabel: string;
+  smallHint: string;
+  largeHint: string;
+  preview: 'composer' | 'bubble';
+}) {
+  const options: { id: UiSize; label: string; hint: string }[] = [
+    { id: 'small', label: smallLabel, hint: smallHint },
+    { id: 'large', label: largeLabel, hint: largeHint },
+  ];
+
+  return (
+    <section className="rounded-3xl border border-white/[0.08] bg-white/[0.03] p-3.5">
+      <header className="mb-2.5 flex items-center gap-2">
+        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.05]">
+          {icon}
+        </span>
+        <span className="min-w-0">
+          <span className="block truncate text-[12.5px] font-semibold text-white/88">{title}</span>
+          <span className="block truncate text-[10px] text-white/35">{hint}</span>
+        </span>
+      </header>
+
+      <div className="flex flex-col gap-1.5">
+        {options.map((option) => {
+          const isActive = value === option.id;
+
+          return (
+            <button
+              key={option.id}
+              type="button"
+              onClick={() => onChange(option.id)}
+              className={cn(
+                'focus-ring flex items-center gap-2.5 rounded-2xl border px-2.5 py-2 text-left transition-all duration-300',
+                isActive
+                  ? 'border-indigo-400/50 bg-indigo-500/12 shadow-[0_0_22px_-10px_rgba(99,102,241,0.9)]'
+                  : 'border-white/[0.07] bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.06]'
+              )}
+            >
+              <SizePreview kind={preview} size={option.id} />
+              <span className="min-w-0 flex-1">
+                <span className="block text-[12px] font-semibold text-white/85">{option.label}</span>
+                <span className="block truncate text-[9.5px] text-white/35">{option.hint}</span>
+              </span>
+              {isActive && <Check className="h-3.5 w-3.5 shrink-0 text-indigo-300" />}
+            </button>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+/** Seçeneğin sonucunu anlatan minik şematik önizleme */
+function SizePreview({ kind, size }: { kind: 'composer' | 'bubble'; size: UiSize }) {
+  if (kind === 'composer') {
+    return (
+      <span className="flex h-10 w-12 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-black/25">
+        <span
+          className={cn(
+            'w-9 rounded-full border border-white/20 bg-white/[0.12]',
+            size === 'small' ? 'h-2' : 'h-6 rounded-lg'
+          )}
+        />
+      </span>
+    );
+  }
+
+  return (
+    <span
+      className={cn(
+        'flex h-10 w-12 shrink-0 flex-col items-end justify-center rounded-xl border border-white/10 bg-black/25 px-1.5',
+        size === 'small' ? 'gap-0.5' : 'gap-1.5'
+      )}
+    >
+      <span className={cn('w-7 rounded-full bg-indigo-400/70', size === 'small' ? 'h-1.5' : 'h-2.5')} />
+      <span className={cn('w-9 self-start rounded-full bg-white/20', size === 'small' ? 'h-1.5' : 'h-2.5')} />
+    </span>
   );
 }
 

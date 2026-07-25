@@ -12,7 +12,10 @@ export interface Localized {
 }
 
 // Üst barda seçilebilen ana sayfalar
-export type PageId = 'ana-sayfa' | 'cenan' | 'haberler' | 'deep-web' | 'ajanlar';
+export type PageId = 'ana-sayfa' | 'cenan' | 'haberler' | 'deep-web' | 'ajanlar' | 'borsa';
+
+/** Konuşma motorunun (composer) ve mesaj balonlarının boyut tercihi */
+export type UiSize = 'small' | 'large';
 
 // Tema modu
 export type ThemeMode = 'dark' | 'light';

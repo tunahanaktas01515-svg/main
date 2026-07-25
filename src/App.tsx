@@ -15,6 +15,7 @@ import { NewsPage } from './pages/NewsPage';
 import { CenanPage } from './pages/CenanPage';
 import { DeepWebPage } from './pages/DeepWebPage';
 import { AgentsPage } from './pages/AgentsPage';
+import { MarketPage } from './pages/MarketPage';
 
 /** Aktif sayfaya göre orta içerik alanını değiştiren basit yönlendirici */
 function PageRouter() {
@@ -36,6 +37,7 @@ function PageRouter() {
           {activePage === 'cenan' && <CenanPage />}
           {activePage === 'deep-web' && <DeepWebPage />}
           {activePage === 'ajanlar' && <AgentsPage />}
+          {activePage === 'borsa' && <MarketPage />}
         </motion.div>
       </AnimatePresence>
     </main>

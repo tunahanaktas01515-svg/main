@@ -14,6 +14,7 @@ const pageTabs: { id: PageId; labelKey: TranslationKey }[] = [
   { id: 'ana-sayfa', labelKey: 'nav.home' },
   { id: 'cenan', labelKey: 'nav.cenan' },
   { id: 'ajanlar', labelKey: 'nav.agents' },
+  { id: 'borsa', labelKey: 'nav.market' },
   { id: 'haberler', labelKey: 'nav.news' },
   { id: 'deep-web', labelKey: 'nav.deepweb' },
 ];

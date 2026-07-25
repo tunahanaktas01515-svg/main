@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mic, Paperclip, Sparkles } from 'lucide-react';
+import { ArrowUp, Mic, Paperclip, Sparkles } from 'lucide-react';
 import { useAppContext } from '../../context/appContextCore';
 import { useTypewriter } from '../../lib/useTypewriter';
 import { composerSuggestions } from '../../data/quickActions';
@@ -21,24 +21,30 @@ interface PromptComposerProps {
  * Cenan'ın ana konuşma girişi.
  * Boşken örnek istemler daktilo efektiyle yazılır; imleç alanın üzerine
  * geldiğinde animasyon durur ve metin sabit kalır.
+ *
+ * Ayarlardaki boyut tercihi iki farklı yerleşim sunar:
+ * "büyük" çok satırlı standart kutu, "küçük" ise ince ve uzun tek satırlık kutu.
  */
 export function PromptComposer({ value, onChange, onSubmit, variant = 'hero', className }: PromptComposerProps) {
-  const { t, tl, openVoiceAssistant } = useAppContext();
+  const { t, tl, openVoiceAssistant, composerSize } = useAppContext();
   const [isHovered, setHovered] = useState(false);
   const [isFocused, setFocused] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const isHero = variant === 'hero';
+  const isCompact = composerSize === 'small';
+  const isHero = variant === 'hero' && !isCompact;
   const suggestions = useMemo(() => composerSuggestions.map(tl), [tl]);
   const typed = useTypewriter(suggestions, isHovered || isFocused || value.length > 0);
   const canSend = value.trim().length > 0;
+
+  const maxHeight = isCompact ? 96 : isHero ? 168 : 132;
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     onChange(event.target.value);
     const el = textareaRef.current;
     if (el) {
       el.style.height = 'auto';
-      el.style.height = `${Math.min(el.scrollHeight, isHero ? 168 : 132)}px`;
+      el.style.height = `${Math.min(el.scrollHeight, maxHeight)}px`;
     }
   };
 
@@ -49,6 +55,72 @@ export function PromptComposer({ value, onChange, onSubmit, variant = 'hero', cl
     }
   };
 
+  /* --- Küçük boyut: tek satırlık, ince ve uzun kompakt kutu --- */
+  if (isCompact) {
+    return (
+      <div
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        onClick={() => textareaRef.current?.focus()}
+        className={cn(
+          'glass-strong relative flex cursor-text items-center gap-2 rounded-full py-2 pl-2.5 pr-2 transition-all duration-300',
+          isFocused && 'border-indigo-400/35 shadow-[0_0_38px_-14px_rgba(99,102,241,0.9)]',
+          className
+        )}
+      >
+        <AttachMenu />
+
+        <div className="relative min-w-0 flex-1">
+          {value.length === 0 && (
+            <p className="pointer-events-none absolute inset-0 flex items-center truncate text-[13.5px] text-white/35">
+              {typed || suggestions[0]}
+            </p>
+          )}
+          <textarea
+            ref={textareaRef}
+            value={value}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            rows={1}
+            aria-label={t('chat.title')}
+            className="max-h-[96px] w-full resize-none bg-transparent py-1 text-[13.5px] leading-normal text-white/92 placeholder:text-transparent focus:outline-none"
+          />
+        </div>
+
+        <ModelSelector />
+
+        <button
+          type="button"
+          onClick={openVoiceAssistant}
+          aria-label={t('chat.voice')}
+          title={t('chat.voice')}
+          className="focus-ring flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white/55 transition-all duration-300 hover:bg-white/[0.1] hover:text-white"
+        >
+          <Mic className="h-3.5 w-3.5" />
+        </button>
+
+        <motion.button
+          type="button"
+          onClick={onSubmit}
+          disabled={!canSend}
+          aria-label={t('chat.send')}
+          whileTap={canSend ? { scale: 0.93 } : undefined}
+          className={cn(
+            'focus-ring flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all duration-300',
+            canSend
+              ? 'bg-gradient-to-br from-indigo-500 to-violet-600 on-accent shadow-[0_0_28px_-10px_rgba(99,102,241,0.95)] hover:from-indigo-400 hover:to-violet-500'
+              : 'cursor-not-allowed border border-white/12 bg-white/[0.06] text-white/30'
+          )}
+        >
+          <ArrowUp className="h-4 w-4" strokeWidth={2.4} />
+        </motion.button>
+      </div>
+    );
+  }
+
+  /* --- Büyük boyut: çok satırlı standart kutu --- */
   return (
     <div
       onMouseEnter={() => setHovered(true)}
@@ -60,10 +132,9 @@ export function PromptComposer({ value, onChange, onSubmit, variant = 'hero', cl
       )}
       onClick={() => textareaRef.current?.focus()}
     >
-      {/* Kenar ışığı ve gezinen parlama */}
+      {/* Üst kenar ışığı */}
       <span className="pointer-events-none absolute inset-0 overflow-hidden rounded-[28px]">
         <span className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" />
-        <span className="absolute -left-1/3 top-0 h-full w-1/2 animate-shimmer streak opacity-[0.15]" />
       </span>
 
       <div className="relative flex items-stretch gap-3">
@@ -79,7 +150,6 @@ export function PromptComposer({ value, onChange, onSubmit, variant = 'hero', cl
               >
                 {/* Duraklatma anı iki öneri arasına denk gelirse ilk öneri gösterilir */}
                 {typed || suggestions[0]}
-                <span className="ml-0.5 inline-block animate-caret text-indigo-300">|</span>
               </p>
             )}
             <textarea

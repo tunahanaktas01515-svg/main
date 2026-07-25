@@ -21,6 +21,11 @@ export interface NavGroup {
   titleKey: TranslationKey;
   icon: string;
   items: NavItem[];
+  /**
+   * Alt öğesi olmayan gruplar tek satırlık bir bağlantı olarak çizilir.
+   * Deep Web bu şekilde doğrudan tarama sayfasına gider.
+   */
+  page?: PageId;
 }
 
 /**
@@ -35,7 +40,7 @@ export const navGroups: NavGroup[] = [
     icon: 'House',
     items: [
       { id: 'dashboard', labelKey: 'item.dashboard', icon: 'LayoutDashboard', page: 'ana-sayfa' },
-      { id: 'borsa-takibi', labelKey: 'item.marketWatch', icon: 'CandlestickChart', page: 'deep-web', section: 'market' },
+      { id: 'borsa-takibi', labelKey: 'item.marketWatch', icon: 'CandlestickChart', page: 'borsa' },
     ],
   },
   {
@@ -61,11 +66,8 @@ export const navGroups: NavGroup[] = [
     id: 'deep-web',
     titleKey: 'group.deepweb',
     icon: 'Radar',
-    items: [
-      { id: 'arama', labelKey: 'item.search', icon: 'Search', page: 'deep-web', section: 'search' },
-      { id: 'kaynaklar', labelKey: 'item.sources', icon: 'ListTree', page: 'deep-web', section: 'sources' },
-      { id: 'izleme-listesi', labelKey: 'item.watchlist', icon: 'Eye', page: 'deep-web', section: 'watchlist' },
-    ],
+    page: 'deep-web',
+    items: [],
   },
   {
     id: 'araclar',

@@ -13,6 +13,7 @@ import type {
   ResearchRecord,
   SurfaceThemeId,
   ThemeMode,
+  UiSize,
   UserProfile,
   WatchTerm,
 } from '../types';
@@ -51,6 +52,12 @@ export interface AppContextValue {
   setTheme: (theme: ThemeMode) => void;
   surfaceTheme: SurfaceThemeId;
   setSurfaceTheme: (id: SurfaceThemeId) => void;
+
+  // Konuşma motoru ve mesaj balonu boyutları
+  composerSize: UiSize;
+  setComposerSize: (size: UiSize) => void;
+  bubbleSize: UiSize;
+  setBubbleSize: (size: UiSize) => void;
 
   // Sidebar
   isSidebarCollapsed: boolean;

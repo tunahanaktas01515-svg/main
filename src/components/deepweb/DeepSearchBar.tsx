@@ -57,7 +57,6 @@ export function DeepSearchBar({ onSearch }: DeepSearchBarProps) {
         {query.length === 0 && (
           <p className="pointer-events-none absolute inset-0 flex items-center truncate text-[14px] text-white/32">
             {typed || t('deepweb.searchPlaceholder')}
-            <span className="ml-0.5 inline-block animate-caret text-indigo-300">|</span>
           </p>
         )}
         <input

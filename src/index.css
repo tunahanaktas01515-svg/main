@@ -36,8 +36,6 @@
   --animate-shimmer: shimmer 2.4s linear infinite;
   --animate-pulse-glow: pulse-glow 3s ease-in-out infinite;
   --animate-orb-spin: orb-spin 18s linear infinite;
-  --animate-orb-float: orb-float 7s ease-in-out infinite;
-  --animate-caret: caret 1.1s step-end infinite;
 }
 
 /*
@@ -170,26 +168,6 @@ html.light[data-surface='transparent'] {
   --surface-glass-strong-bg: rgb(255 255 255 / 0.42);
   --surface-glass-border: rgb(15 23 42 / 0.14);
   --surface-shadow: none;
-}
-
-@keyframes orb-float {
-  0%,
-  100% {
-    transform: translateY(0) scale(1);
-  }
-  50% {
-    transform: translateY(-14px) scale(1.03);
-  }
-}
-
-@keyframes caret {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
 }
 
 @keyframes float-slow {

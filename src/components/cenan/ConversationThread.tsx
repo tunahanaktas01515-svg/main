@@ -3,13 +3,14 @@ import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 import { useAppContext } from '../../context/appContextCore';
 import { ChatMessageBubble } from '../chat/ChatMessageBubble';
+import { cn } from '../../lib/cn';
 
 /**
  * Konuşma akışı: mesaj balonları ve "yazıyor" göstergesi.
  * Yeni mesajda otomatik olarak en alta kayar.
  */
 export function ConversationThread() {
-  const { t, messages, isAssistantTyping } = useAppContext();
+  const { t, messages, isAssistantTyping, bubbleSize } = useAppContext();
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -17,7 +18,12 @@ export function ConversationThread() {
   }, [messages, isAssistantTyping]);
 
   return (
-    <div className="mx-auto flex w-full max-w-[760px] flex-col gap-4 px-1">
+    <div
+      className={cn(
+        'mx-auto flex w-full max-w-[760px] flex-col px-1',
+        bubbleSize === 'small' ? 'gap-2' : 'gap-4'
+      )}
+    >
       {messages.map((message) => (
         <ChatMessageBubble key={message.id} message={message} />
       ))}

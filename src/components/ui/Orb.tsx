@@ -3,8 +3,6 @@ import { cn } from '../../lib/cn';
 interface OrbProps {
   /** Piksel cinsinden çap */
   size?: number;
-  /** Yukarı-aşağı süzülme animasyonu */
-  floating?: boolean;
   className?: string;
 }
 
@@ -12,26 +10,23 @@ interface OrbProps {
  * Cenan'ın mavi enerji baloncuğu (orb).
  * Görsel siyah zemin üzerine üretildiği için `orb-blend` (mix-blend-mode: screen)
  * ile siyah bölgeler şeffaflaşır; arkasına ayrıca yumuşak mavi halo eklenir.
+ * Sohbet ekranında dikkat dağıtmaması için tamamen hareketsizdir.
  */
-export function Orb({ size = 132, floating = true, className }: OrbProps) {
+export function Orb({ size = 132, className }: OrbProps) {
   return (
-    <div
-      className={cn('relative shrink-0', floating && 'animate-orb-float', className)}
-      style={{ width: size, height: size }}
-    >
-      {/* Arkadaki nefes alan halo */}
+    <div className={cn('relative shrink-0', className)} style={{ width: size, height: size }}>
+      {/* Arkadaki yumuşak halo */}
       <span
-        className="absolute inset-0 animate-pulse-glow rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.5),rgba(99,102,241,0.22)_55%,transparent_72%)] blur-2xl"
+        className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.5),rgba(99,102,241,0.22)_55%,transparent_72%)] blur-2xl"
         aria-hidden
       />
       {/* Açık temada "screen" karışımının çalışabilmesi için koyu taşıyıcı disk */}
       <span className="orb-disc absolute inset-0 hidden rounded-full light:block" aria-hidden />
-      {/* Yavaşça dönen orb görseli */}
       <img
         src="/orb/orb.webp"
         alt=""
         aria-hidden
-        className="orb-blend relative h-full w-full animate-orb-spin select-none rounded-full object-cover"
+        className="orb-blend relative h-full w-full select-none rounded-full object-cover"
         draggable={false}
       />
       {/* Merkezdeki parlak çekirdek */}
