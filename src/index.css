@@ -260,23 +260,19 @@ html.light[data-surface='transparent'] {
     background: rgb(99 102 241 / 0.35);
   }
 
-  /* İnce, premium kaydırma çubuğu */
+  /*
+   * Kaydırma çubukları arayüzün hiçbir yerinde görünmez; kaydırma işlevi korunur.
+   * Cam paneller ve yüzen menülerin kenarlarında çubuk istenmediği için genel kural.
+   */
+  * {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
   ::-webkit-scrollbar {
-    width: 7px;
-    height: 7px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: color-mix(in oklab, var(--color-white) 14%, transparent);
-    border-radius: 999px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: color-mix(in oklab, var(--color-white) 24%, transparent);
+    width: 0;
+    height: 0;
+    display: none;
   }
 }
 
@@ -360,14 +356,6 @@ html.light[data-surface='transparent'] {
 @layer utilities {
   .text-glow-violet {
     text-shadow: 0 0 20px rgba(139, 92, 246, 0.45);
-  }
-
-  .no-scrollbar {
-    scrollbar-width: none;
-  }
-
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
   }
 
   /* Cam yüzeyler üzerinde gezinen ince ışık çizgisi (referans chat input'taki streak) */

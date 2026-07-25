@@ -169,7 +169,7 @@ export function Sidebar() {
       </div>
 
       {/* Navigasyon */}
-      <nav className="no-scrollbar flex flex-1 flex-col gap-1.5 overflow-y-auto pb-2">
+      <nav className="flex flex-1 flex-col gap-1.5 overflow-y-auto pb-2">
         {navGroups.map((group) => {
           const isGroupCollapsed = collapsedGroups.includes(group.id);
 

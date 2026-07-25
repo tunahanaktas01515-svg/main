@@ -101,7 +101,7 @@ export function CenanRail() {
       )}
 
       {isRailOpen ? (
-        <div className="no-scrollbar flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-1.5 pb-1">
+        <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-1.5 pb-1">
           {/* Hızlı ayarlar — panel açıkken doğrudan kullanılabilir */}
           <section>
             <h3 className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/35">
