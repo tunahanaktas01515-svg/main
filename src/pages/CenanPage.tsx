@@ -4,7 +4,7 @@ import { RotateCcw, X } from 'lucide-react';
 import { useAppContext } from '../context/appContextCore';
 import { quickActions } from '../data/quickActions';
 import { cenanFeatures } from '../data/cenanFeatures';
-import { Orb, OrbIcon } from '../components/ui/Orb';
+import { OrbIcon } from '../components/ui/Orb';
 import { PromptComposer } from '../components/cenan/PromptComposer';
 import { QuickActions } from '../components/cenan/QuickActions';
 import { ConversationThread } from '../components/cenan/ConversationThread';
@@ -56,9 +56,7 @@ export function CenanPage() {
             transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
             className="flex h-full flex-col items-center justify-center px-6 pb-8"
           >
-            <Orb size={148} />
-
-            <h1 className="mt-7 text-center text-[34px] font-semibold tracking-tight text-white/95">
+            <h1 className="text-center text-[34px] font-semibold tracking-tight text-white/95">
               {t('chat.heroTitle')}
             </h1>
             <p className="mt-2 text-center text-[13px] text-white/45">{t('chat.heroSubtitle')}</p>
