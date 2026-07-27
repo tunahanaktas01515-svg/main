@@ -8,6 +8,7 @@
   "license": "UNLICENSED",
   "type": "module",
   "main": "electron/main.js",
+  "desktopName": "cenan-ai.desktop",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -26,6 +27,7 @@
       "output": "release",
       "buildResources": "build"
     },
+    "icon": "build/icon.png",
     "files": [
       "dist/**",
       "electron/main.js",
@@ -41,7 +43,9 @@
     },
     "linux": {
       "target": "AppImage",
-      "category": "Office"
+      "category": "Office",
+      "syncDesktopName": true,
+      "synopsis": "Cenan AI Muhasebe ve İhracat Asistanı"
     }
   },
   "dependencies": {
