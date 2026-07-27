@@ -1,5 +1,5 @@
 appId: com.cenan.desktop
-productName: Cenan
+productName: Cenan AI
 copyright: Copyright © Cenan
 
 directories:
@@ -10,7 +10,7 @@ directories:
 # node_modules'a ihtiyaç duymaz; kurulum boyutu küçük kalsın diye dışarıda bırakılır.
 files:
   - dist/**/*
-  - electron/main.cjs
+  - electron/main.js
   - electron/preload.cjs
   - '!**/node_modules/**/*'
 
@@ -31,7 +31,7 @@ nsis:
   allowToChangeInstallationDirectory: true
   createDesktopShortcut: true
   createStartMenuShortcut: true
-  shortcutName: Cenan
+  shortcutName: Cenan AI
 
 mac:
   category: public.app-category.business
@@ -48,8 +48,9 @@ dmg:
 
 linux:
   category: Office
-  synopsis: Yapay zeka destekli muhasebe ve ihracat masaüstü uygulaması
-  executableName: cenan
+  synopsis: Cenan AI Muhasebe ve İhracat Asistanı
+  executableName: cenan-ai
+  maintainer: Cenan <destek@cenan.app>
   # .desktop dosyasının adı Electron'un app_id'siyle eşleşsin ki
   # masaüstü ortamları açık pencereyi uygulama simgesiyle ilişkilendirebilsin
   syncDesktopName: true

@@ -1,6 +1,6 @@
-# Cenan
+# Cenan AI
 
-Yapay zeka destekli muhasebe işlemleri ve ihracat destek platformu için koyu temalı, glassmorphism ağırlıklı masaüstü uygulama arayüzü.
+Cenan AI Muhasebe ve İhracat Asistanı — koyu temalı, glassmorphism ağırlıklı masaüstü uygulama arayüzü.
 
 Bu proje sadece frontend içerir (backend yoktur). Saf web teknolojileriyle (React + Vite) geliştirilmiştir ve `electron/` altındaki ince bir kabukla Windows, macOS ve Linux için masaüstü uygulaması olarak paketlenebilir.
 
@@ -26,6 +26,7 @@ Uygulama sadece masaüstü genişlikleri için tasarlanmıştır (min-width: 128
 ## Masaüstü Uygulaması (Electron)
 
 ```bash
+npm run electron           # son derlemeyi Electron'da açar
 npm run electron:dev       # Vite dev sunucusu + Electron penceresi (HMR çalışır)
 npm run electron:preview   # üretim derlemesini paketlemeden Electron'da açar
 npm run electron:build     # mevcut işletim sistemi için kurulum dosyası üretir
@@ -40,7 +41,7 @@ kendi işletim sisteminde üretmek en güvenilir yoldur.
 
 ### Nasıl çalışıyor?
 
-- `electron/main.cjs` — ana süreç. Geliştirmede Vite dev sunucusunu yükler; üretimde
+- `electron/main.js` — ana süreç. Geliştirmede Vite dev sunucusunu yükler; üretimde
   `dist` klasörünü servis eden özel bir `app://` şeması kaydeder. Bu şema sayesinde
   arayüzdeki `/orb/orb.webp` gibi mutlak yollar `file://` protokolündeki gibi bozulmaz,
   yani arayüz kodunda hiçbir değişiklik gerekmez.

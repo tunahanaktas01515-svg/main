@@ -1,8 +1,6 @@
-'use strict';
-
-const { app, BrowserWindow, Menu, net, protocol, screen, shell } = require('electron');
-const path = require('node:path');
-const { pathToFileURL } = require('node:url');
+import { app, BrowserWindow, Menu, net, protocol, screen, shell } from 'electron';
+import path from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 /**
  * Cenan masaüstü kabuğu.
@@ -12,6 +10,8 @@ const { pathToFileURL } = require('node:url');
  * Özel şema sayesinde arayüzdeki `/orb/orb.webp` gibi mutlak yollar
  * `file://` protokolünde olduğu gibi bozulmaz.
  */
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /** `npm run electron:dev` bu değişkeni doldurur; doluysa geliştirme modundayız. */
 const devServerUrl = process.env.VITE_DEV_SERVER_URL;
@@ -67,7 +67,7 @@ function applyApplicationMenu() {
       { role: 'editMenu' },
       { role: 'viewMenu' },
       { role: 'windowMenu' },
-    ])
+    ]),
   );
 }
 
@@ -100,7 +100,7 @@ function createWindow() {
     // Arayüzün koyu zemini yüklenene kadar beyaz parlama olmasın
     backgroundColor: '#050505',
     show: false,
-    title: 'Cenan',
+    title: 'Cenan AI',
     // Menü çubuğu arayüzün görünümünü değiştirmesin (Alt ile açılabilir)
     autoHideMenuBar: process.platform !== 'darwin',
     webPreferences: {

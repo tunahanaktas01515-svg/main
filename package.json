@@ -1,20 +1,20 @@
 {
   "name": "cenan-app",
+  "productName": "Cenan AI",
   "private": true,
   "version": "0.0.0",
-  "description": "Yapay zeka destekli muhasebe ve ihracat platformu",
-  "author": {
-    "name": "Cenan",
-    "email": "destek@cenan.app"
-  },
+  "description": "Cenan AI Muhasebe ve İhracat Asistanı",
+  "author": "Cenan",
+  "license": "UNLICENSED",
   "type": "module",
-  "main": "electron/main.cjs",
-  "desktopName": "cenan.desktop",
+  "main": "electron/main.js",
+  "desktopName": "cenan-ai.desktop",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
+    "electron": "electron .",
     "electron:dev": "node electron/dev.mjs",
     "electron:preview": "npm run build && electron .",
     "electron:build": "npm run build && electron-builder",
