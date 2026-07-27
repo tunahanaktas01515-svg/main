@@ -1,0 +1,62 @@
+appId: com.cenan.desktop
+productName: Cenan AI
+copyright: Copyright © Cenan
+
+directories:
+  output: release
+  buildResources: build
+
+# Arayüz Vite tarafından `dist` içine paketlendiği için uygulama
+# node_modules'a ihtiyaç duymaz; kurulum boyutu küçük kalsın diye dışarıda bırakılır.
+files:
+  - dist/**/*
+  - electron/main.js
+  - electron/preload.cjs
+  - '!**/node_modules/**/*'
+
+asar: true
+
+win:
+  target:
+    - target: nsis
+      arch: [x64, arm64]
+  artifactName: ${productName}-${version}-windows-${arch}.${ext}
+
+nsis:
+  # Mimarilerin ikisini birden içeren ~200 MB'lık birleşik kurulum üretilmesin;
+  # kullanıcı x64 veya arm64 kurulumundan birini indirir
+  buildUniversalInstaller: false
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Cenan AI
+
+mac:
+  category: public.app-category.business
+  darkModeSupport: true
+  target:
+    - target: dmg
+      arch: [x64, arm64]
+    - target: zip
+      arch: [x64, arm64]
+  artifactName: ${productName}-${version}-mac-${arch}.${ext}
+
+dmg:
+  title: ${productName} ${version}
+
+linux:
+  category: Office
+  synopsis: Cenan AI Muhasebe ve İhracat Asistanı
+  executableName: cenan-ai
+  maintainer: Cenan <destek@cenan.app>
+  # .desktop dosyasının adı Electron'un app_id'siyle eşleşsin ki
+  # masaüstü ortamları açık pencereyi uygulama simgesiyle ilişkilendirebilsin
+  syncDesktopName: true
+  target:
+    - target: AppImage
+      arch: [x64, arm64]
+    - target: deb
+      arch: [x64, arm64]
+  artifactName: ${productName}-${version}-linux-${arch}.${ext}

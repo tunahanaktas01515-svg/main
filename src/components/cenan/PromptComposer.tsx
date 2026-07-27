@@ -1,0 +1,216 @@
+import { useMemo, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
+import { ArrowUp, Mic, Paperclip, Sparkles } from 'lucide-react';
+import { useAppContext } from '../../context/appContextCore';
+import { useTypewriter } from '../../lib/useTypewriter';
+import { composerSuggestions } from '../../data/quickActions';
+import { AttachMenu } from '../shared/AttachMenu';
+import { ModelSelector } from '../chat/ModelSelector';
+import { cn } from '../../lib/cn';
+
+interface PromptComposerProps {
+  value: string;
+  onChange: (value: string) => void;
+  onSubmit: () => void;
+  /** Hero düzeninde daha büyük, konuşma düzeninde daha kompakt görünür */
+  variant?: 'hero' | 'thread';
+  className?: string;
+}
+
+/**
+ * Cenan'ın ana konuşma girişi.
+ * Boşken örnek istemler daktilo efektiyle yazılır; imleç alanın üzerine
+ * geldiğinde animasyon durur ve metin sabit kalır.
+ *
+ * Ayarlardaki boyut tercihi iki farklı yerleşim sunar:
+ * "büyük" çok satırlı standart kutu, "küçük" ise ince ve uzun tek satırlık kutu.
+ */
+export function PromptComposer({ value, onChange, onSubmit, variant = 'hero', className }: PromptComposerProps) {
+  const { t, tl, openVoiceAssistant, composerSize } = useAppContext();
+  const [isHovered, setHovered] = useState(false);
+  const [isFocused, setFocused] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const isCompact = composerSize === 'small';
+  const isHero = variant === 'hero' && !isCompact;
+  const suggestions = useMemo(() => composerSuggestions.map(tl), [tl]);
+  const typed = useTypewriter(suggestions, isHovered || isFocused || value.length > 0);
+  const canSend = value.trim().length > 0;
+
+  const maxHeight = isCompact ? 96 : isHero ? 168 : 132;
+
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    onChange(event.target.value);
+    const el = textareaRef.current;
+    if (el) {
+      el.style.height = 'auto';
+      el.style.height = `${Math.min(el.scrollHeight, maxHeight)}px`;
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      if (canSend) onSubmit();
+    }
+  };
+
+  /* --- Küçük boyut: tek satırlık, ince ve uzun kompakt kutu --- */
+  if (isCompact) {
+    return (
+      <div
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        onClick={() => textareaRef.current?.focus()}
+        className={cn(
+          'glass-strong relative flex cursor-text items-center gap-2 rounded-full py-2 pl-2.5 pr-2 transition-all duration-300',
+          isFocused && 'border-indigo-400/35 shadow-[0_0_38px_-14px_rgba(99,102,241,0.9)]',
+          className
+        )}
+      >
+        <AttachMenu />
+
+        <div className="relative min-w-0 flex-1">
+          {value.length === 0 && (
+            <p className="pointer-events-none absolute inset-0 flex items-center truncate text-[13.5px] text-white/35">
+              {typed || suggestions[0]}
+            </p>
+          )}
+          <textarea
+            ref={textareaRef}
+            value={value}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            rows={1}
+            aria-label={t('chat.title')}
+            className="max-h-[96px] w-full resize-none bg-transparent py-1 text-[13.5px] leading-normal text-white/92 placeholder:text-transparent focus:outline-none"
+          />
+        </div>
+
+        <ModelSelector />
+
+        <button
+          type="button"
+          onClick={openVoiceAssistant}
+          aria-label={t('chat.voice')}
+          title={t('chat.voice')}
+          className="focus-ring flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white/55 transition-all duration-300 hover:bg-white/[0.1] hover:text-white"
+        >
+          <Mic className="h-3.5 w-3.5" />
+        </button>
+
+        <motion.button
+          type="button"
+          onClick={onSubmit}
+          disabled={!canSend}
+          aria-label={t('chat.send')}
+          whileTap={canSend ? { scale: 0.93 } : undefined}
+          className={cn(
+            'focus-ring flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all duration-300',
+            canSend
+              ? 'bg-gradient-to-br from-indigo-500 to-violet-600 on-accent shadow-[0_0_28px_-10px_rgba(99,102,241,0.95)] hover:from-indigo-400 hover:to-violet-500'
+              : 'cursor-not-allowed border border-white/12 bg-white/[0.06] text-white/30'
+          )}
+        >
+          <ArrowUp className="h-4 w-4" strokeWidth={2.4} />
+        </motion.button>
+      </div>
+    );
+  }
+
+  /* --- Büyük boyut: çok satırlı standart kutu --- */
+  return (
+    <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className={cn(
+        'glass-strong relative cursor-text rounded-[28px] p-3 transition-all duration-300',
+        isFocused && 'border-indigo-400/35 shadow-[0_0_48px_-14px_rgba(99,102,241,0.9)]',
+        className
+      )}
+      onClick={() => textareaRef.current?.focus()}
+    >
+      {/* Üst kenar ışığı */}
+      <span className="pointer-events-none absolute inset-0 overflow-hidden rounded-[28px]">
+        <span className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" />
+      </span>
+
+      <div className="relative flex items-stretch gap-3">
+        <div className="flex min-w-0 flex-1 flex-col">
+          {/* Metin alanı + daktilo efektli örnek istem */}
+          <div className="relative px-2 pt-1.5">
+            {value.length === 0 && (
+              <p
+                className={cn(
+                  'pointer-events-none absolute inset-x-2 top-1.5 truncate text-white/35',
+                  isHero ? 'text-[17px]' : 'text-[14px]'
+                )}
+              >
+                {/* Duraklatma anı iki öneri arasına denk gelirse ilk öneri gösterilir */}
+                {typed || suggestions[0]}
+              </p>
+            )}
+            <textarea
+              ref={textareaRef}
+              value={value}
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
+              onFocus={() => setFocused(true)}
+              onBlur={() => setFocused(false)}
+              rows={1}
+              aria-label={t('chat.title')}
+              className={cn(
+                'w-full resize-none bg-transparent text-white/92 placeholder:text-transparent focus:outline-none',
+                isHero ? 'max-h-[168px] text-[17px] leading-relaxed' : 'max-h-[132px] text-[14px] leading-relaxed'
+              )}
+            />
+          </div>
+
+          {/* Bilgi şeridi */}
+          <div className="mt-2 flex items-center gap-2 rounded-2xl border border-white/[0.07] bg-white/[0.03] px-3 py-2">
+            <Paperclip className="h-3.5 w-3.5 shrink-0 text-white/40" />
+            <span className="min-w-0 flex-1 truncate text-[11.5px] text-white/40">{t('chat.attachHint')}</span>
+            <ModelSelector />
+          </div>
+
+          {/* Aksiyon satırı */}
+          <div className="mt-2 flex items-center gap-2 px-0.5">
+            <AttachMenu />
+
+            <button
+              type="button"
+              onClick={openVoiceAssistant}
+              aria-label={t('chat.voice')}
+              title={t('chat.voice')}
+              className="focus-ring flex h-9 w-9 items-center justify-center rounded-full border border-white/12 bg-white/[0.06] text-white/70 transition-all duration-300 hover:border-sky-400/40 hover:bg-sky-500/20 hover:text-white"
+            >
+              <Mic className="h-4 w-4" />
+            </button>
+
+            <span className="ml-auto text-[10.5px] text-white/25">Enter · Shift + Enter</span>
+          </div>
+        </div>
+
+        {/* Gönder butonu */}
+        <motion.button
+          type="button"
+          onClick={onSubmit}
+          disabled={!canSend}
+          aria-label={t('chat.send')}
+          whileTap={canSend ? { scale: 0.95 } : undefined}
+          className={cn(
+            'focus-ring flex shrink-0 items-center justify-center rounded-[22px] transition-all duration-300',
+            isHero ? 'w-[92px]' : 'w-[68px]',
+            canSend
+              ? 'bg-gradient-to-br from-indigo-500 to-violet-600 on-accent shadow-[0_0_44px_-12px_rgba(99,102,241,0.95)] hover:from-indigo-400 hover:to-violet-500'
+              : 'cursor-not-allowed border border-white/10 bg-white/[0.06] text-white/30'
+          )}
+        >
+          <Sparkles className={cn(isHero ? 'h-6 w-6' : 'h-5 w-5')} strokeWidth={1.9} />
+        </motion.button>
+      </div>
+    </div>
+  );
+}

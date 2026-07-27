@@ -1,0 +1,378 @@
+@import 'tailwindcss';
+
+/* Sınıf tabanlı koyu/açık tema yönetimi için özel varyantlar */
+@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant light (&:where(.light, .light *));
+
+@theme {
+  --font-sans: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  /* Marka yazısı için el yazısı fontu */
+  --font-hand: 'Caveat', 'Segoe Script', cursive;
+
+  /* Marka renkleri */
+  --color-brand-indigo: #6366f1;
+  --color-brand-violet: #8b5cf6;
+  --color-brand-blue: #3b82f6;
+
+  /* Zemin tonları */
+  --color-void: #050505;
+  --color-void-2: #0a0a0a;
+
+  /*
+   * Renkli zeminler (gradient buton, aktif rozet) üzerindeki metin her iki
+   * temada da beyaz kalmalı; bu yüzden ters çevrilmeyen ayrı bir token tutulur.
+   */
+  --color-on-accent: #ffffff;
+
+  /* Gölge / glow tokenları */
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --shadow-glass-lg: 0 24px 64px -12px rgba(0, 0, 0, 0.6);
+  --shadow-glow-indigo: 0 0 28px -4px rgba(99, 102, 241, 0.45);
+  --shadow-glow-violet: 0 0 28px -4px rgba(139, 92, 246, 0.45);
+
+  /* Animasyonlar */
+  --animate-float-slow: float-slow 14s ease-in-out infinite;
+  --animate-float-slower: float-slow 22s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.4s linear infinite;
+  --animate-pulse-glow: pulse-glow 3s ease-in-out infinite;
+  --animate-orb-spin: orb-spin 18s linear infinite;
+}
+
+/*
+ * Koyu tema varsayılan; açık temada Tailwind'in `--color-white` / `--color-black`
+ * tokenları ters çevrilir. Arayüzdeki yüzlerce `text-white/60`, `bg-white/[0.04]`
+ * gibi sınıf, bu iki değişkene bağlı olduğu için tek noktadan açık temaya döner.
+ * Koyu zemin için ayarlanmış açık aksan tonları da okunabilirlik adına koyulaştırılır.
+ */
+html {
+  --surface-glass-bg: rgb(255 255 255 / 0.045);
+  --surface-glass-border: rgb(255 255 255 / 0.1);
+  --surface-glass-strong-bg: rgb(0 0 0 / 0.4);
+  /*
+   * Açılır menü zemini neredeyse tamamen opaktır: üst bar ve cam paneller
+   * kendi backdrop-filter'larını uyguladığı için iç içe bulanıklaştırma
+   * çalışmaz ve saydam bırakılan menülerde alttaki metin okunur kalır.
+   */
+  --surface-popover-bg: rgb(14 15 23 / 0.985);
+  --surface-shadow: 0 8px 32px 0 rgb(0 0 0 / 0.37);
+  --surface-inset: inset 0 1px 0 0 rgb(255 255 255 / 0.07);
+  --surface-blur: 24px;
+  --page-tint: transparent;
+  --bg-dim-scale: 1;
+  --noise-opacity: 0.035;
+  --vignette: radial-gradient(120% 100% at 50% 50%, transparent 35%, rgb(0 0 0 / 0.55) 100%);
+}
+
+html.light {
+  --color-white: #0d1020;
+  --color-black: #ffffff;
+  --color-void: #eaedf5;
+  --color-void-2: #f4f6fb;
+
+  --color-indigo-100: #312e81;
+  --color-indigo-200: #3730a3;
+  --color-indigo-300: #4338ca;
+  --color-indigo-400: #4f46e5;
+  --color-violet-100: #4c1d95;
+  --color-violet-200: #5b21b6;
+  --color-violet-300: #6d28d9;
+  --color-violet-400: #7c3aed;
+  --color-emerald-100: #064e3b;
+  --color-emerald-200: #065f46;
+  --color-emerald-300: #047857;
+  --color-emerald-400: #059669;
+  --color-red-100: #7f1d1d;
+  --color-red-200: #991b1b;
+  --color-red-300: #b91c1c;
+  --color-red-400: #dc2626;
+  --color-amber-100: #78350f;
+  --color-amber-200: #92400e;
+  --color-amber-300: #b45309;
+  --color-amber-400: #d97706;
+  --color-sky-300: #0369a1;
+  --color-sky-400: #0284c7;
+  --color-cyan-300: #0e7490;
+  --color-pink-300: #be185d;
+
+  --surface-glass-bg: rgb(255 255 255 / 0.66);
+  --surface-glass-border: rgb(15 23 42 / 0.09);
+  --surface-glass-strong-bg: rgb(255 255 255 / 0.86);
+  --surface-popover-bg: rgb(252 253 255 / 0.985);
+  --surface-shadow: 0 12px 34px -16px rgb(15 23 42 / 0.4);
+  --surface-inset: inset 0 1px 0 0 rgb(255 255 255 / 0.9);
+  --page-tint: rgb(242 244 250 / 0.78);
+  --bg-dim-scale: 0.15;
+  --noise-opacity: 0.018;
+  --vignette: radial-gradient(120% 100% at 50% 50%, transparent 45%, rgb(15 23 42 / 0.09) 100%);
+}
+
+/*
+ * Yüzey teması — ikonların ve cam blokların dokusunu değiştirir.
+ * `data-surface` özniteliği <html> üzerinde tutulur.
+ */
+html[data-surface='metallic'] {
+  --surface-glass-bg: linear-gradient(150deg, rgb(255 255 255 / 0.14), rgb(255 255 255 / 0.03) 46%, rgb(255 255 255 / 0.1));
+  --surface-glass-strong-bg: linear-gradient(150deg, rgb(255 255 255 / 0.16), rgb(0 0 0 / 0.45) 52%, rgb(255 255 255 / 0.08));
+  --surface-glass-border: rgb(255 255 255 / 0.2);
+  --surface-inset: inset 0 1px 0 0 rgb(255 255 255 / 0.28), inset 0 -1px 0 0 rgb(0 0 0 / 0.35);
+  --surface-blur: 12px;
+}
+
+html[data-surface='iconic'] {
+  --surface-glass-bg: rgb(255 255 255 / 0.1);
+  --surface-glass-strong-bg: rgb(0 0 0 / 0.62);
+  --surface-glass-border: rgb(255 255 255 / 0.22);
+  --surface-inset: inset 0 0 0 0 transparent;
+  --surface-blur: 6px;
+}
+
+html[data-surface='white'] {
+  --surface-glass-bg: rgb(255 255 255 / 0.16);
+  --surface-glass-strong-bg: rgb(255 255 255 / 0.24);
+  --surface-glass-border: rgb(255 255 255 / 0.3);
+  --surface-inset: inset 0 1px 0 0 rgb(255 255 255 / 0.4);
+  --surface-blur: 30px;
+}
+
+html[data-surface='transparent'] {
+  --surface-glass-bg: transparent;
+  --surface-glass-strong-bg: rgb(0 0 0 / 0.18);
+  --surface-glass-border: rgb(255 255 255 / 0.16);
+  --surface-shadow: none;
+  --surface-inset: inset 0 0 0 0 transparent;
+  --surface-blur: 3px;
+}
+
+html.light[data-surface='metallic'] {
+  --surface-glass-bg: linear-gradient(150deg, rgb(255 255 255 / 0.95), rgb(226 232 240 / 0.7) 48%, rgb(255 255 255 / 0.92));
+  --surface-glass-strong-bg: linear-gradient(150deg, rgb(255 255 255 / 0.98), rgb(226 232 240 / 0.85) 52%, rgb(255 255 255 / 0.96));
+  --surface-glass-border: rgb(15 23 42 / 0.14);
+  --surface-inset: inset 0 1px 0 0 rgb(255 255 255 / 1), inset 0 -1px 0 0 rgb(15 23 42 / 0.08);
+}
+
+html.light[data-surface='iconic'] {
+  --surface-glass-bg: rgb(255 255 255 / 0.92);
+  --surface-glass-strong-bg: rgb(255 255 255 / 0.97);
+  --surface-glass-border: rgb(15 23 42 / 0.16);
+}
+
+html.light[data-surface='white'] {
+  --surface-glass-bg: rgb(255 255 255 / 0.94);
+  --surface-glass-strong-bg: rgb(255 255 255 / 1);
+  --surface-glass-border: rgb(255 255 255 / 0.9);
+  --surface-shadow: 0 10px 28px -18px rgb(15 23 42 / 0.35);
+}
+
+html.light[data-surface='transparent'] {
+  --surface-glass-bg: transparent;
+  --surface-glass-strong-bg: rgb(255 255 255 / 0.42);
+  --surface-glass-border: rgb(15 23 42 / 0.14);
+  --surface-shadow: none;
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(3%, -4%, 0) scale(1.08);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(220%);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes orb-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-void);
+    color: color-mix(in oklab, var(--color-white) 90%, transparent);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow: hidden;
+    transition:
+      background-color 0.45s ease,
+      color 0.45s ease;
+  }
+
+  /* Sadece masaüstü hedefleniyor */
+  #root {
+    min-width: 1280px;
+  }
+
+  ::selection {
+    background: rgb(99 102 241 / 0.35);
+  }
+
+  /*
+   * Kaydırma çubukları arayüzün hiçbir yerinde görünmez; kaydırma işlevi korunur.
+   * Cam paneller ve yüzen menülerin kenarlarında çubuk istenmediği için genel kural.
+   */
+  * {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+}
+
+@layer components {
+  /*
+   * Temel glass yüzey.
+   * Üst kenardaki inset highlight, gerçek camdaki kenar kırılmasını taklit eder.
+   */
+  .glass {
+    border: 1px solid var(--surface-glass-border);
+    background: var(--surface-glass-bg);
+    backdrop-filter: blur(var(--surface-blur));
+    -webkit-backdrop-filter: blur(var(--surface-blur));
+    box-shadow: var(--surface-shadow), var(--surface-inset);
+  }
+
+  /* Daha yoğun glass — modal, chat input gibi öne çıkan bloklar */
+  .glass-strong {
+    border: 1px solid var(--surface-glass-border);
+    background: var(--surface-glass-strong-bg);
+    backdrop-filter: blur(var(--surface-blur));
+    -webkit-backdrop-filter: blur(var(--surface-blur));
+    box-shadow: var(--surface-shadow), var(--surface-inset);
+  }
+
+  /*
+   * Açılır menü yüzeyi.
+   * Üst barın kendi backdrop-filter'ı iç içe bulanıklaştırmayı etkisiz bıraktığı
+   * için menüler saydamlığa değil, yüksek opaklığa dayanır.
+   */
+  .glass-popover {
+    border: 1px solid var(--surface-glass-border);
+    background: var(--surface-popover-bg);
+    backdrop-filter: blur(var(--surface-blur));
+    -webkit-backdrop-filter: blur(var(--surface-blur));
+    box-shadow: var(--surface-shadow), var(--surface-inset);
+  }
+
+  /* Hover'da yumuşak aydınlanma */
+  .glass-hover {
+    @apply transition-all duration-300 ease-out hover:border-white/20 hover:bg-white/[0.075];
+  }
+
+  /* Oval sekme/pill butonu */
+  .pill {
+    @apply relative rounded-full px-4 py-1.5 text-[13px] font-medium text-white/55 transition-all duration-300 hover:text-white/90;
+  }
+
+  .pill-active {
+    @apply text-white;
+  }
+
+  /* Yuvarlak ikon butonu */
+  .icon-btn {
+    @apply flex shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.06] text-white/65 transition-all duration-300 hover:border-white/20 hover:bg-white/[0.12] hover:text-white active:scale-95;
+  }
+
+  /* Sidebar menü öğesi — aktif hâli referanstaki parlak pill görünümü */
+  .nav-item {
+    @apply flex w-full items-center gap-2.5 rounded-full px-3 py-2.5 text-[13px] font-medium text-white/50 transition-all duration-300 ease-out;
+  }
+
+  .nav-item:hover {
+    @apply bg-white/[0.05] text-white/90;
+    box-shadow: inset 0 1px 0 0 rgb(255 255 255 / 0.05);
+  }
+
+  .nav-item-active {
+    @apply bg-white/[0.09] text-white;
+    box-shadow:
+      inset 0 1px 0 0 rgb(255 255 255 / 0.12),
+      0 6px 20px -6px rgba(99, 102, 241, 0.5);
+  }
+
+  /* Klavye erişilebilirliği için ortak focus ring */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/60 focus-visible:ring-offset-0;
+  }
+}
+
+@layer utilities {
+  .text-glow-violet {
+    text-shadow: 0 0 20px rgba(139, 92, 246, 0.45);
+  }
+
+  /* Cam yüzeyler üzerinde gezinen ince ışık çizgisi (referans chat input'taki streak) */
+  .streak {
+    background-image: linear-gradient(
+      100deg,
+      transparent 20%,
+      rgb(255 255 255 / 0.12) 45%,
+      rgb(255 255 255 / 0.28) 50%,
+      rgb(255 255 255 / 0.12) 55%,
+      transparent 80%
+    );
+  }
+
+  /*
+   * Orb görseli siyah zemin üzerine üretildiği için "screen" karışımı ile
+   * siyah bölgeler şeffaflaşır; böylece koyu arka planla kusursuz kaynaşır.
+   * Açık temada screen beyaz zeminde görüntüyü yok ettiği için, orb kendi
+   * koyu diski üzerinde gösterilir.
+   */
+  .orb-blend {
+    mix-blend-mode: screen;
+  }
+
+  .orb-disc {
+    background: radial-gradient(circle at 50% 45%, #131425 0%, #08080f 70%, transparent 100%);
+  }
+
+  /* Renkli/gradient zeminler üzerindeki metin her iki temada da beyaz kalır */
+  .on-accent {
+    color: var(--color-on-accent);
+  }
+
+  .placeholder-on-accent::placeholder {
+    color: color-mix(in oklab, var(--color-on-accent) 60%, transparent);
+  }
+
+  /* İnce film grain dokusu */
+  .noise-layer {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
