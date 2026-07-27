@@ -41,4 +41,16 @@ npm run build    # tip kontrol + üretim derlemesi
 npm run lint     # oxlint
 ```
 
+## Masaüstü (Electron)
+
+Ana süreç `electron/main.js` (package.json `main` alanı), preload ise `electron/preload.cjs` dosyasıdır.
+
+```bash
+npm run electron:dev      # Vite dev sunucusu + Electron penceresi
+npm run electron:preview  # üretim derlemesini Electron'da aç
+npm run electron:build    # electron-builder ile kurulum paketi (release/)
+```
+
+Paketleme ayarları package.json içindeki `build` alanındadır (appId `ai.cenan.app`, çıktı `release/`).
+
 > Not: Bazı ikon hareketleri (küçülme/büyüme, kayma, duman) `transform` yerine `width/height`, `top/left`, `opacity` gibi özelliklerle yapılmıştır; böylece her ortamda güvenilir şekilde çalışır.
